@@ -33,7 +33,7 @@ RUN adduser \
     chmod -R 755 /vol && \
     chmod -R +x /scripts
 
-ENV PATH="/scripts:/py/bin:$PATH"
+ENV PATH="/py/bin:$PATH"
 
 USER django-user
 
