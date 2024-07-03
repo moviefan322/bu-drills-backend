@@ -10,28 +10,28 @@ COPY ./app /app
 WORKDIR /app
 EXPOSE 8000
 
-ARG DEV=false
+# ARG DEV=false
 RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
-    apk add --update --no-cache postgresql-client jpeg-dev && \
-    apk add --update --no-cache --virtual .tmp-build-deps \
-        build-base postgresql-dev musl-dev zlib zlib-dev linux-headers && \
+    # apk add --update --no-cache postgresql-client jpeg-dev && \
+    # apk add --update --no-cache --virtual .tmp-build-deps \
+    #     build-base postgresql-dev musl-dev zlib zlib-dev linux-headers && \
     /py/bin/pip install -r /tmp/requirements.txt && \
-    if [ $DEV = "true" ]; \
-        then /py/bin/pip install -r /tmp/requirements.dev.txt ; \
-    fi && \
-    rm -rf /tmp && \
-    apk del .tmp-build-deps
+    # if [ $DEV = "true" ]; \
+    #     then /py/bin/pip install -r /tmp/requirements.dev.txt ; \
+    # fi && \
+    rm -rf /tmp
+    # apk del .tmp-build-deps
 
 RUN adduser \
         --disabled-password \
         --no-create-home \
-        django-user && \
-    mkdir -p /vol/web/media && \
-    mkdir -p /vol/web/static && \
-    chown -R django-user:django-user /vol && \
-    chmod -R 755 /vol && \
-    chmod -R +x /scripts
+        django-user
+    # mkdir -p /vol/web/media && \
+    # mkdir -p /vol/web/static && \
+    # chown -R django-user:django-user /vol && \
+    # chmod -R 755 /vol && \
+    # chmod -R +x /scripts
 
 ENV PATH="/py/bin:$PATH"
 
