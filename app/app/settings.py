@@ -79,26 +79,27 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 # CORS
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-]
+if os.environ.get('DEV') == 'true':
+    CORS_ALLOWED_ORIGINS = [
+        "http://localhost:5173",
+    ]
 
-CORS_ALLOW_CREDENTIALS = True
+    CORS_ALLOW_CREDENTIALS = True
 
-CORS_ALLOW_HEADERS = [
-    'authorization',
-    'content-type',
-    'x-csrftoken',
-]
+    CORS_ALLOW_HEADERS = [
+        'authorization',
+        'content-type',
+        'x-csrftoken',
+    ]
 
-CORS_ALLOW_METHODS = [
-    'GET',
-    'POST',
-    'PUT',
-    'PATCH',
-    'DELETE',
-    'OPTIONS',
-]
+    CORS_ALLOW_METHODS = [
+        'GET',
+        'POST',
+        'PUT',
+        'PATCH',
+        'DELETE',
+        'OPTIONS',
+    ]
 
 
 # Database
