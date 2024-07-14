@@ -1,6 +1,7 @@
 """
 Database models.
 """
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser,
@@ -40,3 +41,15 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
+
+
+class DrillScore(models.Model):
+    """DrillScore object"""
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+    drillId = models.IntegerField()
+    score = models.IntegerField()
+    maxScore = models.IntegerField()
+    date = models.CharField(max_length=255)
