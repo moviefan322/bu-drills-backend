@@ -52,4 +52,4 @@ class DrillScore(models.Model):
     drillId = models.IntegerField()
     score = models.IntegerField()
     maxScore = models.IntegerField()
-    date = models.CharField(max_length=255)
+    createdAt = models.DateTimeField(auto_now_add=True)

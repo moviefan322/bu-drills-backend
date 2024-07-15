@@ -28,7 +28,6 @@ def create_drill(user, **params):
         'drillId': 123,
         'score': 5,
         'maxScore': 10,
-        'date': 'datestring',
     }
     defaults.update(params)
 

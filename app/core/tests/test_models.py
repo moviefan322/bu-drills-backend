@@ -5,7 +5,6 @@ from django.test import TestCase
 from django.contrib.auth import get_user_model
 
 from core import models
-import datetime
 
 
 class ModelTests(TestCase):
@@ -56,11 +55,9 @@ class ModelTests(TestCase):
             drillId=123,
             score=5,
             maxScore=10,
-            date='datestring',
         )
 
         self.assertEqual(drillScore.user, user, "The user should match the one created")
         self.assertEqual(drillScore.drillId, 123, "The drillId should be 123")
         self.assertEqual(drillScore.score, 5, "The score should be 5")
         self.assertEqual(drillScore.maxScore, 10, "The maxScore should be 10")
-        self.assertEqual(drillScore.date, "datestring", "The date should be January 1, 2021")
