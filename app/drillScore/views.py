@@ -26,3 +26,7 @@ class DrillScoreViewSet(viewsets.ModelViewSet):
             return serializers.DrillScoreSerializer
     
         return self.serializer_class
+    
+    def perform_create(self, serializer):
+        """Create a new drillScore"""
+        serializer.save(user=self.request.user)

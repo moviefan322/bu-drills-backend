@@ -96,3 +96,18 @@ class PrivateDrillScoreApiTests(TestCase):
 
         serializer = DrillScoreDetailSerializer(drill)
         self.assertEqual(res.data, serializer.data)
+
+    def test_create_recipe(self):
+        """Test creating a new drillScore"""
+        payload = {
+            'drillId': 123,
+            'score': 5,
+            'maxScore': 10,
+        }
+        res = self.client.post(SCORES_URL, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+        drill = DrillScore.objects.get(id=res.data['id'])
+        for k, v in payload.items():
+            self.assertEqual(v, getattr(drill, k))
+        self.assertEqual(drill.user, self.user)
