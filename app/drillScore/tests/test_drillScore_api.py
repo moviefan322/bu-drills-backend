@@ -10,9 +10,17 @@ from rest_framework.test import APIClient
 
 from core.models import DrillScore
 
-from drillScore.serializers import DrillScoreSerializer
+from drillScore.serializers import (
+    DrillScoreSerializer,
+    DrillScoreDetailSerializer,
+)
 
 SCORES_URL = reverse('drillScore:drillscore-list')
+
+
+def detail_url(drillScoreId):
+    """Return drillScore detail URL"""
+    return reverse('drillScore:drillscore-detail', args=[drillScoreId])
 
 def create_drill(user, **params):
     """Create and return a sample drillScore"""
@@ -79,3 +87,13 @@ class PrivateDrillScoreApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)
         self.assertEqual(len(res.data), 1)
+
+    def test_get_drillScore_detail(self):
+        """Test viewing a drillScore detail"""
+        drill = create_drill(user=self.user)
+
+        url = detail_url(drill.id)
+        res = self.client.get(url)
+
+        serializer = DrillScoreDetailSerializer(drill)
+        self.assertEqual(res.data, serializer.data)
