@@ -2,7 +2,7 @@
 URL mappings from the drillScore app.
 """
 from django.urls import (
-    path, 
+    path,
     include
 )
 
@@ -12,7 +12,7 @@ from drillScore import views
 
 
 router = DefaultRouter()
-router.register('drillscore', views.DrillScoreViewSet)
+router.register('', views.DrillScoreViewSet)
 
 app_name = 'drillScore'
 
