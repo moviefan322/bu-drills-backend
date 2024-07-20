@@ -17,7 +17,7 @@ class DrillScoreSerializer(serializers.ModelSerializer):
 
 class DrillScoreDetailSerializer(DrillScoreSerializer):
     """Serialize a drillScore detail"""
-    
+
     class Meta(DrillScoreSerializer.Meta):
         fields = DrillScoreSerializer.Meta.fields
         read_only_fields = DrillScoreSerializer.Meta.read_only_fields

@@ -119,7 +119,12 @@ class PrivateDrillScoreApiTests(TestCase):
     def test_partial_update(self):
         """Test updating a drillScore with patch"""
         original_score = 5
-        drill = create_drill(user=self.user, drillId=123, maxScore=10, score=original_score)
+        drill = create_drill(
+            user=self.user,
+            drillId=123,
+            maxScore=10,
+            score=original_score
+        )
 
         payload = {
             'maxScore': 15,
@@ -132,7 +137,7 @@ class PrivateDrillScoreApiTests(TestCase):
         self.assertEqual(drill.score, 5)
         self.assertEqual(drill.maxScore, 15)
         self.assertEqual(drill.drillId, 123)
-    
+
     def test_full_update(self):
         """Test full update of drillScore."""
         drillScore = create_drill(
@@ -153,7 +158,7 @@ class PrivateDrillScoreApiTests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         drillScore.refresh_from_db()
-        for k,v in payload.items():
+        for k, v in payload.items():
             self.assertEqual(v, getattr(drillScore, k))
         self.assertEqual(drillScore.user, self.user)
 
@@ -192,4 +197,3 @@ class PrivateDrillScoreApiTests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_404_NOT_FOUND)
         self.assertTrue(DrillScore.objects.filter(id=drillScore.id).exists())
-
