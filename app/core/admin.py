@@ -44,5 +44,13 @@ class UserAdmin(BaseUserAdmin):
     )
 
 
+class DrillScoreAdmin(admin.ModelAdmin):
+    """Define the admin pages for drill scores."""
+    ordering = ['id']
+    list_display = ['user', 'drillId', 'score', 'maxScore']
+    search_fields = ['user', 'drillId']
+    list_filter = ['user', 'drillId']
+
+
 admin.site.register(models.User, UserAdmin)
-admin.site.register(models.DrillScore)
+admin.site.register(models.DrillScore, DrillScoreAdmin)
