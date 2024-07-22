@@ -207,7 +207,10 @@ class PrivateDrillScoreApiTests(TestCase):
         drill3 = create_drill(user=user2, drillId=drillId)
         create_drill(user=self.user, drillId=456)  # Different drillId
 
-        url = reverse('drillScore:drillscore-by_drill', kwargs={'drillId': drillId})
+        url = reverse(
+            'drillScore:drillscore-by_drill',
+            kwargs={'drillId': drillId}
+        )
         res = self.client.get(url)
 
         serializer = DrillScoreSerializer([drill1, drill2, drill3], many=True)
@@ -217,7 +220,10 @@ class PrivateDrillScoreApiTests(TestCase):
     def test_retrieve_drillScores_by_drillId_with_no_scores(self):
         """Test retrieving drill scores by drillId when there are no scores"""
         drillId = 789
-        url = reverse('drillScore:drillscore-by_drill', kwargs={'drillId': drillId})
+        url = reverse(
+            'drillScore:drillscore-by_drill',
+            kwargs={'drillId': drillId}
+        )
         res = self.client.get(url)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)

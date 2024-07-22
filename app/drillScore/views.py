@@ -31,7 +31,12 @@ class DrillScoreViewSet(viewsets.ModelViewSet):
         """Create a new drillScore"""
         serializer.save(user=self.request.user)
 
-    @action(detail=False, methods=['get'], url_path='drill/(?P<drillId>\d+)', url_name='by_drill')
+    @action(
+            detail=False,
+            methods=['get'],
+            url_path=r'drill/(?P<drillId>\d+)',
+            url_name='by_drill'
+            )
     def by_drill(self, request, drillId=None):
         """Retrieve drill scores by drill ID"""
         scores = self.queryset.filter(drillId=drillId)
