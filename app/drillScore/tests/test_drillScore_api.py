@@ -17,6 +17,7 @@ from drillScore.serializers import (
 
 SCORES_URL = reverse('drillScore:drillscore-list')
 
+
 def detail_url(drillScoreId):
     """Return drillScore detail URL"""
     return reverse('drillScore:drillscore-detail', args=[drillScoreId])
@@ -202,25 +203,22 @@ class PrivateDrillScoreApiTests(TestCase):
         drillId = 123
         drill1 = create_drill(user=self.user, drillId=drillId)
         drill2 = create_drill(user=self.user, drillId=drillId)
+        user2 = create_user(email='user2@example.com', password='testpass123')
+        drill3 = create_drill(user=user2, drillId=drillId)
         create_drill(user=self.user, drillId=456)  # Different drillId
 
-        url = reverse('drillScore:drillscores-by-drill', args=[drillId])
+        url = reverse('drillScore:drillscore-by_drill', kwargs={'drillId': drillId})
         res = self.client.get(url)
 
-        serializer = DrillScoreSerializer([drill1, drill2], many=True)
+        serializer = DrillScoreSerializer([drill1, drill2, drill3], many=True)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)
 
-    def test_retrieve_drillScores_by_drillId_limited_to_user(self):
-        """Test that only drill scores for the authenticated user are returned"""
-        drillId = 123
-        user2 = create_user(email='user2@example.com', password='testpass123')
-        create_drill(user=user2, drillId=drillId)
-        drill = create_drill(user=self.user, drillId=drillId)
-
-        url = reverse('drillScore:drillscores-by-drill', args=[drillId])
+    def test_retrieve_drillScores_by_drillId_with_no_scores(self):
+        """Test retrieving drill scores by drillId when there are no scores"""
+        drillId = 789
+        url = reverse('drillScore:drillscore-by_drill', kwargs={'drillId': drillId})
         res = self.client.get(url)
 
-        serializer = DrillScoreSerializer([drill], many=True)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertEqual(res.data, serializer.data)
+        self.assertEqual(res.data, [])

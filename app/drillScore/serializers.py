@@ -11,8 +11,8 @@ class DrillScoreSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DrillScore
-        fields = ('id', 'user', 'drillId', 'score', 'maxScore', 'createdAt')
-        read_only_fields = ('id', 'user')
+        fields = ['id', 'user', 'drillId', 'score', 'maxScore', 'createdAt']
+        read_only_fields = ['id', 'user']
 
 
 class DrillScoreDetailSerializer(DrillScoreSerializer):
