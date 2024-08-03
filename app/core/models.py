@@ -54,6 +54,7 @@ class DrillScore(models.Model):
     maxScore = models.IntegerField()
     createdAt = models.DateTimeField(auto_now_add=True)
 
+
 class Drill(models.Model):
     """Drill object"""
 
