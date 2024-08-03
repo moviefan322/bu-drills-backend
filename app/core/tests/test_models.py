@@ -65,3 +65,45 @@ class ModelTests(TestCase):
         self.assertEqual(drillScore.drillId, 123, "The drillId should be 123")
         self.assertEqual(drillScore.score, 5, "The score should be 5")
         self.assertEqual(drillScore.maxScore, 10, "The maxScore should be 10")
+
+    def test_create_drill(self):
+        """Test creating a drill is successful"""
+        drill = models.Drill.objects.create(
+            name="Example Drill",
+            maxScore=100,
+            instructions="Do this drill carefully.",
+            type="standard",
+            skills=["running", "jumping"],
+            layoutMaxScore=20,
+        )
+
+        self.assertEqual(drill.name, "Example Drill")
+        self.assertEqual(drill.maxScore, 100)
+        self.assertEqual(drill.instructions, "Do this drill carefully.")
+        self.assertEqual(drill.type, "standard")
+        self.assertEqual(drill.skills, ["running", "jumping"])
+        self.assertIsNone(drill.attempts)
+        self.assertIsNone(drill.layouts)
+        self.assertEqual(drill.layoutMaxScore, 20)
+
+    def test_create_drill_with_optional_fields(self):
+        """Test creating a drill with optional fields"""
+        drill = models.Drill.objects.create(
+            name="Example Drill",
+            maxScore=100,
+            instructions="Do this drill carefully.",
+            type="layout",
+            skills=["coordination", "endurance"],
+            attempts=3,
+            layouts=2,
+            layoutMaxScore=50,
+        )
+
+        self.assertEqual(drill.name, "Example Drill")
+        self.assertEqual(drill.maxScore, 100)
+        self.assertEqual(drill.instructions, "Do this drill carefully.")
+        self.assertEqual(drill.type, "layout")
+        self.assertEqual(drill.skills, ["coordination", "endurance"])
+        self.assertEqual(drill.attempts, 3)
+        self.assertEqual(drill.layouts, 2)
+        self.assertEqual(drill.layoutMaxScore, 50)

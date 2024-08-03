@@ -53,3 +53,27 @@ class DrillScore(models.Model):
     score = models.IntegerField()
     maxScore = models.IntegerField()
     createdAt = models.DateTimeField(auto_now_add=True)
+
+class Drill(models.Model):
+    """Drill object"""
+
+    class DrillType(models.TextChoices):
+        PROGRESSIVE = 'progressive', 'Progressive'
+        STANDARD = 'standard', 'Standard'
+        HIGHSCORE = 'highscore', 'Highscore'
+        LAYOUT = 'layout', 'Layout'
+        ATTEMPT = 'attempt', 'Attempt'
+
+    name = models.CharField(max_length=255)
+    maxScore = models.IntegerField()
+    instructions = models.TextField()
+    image = models.CharField(max_length=255, blank=True, default='')
+    type = models.CharField(max_length=255, choices=DrillType.choices)
+    skills = models.JSONField()
+    attempts = models.IntegerField(blank=True, null=True)
+    layouts = models.IntegerField(blank=True, null=True)
+    layoutMaxScore = models.IntegerField()
+    createdAt = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
