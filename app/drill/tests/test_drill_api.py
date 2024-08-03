@@ -4,12 +4,15 @@ Tests for drill APIs.
 
 from django.test import TestCase
 from django.contrib.auth import get_user_model
-# from django.urls import reverse
+from django.urls import reverse
 
-# from rest_framework import status
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from core.models import Drill
+
+
+DRILLS_URL = reverse('drill:drill-list')
 
 
 def create_drill(user, **params):
@@ -42,3 +45,15 @@ class PublicDrillScoreApiTests(TestCase):
             password='testpass123',
         )
         self.client.force_authenticate(self.user)
+
+    def test_retrieve_drills(self):
+        """Test retrieving a list of drillScores."""
+        create_drill(user=self.user)
+        create_drill(user=self.user)
+
+        res = self.client.get(DRILLS_URL)
+
+        drillScores = Drill.objects.all().order_by('-id')
+        serializer = DrillSerializer(drillScores, many=True)
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(res.data, serializer.data)
