@@ -17,7 +17,7 @@ from drill.serializers import DrillSerializer
 DRILLS_URL = reverse('drill:drill-list')
 
 
-def create_drill(user, **params):
+def create_drill(**params):
     """Create and return a sample drill"""
     defaults = {
         'name': 'Drill 1',
@@ -28,7 +28,7 @@ def create_drill(user, **params):
     }
     defaults.update(params)
 
-    drill = Drill.objects.create(user=user, **defaults)
+    drill = Drill.objects.create(**defaults)
     return drill
 
 
@@ -50,8 +50,8 @@ class PublicDrillScoreApiTests(TestCase):
 
     def test_retrieve_drills(self):
         """Test retrieving a list of drillScores."""
-        create_drill(user=self.user)
-        create_drill(user=self.user)
+        create_drill()
+        create_drill()
 
         res = self.client.get(DRILLS_URL)
 

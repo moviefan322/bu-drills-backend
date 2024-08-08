@@ -73,7 +73,7 @@ class Drill(models.Model):
     skills = models.JSONField()
     attempts = models.IntegerField(blank=True, null=True)
     layouts = models.IntegerField(blank=True, null=True)
-    layoutMaxScore = models.IntegerField()
+    layoutMaxScore = models.IntegerField(blank=True, null=True)
     createdAt = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
