@@ -15,13 +15,13 @@ class DrillViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         """Return all objects"""
         return self.queryset.order_by('-id')
-    
+
     def get_serializer_class(self):
         """Return the serializer class for request."""
         if self.action == 'list':
             return serializers.DrillSerializer
         return self.serializer_class
-    
+
     def perform_create(self, serializer):
         """Create a new drill"""
         serializer.save()
