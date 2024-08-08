@@ -11,6 +11,8 @@ from rest_framework.test import APIClient
 
 from core.models import Drill
 
+from drill.serializers import DrillSerializer
+
 
 DRILLS_URL = reverse('drill:drill-list')
 
