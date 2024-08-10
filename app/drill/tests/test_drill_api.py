@@ -100,68 +100,87 @@ class PrivateDrillApiTests(TestCase):
         )
         self.client.force_authenticate(self.user)
 
+    def test_create_drill_authenticated(self):
+        """Test creating a drill with authentication"""
+        payload = {
+            'name': 'Drill 1',
+            'maxScore': 10,
+            'instructions': 'Test instructions',
+            'type': 'standard',
+            'skills': json.dumps(
+                ['potting', 'position', 'aim']
+                ),
+        }
 
-def test_create_drill_authenticated(self):
-    """Test creating a drill with authentication"""
-    payload = {
-        'name': 'Drill 1',
-        'maxScore': 10,
-        'instructions': 'Test instructions',
-        'type': 'standard',
-        'skills': json.dumps(
-            ['potting', 'position', 'aim']
-            ),
-    }
+        res = self.client.post(DRILLS_URL, payload)
 
-    res = self.client.post(DRILLS_URL, payload)
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
 
-    self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+    def test_create_drill(self):
+        """Test creating a new drill"""
+        payload = {
+            'name': 'Drill 1',
+            'maxScore': 10,
+            'instructions': 'Test instructions',
+            'type': 'standard',
+            'skills': json.dumps(['potting', 'position', 'aim']),
+        }
+        res = self.client.post(DRILLS_URL, payload)
 
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+        drill = Drill.objects.get(id=res.data['id'])
+        for k, v in payload.items():
+            if k == 'skills':
+                # Convert JSON string back to list for comparison
+                self.assertEqual(json.loads(v), getattr(drill, k))
+            else:
+                self.assertEqual(v, getattr(drill, k))
+        self.assertEqual(drill.uploadedBy, self.user)
 
-def test_update_drill_not_owned(self):
-    """Test that trying to update a drill not owned by the user fails"""
-    other_user = create_user(
-        email='other@example.com',
-        password='password123',
-    )
-    drill = create_drill(uploadedBy=other_user)
+    def test_update_drill_not_owned(self):
+        """Test that trying to update a drill not owned by the user fails"""
+        other_user = create_user(
+            email='other@example.com',
+            password='password123',
+        )
+        drill = create_drill(uploadedBy=other_user)
 
-    payload = {'name': 'Updated Drill Name'}
-    url = detail_url(drill.id)
-    res = self.client.patch(url, payload)
+        payload = {'name': 'Updated Drill Name'}
+        url = detail_url(drill.id)
+        res = self.client.patch(url, payload)
 
-    self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
-    drill.refresh_from_db()
-    self.assertNotEqual(drill.name, payload['name'])
+        self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
+        drill.refresh_from_db()
+        self.assertNotEqual(drill.name, payload['name'])
 
+    def test_delete_drill_not_owned(self):
+        """Test that trying to delete a drill not owned by the user fails"""
+        other_user = create_user(
+            email='other@example.com',
+            password='password123',
+        )
+        drill = create_drill(uploadedBy=other_user)
 
-def test_delete_drill_not_owned(self):
-    """Test that trying to delete a drill not owned by the user fails"""
-    other_user = create_user(
-        email='other@example.com',
-        password='password123',
-    )
-    drill = create_drill(uploadedBy=other_user)
+        url = detail_url(drill.id)
+        res = self.client.delete(url)
 
-    url = detail_url(drill.id)
-    res = self.client.delete(url)
+        self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertTrue(Drill.objects.filter(id=drill.id).exists())
 
-    self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
-    self.assertTrue(Drill.objects.filter(id=drill.id).exists())
+    def test_uploadedBy_is_set_automatically(self):
+        """
+        Test that uploadedBy is automatically set to the authenticated user
+        """
+        payload = {
+            'name': 'Drill 1',
+            'maxScore': 10,
+            'instructions': 'Test instructions',
+            'type': 'standard',
+            'skills': json.dumps(['potting', 'position', 'aim']),
+        }
 
+        res = self.client.post(DRILLS_URL, payload)
 
-def test_uploadedBy_is_set_automatically(self):
-    """Test that uploadedBy is automatically set to the authenticated user"""
-    payload = {
-        'name': 'Drill 1',
-        'maxScore': 10,
-        'instructions': 'Test instructions',
-        'type': 'standard',
-        'skills': json.dumps(['potting', 'position', 'aim']),
-    }
-
-    res = self.client.post(DRILLS_URL, payload)
-
-    self.assertEqual(res.status_code, status.HTTP_201_CREATED)
-    drill = Drill.objects.get(id=res.data['id'])
-    self.assertEqual(drill.uploadedBy, self.user)
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+        drill = Drill.objects.get(id=res.data['id'])
+        self.assertEqual(drill.uploadedBy, self.user)
