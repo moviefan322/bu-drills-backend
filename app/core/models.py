@@ -75,6 +75,12 @@ class Drill(models.Model):
     layouts = models.IntegerField(blank=True, null=True)
     layoutMaxScore = models.IntegerField(blank=True, null=True)
     createdAt = models.DateTimeField(auto_now_add=True)
+    uploadedBy = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+    )
 
     def __str__(self):
         return self.name

@@ -17,7 +17,11 @@ from drill.serializers import DrillSerializer
 DRILLS_URL = reverse('drill:drill-list')
 
 
-def create_drill(**params):
+def detail_url(drillId):
+    """Return drill detail URL"""
+    return reverse('drillScore:drillscore-detail', args=[drillId])
+
+def create_drill(user, **params):
     """Create and return a sample drill"""
     defaults = {
         'name': 'Drill 1',
@@ -28,9 +32,8 @@ def create_drill(**params):
     }
     defaults.update(params)
 
-    drill = Drill.objects.create(**defaults)
+    drill = Drill.objects.create(user=user, **defaults)
     return drill
-
 
 def create_user(**params):
     """Create and return a sample user"""
@@ -58,4 +61,14 @@ class PublicDrillScoreApiTests(TestCase):
         drillScores = Drill.objects.all().order_by('-id')
         serializer = DrillSerializer(drillScores, many=True)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(res.data, serializer.data)
+
+    def test_get_drill_detail(self):
+        """Test viewing a drill detail"""
+        drill = create_drill(user=self.user)
+
+        url = detail_url(drill.id)
+        res = self.client.get(url)
+
+        serializer = DrillDetailSerializer(drill)
         self.assertEqual(res.data, serializer.data)
