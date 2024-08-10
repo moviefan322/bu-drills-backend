@@ -184,3 +184,129 @@ class PrivateDrillApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
         drill = Drill.objects.get(id=res.data['id'])
         self.assertEqual(drill.uploadedBy, self.user)
+
+    def test_partial_update(self):
+        """Test updating a drillScore with patch"""
+        user = create_user(
+            email='unique_user@example.com',
+            password='testpass123',
+        )
+        
+        self.client.force_authenticate(user)
+
+        drill = create_drill(
+            uploadedBy=user,
+            name='Drill 1',
+            maxScore=10,
+            instructions='Test instructions',
+            type='standard',
+            skills=json.dumps(['potting', 'position', 'aim']),
+        )
+
+        payload = {
+            'name': 'Updated Drill Name',
+        }
+        url = detail_url(drill.id)
+        res = self.client.patch(url, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        drill.refresh_from_db()
+        self.assertEqual(drill.name, 'Updated Drill Name')
+        self.assertEqual(drill.maxScore, 10)
+        self.assertEqual(drill.type, 'standard')
+
+    def test_full_update(self):
+        """Test updating a drill with put"""
+        user = create_user(
+            email='user4321@example.com',
+            password='pass4321',
+        )
+
+        self.client.force_authenticate(user)
+
+        drill = create_drill(
+            uploadedBy=user,
+            name='Drill 1',
+            maxScore=10,
+            instructions='Test instructions',
+            type='standard',
+            skills=json.dumps(['potting', 'position', 'aim']),
+        )
+
+        payload = {
+            'name': 'Updated Drill Name',
+            'maxScore': 15,
+            'instructions': 'Updated instructions',
+            'type': 'highscore',
+            'skills': json.dumps(['potting', 'position', 'aim', 'break']),
+        }
+
+        url = detail_url(drill.id)
+        res = self.client.put(url, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        drill.refresh_from_db()
+        for k, v in payload.items():
+            if k == 'skills':
+                # Convert JSON string back to list for comparison
+                self.assertEqual(json.loads(v), getattr(drill, k))
+            else:
+                self.assertEqual(v, getattr(drill, k))
+        
+    def test_update_user_returns_error(self):
+        """Test changing the drill user results in an error."""
+        user = create_user(
+            email='user4321@example.com',
+            password='pass4321',
+        )
+
+        self.client.force_authenticate(user)
+
+        drill = create_drill(
+            uploadedBy=user,
+            name='Drill 1',
+            maxScore=10,
+            instructions='Test instructions',
+            type='standard',
+            skills=json.dumps(['potting', 'position', 'aim']),
+        )
+
+        user2 = create_user(
+            email='user43212@example.com',
+            password='pass4321',
+        )
+
+        payload = {
+            'uploadedBy': user2,
+        }
+
+        url = detail_url(drill.id)
+        res = self.client.put(url, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+        drill.refresh_from_db()
+        self.assertEqual(drill.uploadedBy, user)
+
+    def test_delete_drill(self):
+        """Test deleting a drill"""
+        user = create_user(
+            email='user4321@example.com',
+            password='pass4321',
+        )
+
+        self.client.force_authenticate(user)
+
+        drill = create_drill(
+            uploadedBy=user,
+            name='Drill 1',
+            maxScore=10,
+            instructions='Test instructions',
+            type='standard',
+            skills=json.dumps(['potting', 'position', 'aim']),
+        )
+
+        url = detail_url(drill.id)
+        res = self.client.delete(url)
+
+        self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertFalse(Drill.objects.filter(id=drill.id).exists())
