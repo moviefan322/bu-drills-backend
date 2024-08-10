@@ -11,7 +11,9 @@ from rest_framework.test import APIClient
 
 from core.models import Drill
 
-from drill.serializers import DrillSerializer
+import json
+
+from drill.serializers import DrillSerializer, DrillDetailSerializer
 
 
 DRILLS_URL = reverse('drill:drill-list')
@@ -19,9 +21,10 @@ DRILLS_URL = reverse('drill:drill-list')
 
 def detail_url(drillId):
     """Return drill detail URL"""
-    return reverse('drillScore:drillscore-detail', args=[drillId])
+    return reverse('drill:drill-detail', args=[drillId])
 
-def create_drill(user, **params):
+
+def create_drill(uploadedBy, **params):
     """Create and return a sample drill"""
     defaults = {
         'name': 'Drill 1',
@@ -32,8 +35,9 @@ def create_drill(user, **params):
     }
     defaults.update(params)
 
-    drill = Drill.objects.create(user=user, **defaults)
+    drill = Drill.objects.create(uploadedBy=uploadedBy, **defaults)
     return drill
+
 
 def create_user(**params):
     """Create and return a sample user"""
@@ -45,16 +49,25 @@ class PublicDrillScoreApiTests(TestCase):
 
     def setUp(self):
         self.client = APIClient()
-        self.user = create_user(
-            email='user@example.com',
-            password='testpass123',
-        )
-        self.client.force_authenticate(self.user)
+
+    def test_auth_required(self):
+        """Test that authentication is required for creating a drill"""
+        payload = {
+            'name': 'Drill 1',
+            'maxScore': 10,
+            'instructions': 'Test instructions',
+            'type': 'standard',
+            'skills': ['potting', 'position', 'aim'],
+        }
+
+        res = self.client.post(DRILLS_URL, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_retrieve_drills(self):
         """Test retrieving a list of drillScores."""
-        create_drill()
-        create_drill()
+        create_drill(uploadedBy=create_user(email='example@example.com'))
+        create_drill(uploadedBy=create_user(email='example2@example.com'))
 
         res = self.client.get(DRILLS_URL)
 
@@ -65,10 +78,90 @@ class PublicDrillScoreApiTests(TestCase):
 
     def test_get_drill_detail(self):
         """Test viewing a drill detail"""
-        drill = create_drill(user=self.user)
+        drill = create_drill(uploadedBy=create_user(
+            email='example@example.com'
+            ))
 
         url = detail_url(drill.id)
         res = self.client.get(url)
 
         serializer = DrillDetailSerializer(drill)
         self.assertEqual(res.data, serializer.data)
+
+
+class PrivateDrillApiTests(TestCase):
+    """Test the authorized user drill API"""
+
+    def setUp(self):
+        self.client = APIClient()
+        self.user = create_user(
+            email='user@example.com',
+            password='testpass123',
+        )
+        self.client.force_authenticate(self.user)
+
+
+def test_create_drill_authenticated(self):
+    """Test creating a drill with authentication"""
+    payload = {
+        'name': 'Drill 1',
+        'maxScore': 10,
+        'instructions': 'Test instructions',
+        'type': 'standard',
+        'skills': json.dumps(
+            ['potting', 'position', 'aim']
+            ),
+    }
+
+    res = self.client.post(DRILLS_URL, payload)
+
+    self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+
+
+def test_update_drill_not_owned(self):
+    """Test that trying to update a drill not owned by the user fails"""
+    other_user = create_user(
+        email='other@example.com',
+        password='password123',
+    )
+    drill = create_drill(uploadedBy=other_user)
+
+    payload = {'name': 'Updated Drill Name'}
+    url = detail_url(drill.id)
+    res = self.client.patch(url, payload)
+
+    self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
+    drill.refresh_from_db()
+    self.assertNotEqual(drill.name, payload['name'])
+
+
+def test_delete_drill_not_owned(self):
+    """Test that trying to delete a drill not owned by the user fails"""
+    other_user = create_user(
+        email='other@example.com',
+        password='password123',
+    )
+    drill = create_drill(uploadedBy=other_user)
+
+    url = detail_url(drill.id)
+    res = self.client.delete(url)
+
+    self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
+    self.assertTrue(Drill.objects.filter(id=drill.id).exists())
+
+
+def test_uploadedBy_is_set_automatically(self):
+    """Test that uploadedBy is automatically set to the authenticated user"""
+    payload = {
+        'name': 'Drill 1',
+        'maxScore': 10,
+        'instructions': 'Test instructions',
+        'type': 'standard',
+        'skills': json.dumps(['potting', 'position', 'aim']),
+    }
+
+    res = self.client.post(DRILLS_URL, payload)
+
+    self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+    drill = Drill.objects.get(id=res.data['id'])
+    self.assertEqual(drill.uploadedBy, self.user)

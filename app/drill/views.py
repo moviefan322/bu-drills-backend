@@ -1,10 +1,11 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
 
 from core.models import Drill
 from drill import serializers
+from drill.permissions import IsOwnerOrReadOnly
 
 
 class DrillViewSet(viewsets.ModelViewSet):
@@ -22,9 +23,22 @@ class DrillViewSet(viewsets.ModelViewSet):
             return serializers.DrillSerializer
         return self.serializer_class
 
+    def get_permissions(self):
+        """Set permissions based on action."""
+        if self.action in ['create']:
+            self.permission_classes = [permissions.IsAuthenticated]
+        elif self.action in ['update', 'partial_update', 'destroy']:
+            self.permission_classes = [
+                permissions.IsAuthenticated,
+                IsOwnerOrReadOnly
+                ]
+        else:
+            self.permission_classes = [permissions.AllowAny]
+        return super().get_permissions()
+
     def perform_create(self, serializer):
-        """Create a new drill"""
-        serializer.save()
+        """Create a new drill and assign the uploadedBy field"""
+        serializer.save(uploadedBy=self.request.user)
 
     @action(
             detail=False,

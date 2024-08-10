@@ -14,8 +14,8 @@ class DrillSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'name', 'maxScore', 'instructions', 'image',
             'type', 'skills', 'attempts', 'layouts',
-            'layoutMaxScore', 'createdAt']
-        read_only_fields = ['id', 'createdAt']
+            'layoutMaxScore']
+        read_only_fields = ['id', 'createdAt', 'uploadedBy']
 
 
 class DrillDetailSerializer(DrillSerializer):
