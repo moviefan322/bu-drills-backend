@@ -2,7 +2,7 @@ from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
 
 from core.models import Drill
 from drill import serializers
@@ -13,7 +13,7 @@ class DrillViewSet(viewsets.ModelViewSet):
     """View for managing drill APIs"""
     serializer_class = serializers.DrillDetailSerializer
     queryset = Drill.objects.all()
-    permission_classes = [AllowAny]  # Allow unauthenticated access by default
+    permission_classes = [IsAuthenticatedOrReadOnly]  # Default permission
     authentication_classes = [TokenAuthentication]
 
     def get_queryset(self):
@@ -28,11 +28,9 @@ class DrillViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         """Customize permissions based on action."""
-        if self.action in ['create']:
-            self.permission_classes = [IsAuthenticated]
-        if self.action in ['update', 'partial_update', 'destroy']:
+        if self.action in ['create', 'update', 'partial_update', 'destroy']:
             self.permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
-        elif self.action == 'retrieve' or self.action == 'list':
+        elif self.action in ['retrieve', 'list']:
             self.permission_classes = [AllowAny]  # Allow unauthenticated users to view details and lists
         return super().get_permissions()
 

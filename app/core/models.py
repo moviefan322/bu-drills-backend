@@ -55,6 +55,14 @@ class DrillScore(models.Model):
     createdAt = models.DateTimeField(auto_now_add=True)
 
 
+class Skill(models.Model):
+    """Skill model representing a single skill"""
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+
 class Drill(models.Model):
     """Drill object"""
 
@@ -70,7 +78,7 @@ class Drill(models.Model):
     instructions = models.TextField()
     image = models.CharField(max_length=255, blank=True, default='')
     type = models.CharField(max_length=255, choices=DrillType.choices)
-    skills = models.JSONField()
+    skills = models.ManyToManyField('Skill')  # Establish many-to-many relationship
     attempts = models.IntegerField(blank=True, null=True)
     layouts = models.IntegerField(blank=True, null=True)
     layoutMaxScore = models.IntegerField(blank=True, null=True)
