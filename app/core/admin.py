@@ -52,5 +52,14 @@ class DrillScoreAdmin(admin.ModelAdmin):
     list_filter = ['user', 'drillId']
 
 
+class DrillAdmin(admin.ModelAdmin):
+    """Define the admin pages for drills."""
+    ordering = ['id']
+    list_display = ['uploadedBy', 'name', 'type']
+    search_fields = ['uploadedBy', 'name', 'type']
+    list_filter = ['uploadedBy', 'type']
+
+
 admin.site.register(models.User, UserAdmin)
 admin.site.register(models.DrillScore, DrillScoreAdmin)
+admin.site.register(models.Drill, DrillAdmin)

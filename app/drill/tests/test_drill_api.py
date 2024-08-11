@@ -62,7 +62,7 @@ class PublicDrillScoreApiTests(TestCase):
 
         res = self.client.post(DRILLS_URL, payload)
 
-        self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_retrieve_drills(self):
         """Test retrieving a list of drillScores."""
@@ -191,7 +191,7 @@ class PrivateDrillApiTests(TestCase):
             email='unique_user@example.com',
             password='testpass123',
         )
-        
+
         self.client.force_authenticate(user)
 
         drill = create_drill(
@@ -252,7 +252,7 @@ class PrivateDrillApiTests(TestCase):
                 self.assertEqual(json.loads(v), getattr(drill, k))
             else:
                 self.assertEqual(v, getattr(drill, k))
-        
+
     def test_update_user_returns_error(self):
         """Test changing the drill user results in an error."""
         user = create_user(
