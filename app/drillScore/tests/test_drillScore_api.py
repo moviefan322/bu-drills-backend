@@ -8,7 +8,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from core.models import DrillScore
+from core.models import DrillScore, Drill
 
 from drillScore.serializers import (
     DrillScoreSerializer,
@@ -23,10 +23,18 @@ def detail_url(drillScoreId):
     return reverse('drillScore:drillscore-detail', args=[drillScoreId])
 
 
-def create_drill(user, **params):
+def create_drill_score(user, drill=None, **params):
     """Create and return a sample drillScore"""
+    if drill is None:
+        drill = Drill.objects.create(
+            name='Sample Drill',
+            maxScore=10,
+            instructions='Sample instructions',
+            type='standard'
+        )
+
     defaults = {
-        'drillId': 123,
+        'drill': drill,
         'score': 5,
         'maxScore': 10,
     }
@@ -34,6 +42,7 @@ def create_drill(user, **params):
 
     drillScore = DrillScore.objects.create(user=user, **defaults)
     return drillScore
+
 
 
 def create_user(**params):
@@ -67,8 +76,8 @@ class PrivateDrillScoreApiTests(TestCase):
 
     def test_retrieve_drillScores(self):
         """Test retrieving a list of drillScores."""
-        create_drill(user=self.user)
-        create_drill(user=self.user)
+        create_drill_score(user=self.user)
+        create_drill_score(user=self.user)
 
         res = self.client.get(SCORES_URL)
 
@@ -80,8 +89,8 @@ class PrivateDrillScoreApiTests(TestCase):
     def test_drillScores_limited_to_user(self):
         """Test that drillScores for the authenticated user are returned"""
         user2 = create_user(email='user2@example.com', password='testpass123')
-        create_drill(user=user2)
-        create_drill(user=self.user)
+        create_drill_score(user=user2)
+        create_drill_score(user=self.user)
 
         res = self.client.get(SCORES_URL)
 
@@ -93,7 +102,7 @@ class PrivateDrillScoreApiTests(TestCase):
 
     def test_get_drillScore_detail(self):
         """Test viewing a drillScore detail"""
-        drill = create_drill(user=self.user)
+        drill = create_drill_score(user=self.user)
 
         url = detail_url(drill.id)
         res = self.client.get(url)
@@ -101,27 +110,41 @@ class PrivateDrillScoreApiTests(TestCase):
         serializer = DrillScoreDetailSerializer(drill)
         self.assertEqual(res.data, serializer.data)
 
-    def test_create_drillScore(self):
+    def test_create_drill_score(self):
         """Test creating a new drillScore"""
+        drill = Drill.objects.create(
+            name='Sample Drill',
+            maxScore=10,
+            instructions='Sample instructions',
+            type='standard'
+        )
+
         payload = {
-            'drillId': 123,
+            'drill': drill.id,  # When using API requests, you pass the ID
             'score': 5,
             'maxScore': 10,
         }
         res = self.client.post(SCORES_URL, payload)
 
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
-        drill = DrillScore.objects.get(id=res.data['id'])
-        for k, v in payload.items():
-            self.assertEqual(v, getattr(drill, k))
-        self.assertEqual(drill.user, self.user)
+        drillscore = DrillScore.objects.get(id=res.data['id'])
+        self.assertEqual(drillscore.drill, drill)  # But in your test validation, check the instance
+        self.assertEqual(drillscore.score, 5)
+        self.assertEqual(drillscore.maxScore, 10)
+        self.assertEqual(drillscore.user, self.user)
 
     def test_partial_update(self):
         """Test updating a drillScore with patch"""
+        drill = Drill.objects.create(
+            name='Sample Drill',
+            maxScore=10,
+            instructions='Sample instructions',
+            type='standard'
+        )
         original_score = 5
-        drill = create_drill(
+        drillscore = create_drill_score(
             user=self.user,
-            drillId=123,
+            drill=drill,
             maxScore=10,
             score=original_score
         )
@@ -129,26 +152,39 @@ class PrivateDrillScoreApiTests(TestCase):
         payload = {
             'maxScore': 15,
         }
-        url = detail_url(drill.id)
+        url = detail_url(drillscore.id)
         res = self.client.patch(url, payload)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        drill.refresh_from_db()
-        self.assertEqual(drill.score, 5)
-        self.assertEqual(drill.maxScore, 15)
-        self.assertEqual(drill.drillId, 123)
+        drillscore.refresh_from_db()
+        self.assertEqual(drillscore.score, 5)
+        self.assertEqual(drillscore.maxScore, 15)
+        self.assertEqual(drillscore.drill, drill)
 
     def test_full_update(self):
         """Test full update of drillScore."""
-        drillScore = create_drill(
+        drill = Drill.objects.create(
+            name='Sample Drill',
+            maxScore=10,
+            instructions='Sample instructions',
+            type='standard'
+        )
+        newdrill = Drill.objects.create(
+            name='Sample Drill 2',
+            maxScore=10,
+            instructions='Sample instructions',
+            type='standard'
+        )
+        drillScore = create_drill_score(
             user=self.user,
-            drillId=123,
+            drill=drill,
             score=5,
             maxScore=10,
         )
 
+        # Use newdrill.id instead of passing the whole object
         payload = {
-            'drillId': 124,
+            'drill': newdrill.id,  # Pass the ID of the new drill
             'score': 6,
             'maxScore': 11,
         }
@@ -158,14 +194,18 @@ class PrivateDrillScoreApiTests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         drillScore.refresh_from_db()
-        for k, v in payload.items():
-            self.assertEqual(v, getattr(drillScore, k))
+
+        # Check that the drill has been updated to newdrill
+        self.assertEqual(drillScore.drill, newdrill)
+        self.assertEqual(drillScore.score, payload['score'])
+        self.assertEqual(drillScore.maxScore, payload['maxScore'])
         self.assertEqual(drillScore.user, self.user)
+
 
     def test_update_user_returns_error(self):
         """Test changing the drillScore user results in an error."""
         new_user = create_user(email='user2@example.com', password='test123')
-        drillScore = create_drill(user=self.user)
+        drillScore = create_drill_score(user=self.user)
 
         payload = {
             'user': new_user.id,
@@ -179,7 +219,7 @@ class PrivateDrillScoreApiTests(TestCase):
 
     def test_delete_drillScore(self):
         """Test deleting a drillScore."""
-        drillScore = create_drill(user=self.user)
+        drillScore = create_drill_score(user=self.user)
 
         url = detail_url(drillScore.id)
         res = self.client.delete(url)
@@ -190,7 +230,7 @@ class PrivateDrillScoreApiTests(TestCase):
     def test_drillScore_other_users_drillScore_error(self):
         """Test that a user cannot delete another user's drillScore."""
         new_user = create_user(email='user2@example.com', password='pass123')
-        drillScore = create_drill(user=new_user)
+        drillScore = create_drill_score(user=new_user)
 
         url = detail_url(drillScore.id)
         res = self.client.delete(url)
@@ -200,29 +240,46 @@ class PrivateDrillScoreApiTests(TestCase):
 
     def test_retrieve_drillScores_by_drillId(self):
         """Test retrieving drill scores by drillId"""
-        drillId = 123
-        drill1 = create_drill(user=self.user, drillId=drillId)
-        drill2 = create_drill(user=self.user, drillId=drillId)
+        drill = Drill.objects.create(
+            name='Sample Drill',
+            maxScore=10,
+            instructions='Sample instructions',
+            type='standard'
+        )
+        drill2 = Drill.objects.create(
+            name='Sample Drill 2',
+            maxScore=10,
+            instructions='Sample instructions',
+            type='standard'
+        )
+        drillscore1 = create_drill_score(user=self.user, drill=drill)
+        drillscore2 = create_drill_score(user=self.user, drill=drill)
         user2 = create_user(email='user2@example.com', password='testpass123')
-        drill3 = create_drill(user=user2, drillId=drillId)
-        create_drill(user=self.user, drillId=456)  # Different drillId
+        drillscore3 = create_drill_score(user=user2, drill=drill)
+        create_drill_score(user=self.user, drill=drill2)
 
+        # Pass the drill's ID in the reverse function, not the instance itself
         url = reverse(
             'drillScore:drillscore-by_drill',
-            kwargs={'drillId': drillId}
+            kwargs={'drillId': drill.id}  # Use drill.id here
         )
         res = self.client.get(url)
 
-        serializer = DrillScoreSerializer([drill1, drill2, drill3], many=True)
+        serializer = DrillScoreSerializer([drillscore1, drillscore2, drillscore3], many=True)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)
 
     def test_retrieve_drillScores_by_drillId_with_no_scores(self):
         """Test retrieving drill scores by drillId when there are no scores"""
-        drillId = 789
+        drill = Drill.objects.create(
+            name='Sample Drill',
+            maxScore=10,
+            instructions='Sample instructions',
+            type='standard'
+        )
         url = reverse(
             'drillScore:drillscore-by_drill',
-            kwargs={'drillId': drillId}
+            kwargs={'drillId': drill.id}
         )
         res = self.client.get(url)
 

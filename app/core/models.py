@@ -49,7 +49,11 @@ class DrillScore(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE
     )
-    drillId = models.IntegerField()
+    drill = models.ForeignKey(
+        'Drill',
+        on_delete=models.CASCADE,
+        related_name='scores'
+    )
     score = models.IntegerField()
     maxScore = models.IntegerField()
     createdAt = models.DateTimeField(auto_now_add=True)

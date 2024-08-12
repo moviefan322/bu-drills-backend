@@ -11,7 +11,7 @@ class DrillScoreSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DrillScore
-        fields = ['id', 'user', 'drillId', 'score', 'maxScore', 'createdAt']
+        fields = ['id', 'user', 'drill', 'score', 'maxScore', 'createdAt']
         read_only_fields = ['id', 'user']
 
 

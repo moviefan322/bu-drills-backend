@@ -45,26 +45,34 @@ class ModelTests(TestCase):
         self.assertTrue(user.is_superuser)
 
     def test_create_drillScore(self):
-        """Test creating a drillScore is successful"""
+        """Test creating a DrillScore is successful"""
         user = get_user_model().objects.create_user(
             'test@example.com',
             'testpass123',
         )
+
+        drill = models.Drill.objects.create(
+            name='Test Drill',
+            maxScore=10,
+            instructions='Test instructions',
+            type='standard',
+            skills=['potting', 'position', 'aim'],
+            uploadedBy=user 
+        )
+
         drillScore = models.DrillScore.objects.create(
             user=user,
-            drillId=123,
+            drill=drill,  # Use the Drill instance here
             score=5,
             maxScore=10,
         )
 
-        self.assertEqual(
-            drillScore.user,
-            user,
-            "The user should match the one created"
-        )
-        self.assertEqual(drillScore.drillId, 123, "The drillId should be 123")
+        # Assertions
+        self.assertEqual(drillScore.user, user, "The user should match the one created")
+        self.assertEqual(drillScore.drill, drill, "The drill should match the one created")
         self.assertEqual(drillScore.score, 5, "The score should be 5")
         self.assertEqual(drillScore.maxScore, 10, "The maxScore should be 10")
+
 
     def test_create_drill(self):
         """Test creating a drill is successful"""

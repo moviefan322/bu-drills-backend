@@ -3,8 +3,9 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+from django.shortcuts import get_object_or_404
 
-from core.models import DrillScore
+from core.models import DrillScore, Drill
 from drillScore import serializers
 
 
@@ -39,6 +40,12 @@ class DrillScoreViewSet(viewsets.ModelViewSet):
             )
     def by_drill(self, request, drillId=None):
         """Retrieve drill scores by drill ID"""
-        scores = self.queryset.filter(drillId=drillId)
+        # Get the Drill instance by ID
+        drill = get_object_or_404(Drill, id=drillId)
+        
+        # Filter scores by the drill instance
+        scores = self.queryset.filter(drill=drill)
+        
+        # Serialize and return the scores
         serializer = self.get_serializer(scores, many=True)
         return Response(serializer.data)
