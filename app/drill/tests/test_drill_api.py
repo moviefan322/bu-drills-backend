@@ -9,7 +9,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from core.models import Drill, Skill
+from core.models import Drill
 
 import json
 
@@ -26,48 +26,17 @@ def detail_url(drillId):
 
 def create_drill(uploadedBy, **params):
     """Create and return a sample drill"""
-    skill_names = ['potting', 'position', 'aim']
-    
-    skill_names = params.pop('skills', skill_names)
-
-    skills = [Skill.objects.get_or_create(name=name)[0] for name in skill_names]
-
-    # Remaining params for the Drill model creation
     defaults = {
         'name': 'Drill 1',
         'maxScore': 10,
-        'instructions': 'Default instructions',
+        'instructions': 'Suck me off',
         'type': 'standard',
+        'skills': ['potting', 'position', 'aim'],
     }
     defaults.update(params)
 
     drill = Drill.objects.create(uploadedBy=uploadedBy, **defaults)
-    
-    drill.skills.set(skills)
-    
     return drill
-
-def prepare_drill_payload(skill_names=None, **kwargs):
-    """
-    Prepare the drill payload with skill IDs.
-    :param skill_names: A list of skill names. Defaults to ['potting', 'position', 'aim'].
-    :param kwargs: Additional fields to include in the payload.
-    :return: A payload dictionary ready for use in API requests.
-    """
-    if skill_names is None:
-        skill_names = ['potting', 'position', 'aim']
-
-    skills = [Skill.objects.get_or_create(name=name)[0] for name in skill_names]
-
-    payload = {
-        'name': 'Drill 1',
-        'maxScore': 10,
-        'instructions': 'Test instructions',
-        'type': 'standard',
-        'skills': [skill.id for skill in skills],  # Use skill IDs
-    }
-    payload.update(kwargs)
-    return payload
 
 
 def create_user(**params):
@@ -83,15 +52,17 @@ class PublicDrillScoreApiTests(TestCase):
 
     def test_auth_required(self):
         """Test that authentication is required for creating a drill"""
-        payload = prepare_drill_payload()
+        payload = {
+            'name': 'Drill 1',
+            'maxScore': 10,
+            'instructions': 'Test instructions',
+            'type': 'standard',
+            'skills': ['potting', 'position', 'aim'],
+        }
 
-        # Make an unauthenticated POST request
-        client = APIClient()
-        res = client.post(DRILLS_URL, payload)
+        res = self.client.post(DRILLS_URL, payload)
 
-        # Assert that the response status code is 401 Unauthorized
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
-
 
     def test_retrieve_drills(self):
         """Test retrieving a list of drillScores."""
@@ -129,53 +100,42 @@ class PrivateDrillApiTests(TestCase):
         )
         self.client.force_authenticate(self.user)
 
-    from rest_framework import status
-
     def test_create_drill_authenticated(self):
         """Test creating a drill with authentication"""
-        payload = prepare_drill_payload()
+        payload = {
+            'name': 'Drill 1',
+            'maxScore': 10,
+            'instructions': 'Test instructions',
+            'type': 'standard',
+            'skills': json.dumps(
+                ['potting', 'position', 'aim']
+                ),
+        }
 
-        # Make an authenticated POST request
         res = self.client.post(DRILLS_URL, payload)
 
-        # Assert that the drill was created successfully
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
-
-        # Fetch the created drill from the database
-        drill = Drill.objects.get(id=res.data['id'])
-
-        # Assert that the drill attributes match the payload
-        self.assertEqual(drill.name, payload['name'])
-        self.assertEqual(drill.maxScore, payload['maxScore'])
-        self.assertEqual(drill.instructions, payload['instructions'])
-        self.assertEqual(drill.type, payload['type'])
-        self.assertEqual(list(drill.skills.all()), skills)  # Ensure skills are correctly associated
 
     def test_create_drill(self):
         """Test creating a new drill"""
-        # Create some skill objects in the database
-        payload = prepare_drill_payload()
-
-        # Make an authenticated POST request to create the drill
+        payload = {
+            'name': 'Drill 1',
+            'maxScore': 10,
+            'instructions': 'Test instructions',
+            'type': 'standard',
+            'skills': json.dumps(['potting', 'position', 'aim']),
+        }
         res = self.client.post(DRILLS_URL, payload)
 
-        # Assert that the drill was created successfully
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
-
-        # Fetch the created drill from the database
         drill = Drill.objects.get(id=res.data['id'])
-
-        # Assert that the drill attributes match the payload
         for k, v in payload.items():
             if k == 'skills':
-                # Check that the associated skills match the payload skills
-                self.assertEqual(list(drill.skills.values_list('id', flat=True)), v)
+                # Convert JSON string back to list for comparison
+                self.assertEqual(json.loads(v), getattr(drill, k))
             else:
                 self.assertEqual(v, getattr(drill, k))
-
-        # Assert that the uploadedBy field is correctly set to the authenticated user
         self.assertEqual(drill.uploadedBy, self.user)
-
 
     def test_update_drill_not_owned(self):
         """Test that trying to update a drill not owned by the user fails"""
@@ -211,18 +171,18 @@ class PrivateDrillApiTests(TestCase):
         """
         Test that uploadedBy is automatically set to the authenticated user
         """
-        payload = prepare_drill_payload()
+        payload = {
+            'name': 'Drill 1',
+            'maxScore': 10,
+            'instructions': 'Test instructions',
+            'type': 'standard',
+            'skills': json.dumps(['potting', 'position', 'aim']),
+        }
 
-        # Make an authenticated POST request to create the drill
         res = self.client.post(DRILLS_URL, payload)
 
-        # Assert that the drill was created successfully
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
-
-        # Fetch the created drill from the database
         drill = Drill.objects.get(id=res.data['id'])
-
-        # Assert that the uploadedBy field is correctly set to the authenticated user
         self.assertEqual(drill.uploadedBy, self.user)
 
     def test_partial_update(self):
@@ -234,9 +194,14 @@ class PrivateDrillApiTests(TestCase):
 
         self.client.force_authenticate(user)
 
-        drillPayload = prepare_drill_payload()
-
-        drill = create_drill(drillPayload)
+        drill = create_drill(
+            uploadedBy=user,
+            name='Drill 1',
+            maxScore=10,
+            instructions='Test instructions',
+            type='standard',
+            skills=json.dumps(['potting', 'position', 'aim']),
+        )
 
         payload = {
             'name': 'Updated Drill Name',
@@ -259,20 +224,21 @@ class PrivateDrillApiTests(TestCase):
 
         self.client.force_authenticate(user)
 
-        drillPayload = prepare_drill_payload()
-
-        drill = create_drill(drillPayload)
-
-        skill_names = ['draw', 'position', 'shape']
-
-        skills = [Skill.objects.get_or_create(name=name)[0] for name in skill_names]
+        drill = create_drill(
+            uploadedBy=user,
+            name='Drill 1',
+            maxScore=10,
+            instructions='Test instructions',
+            type='standard',
+            skills=json.dumps(['potting', 'position', 'aim']),
+        )
 
         payload = {
             'name': 'Updated Drill Name',
             'maxScore': 15,
             'instructions': 'Updated instructions',
             'type': 'highscore',
-            'skills': [skill.id for skill in skills],
+            'skills': json.dumps(['potting', 'position', 'aim', 'break']),
         }
 
         url = detail_url(drill.id)
@@ -296,9 +262,14 @@ class PrivateDrillApiTests(TestCase):
 
         self.client.force_authenticate(user)
 
-        drillPayload = prepare_drill_payload()
-
-        drill = create_drill(drillPayload)
+        drill = create_drill(
+            uploadedBy=user,
+            name='Drill 1',
+            maxScore=10,
+            instructions='Test instructions',
+            type='standard',
+            skills=json.dumps(['potting', 'position', 'aim']),
+        )
 
         user2 = create_user(
             email='user43212@example.com',
@@ -325,17 +296,13 @@ class PrivateDrillApiTests(TestCase):
 
         self.client.force_authenticate(user)
 
-        skill_names = ['draw', 'position', 'shape']
-
-        skills = [Skill.objects.get_or_create(name=name)[0] for name in skill_names]
-
         drill = create_drill(
             uploadedBy=user,
             name='Drill 1',
             maxScore=10,
             instructions='Test instructions',
             type='standard',
-            skills=[skill.id for skill in skills],
+            skills=json.dumps(['potting', 'position', 'aim']),
         )
 
         url = detail_url(drill.id)
