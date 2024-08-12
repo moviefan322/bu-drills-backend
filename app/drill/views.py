@@ -1,8 +1,12 @@
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
+from rest_framework.permissions import (
+    IsAuthenticated,
+    IsAuthenticatedOrReadOnly,
+    AllowAny
+)
 
 from core.models import Drill
 from drill import serializers
@@ -31,7 +35,7 @@ class DrillViewSet(viewsets.ModelViewSet):
         if self.action in ['create', 'update', 'partial_update', 'destroy']:
             self.permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
         elif self.action in ['retrieve', 'list']:
-            self.permission_classes = [AllowAny]  # Allow unauthenticated users to view details and lists
+            self.permission_classes = [AllowAny]
         return super().get_permissions()
 
     def perform_create(self, serializer):
