@@ -44,7 +44,6 @@ def create_drill_score(user, drill=None, **params):
     return drillScore
 
 
-
 def create_user(**params):
     """Create and return a sample user"""
     return get_user_model().objects.create_user(**params)
@@ -128,7 +127,8 @@ class PrivateDrillScoreApiTests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
         drillscore = DrillScore.objects.get(id=res.data['id'])
-        self.assertEqual(drillscore.drill, drill)  # But in your test validation, check the instance
+        # But in your test validation, check the instance
+        self.assertEqual(drillscore.drill, drill)
         self.assertEqual(drillscore.score, 5)
         self.assertEqual(drillscore.maxScore, 10)
         self.assertEqual(drillscore.user, self.user)
@@ -201,7 +201,6 @@ class PrivateDrillScoreApiTests(TestCase):
         self.assertEqual(drillScore.maxScore, payload['maxScore'])
         self.assertEqual(drillScore.user, self.user)
 
-
     def test_update_user_returns_error(self):
         """Test changing the drillScore user results in an error."""
         new_user = create_user(email='user2@example.com', password='test123')
@@ -265,7 +264,10 @@ class PrivateDrillScoreApiTests(TestCase):
         )
         res = self.client.get(url)
 
-        serializer = DrillScoreSerializer([drillscore1, drillscore2, drillscore3], many=True)
+        serializer = DrillScoreSerializer(
+            [drillscore1, drillscore2, drillscore3],
+            many=True
+        )
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)
 

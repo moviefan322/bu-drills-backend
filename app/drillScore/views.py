@@ -42,10 +42,10 @@ class DrillScoreViewSet(viewsets.ModelViewSet):
         """Retrieve drill scores by drill ID"""
         # Get the Drill instance by ID
         drill = get_object_or_404(Drill, id=drillId)
-        
+
         # Filter scores by the drill instance
         scores = self.queryset.filter(drill=drill)
-        
+
         # Serialize and return the scores
         serializer = self.get_serializer(scores, many=True)
         return Response(serializer.data)

@@ -57,7 +57,7 @@ class ModelTests(TestCase):
             instructions='Test instructions',
             type='standard',
             skills=['potting', 'position', 'aim'],
-            uploadedBy=user 
+            uploadedBy=user,
         )
 
         drillScore = models.DrillScore.objects.create(
@@ -68,11 +68,18 @@ class ModelTests(TestCase):
         )
 
         # Assertions
-        self.assertEqual(drillScore.user, user, "The user should match the one created")
-        self.assertEqual(drillScore.drill, drill, "The drill should match the one created")
+        self.assertEqual(
+            drillScore.user,
+            user,
+            "The user should match the one created"
+            )
+        self.assertEqual(
+            drillScore.drill,
+            drill,
+            "The drill should match the one created"
+            )
         self.assertEqual(drillScore.score, 5, "The score should be 5")
         self.assertEqual(drillScore.maxScore, 10, "The maxScore should be 10")
-
 
     def test_create_drill(self):
         """Test creating a drill is successful"""
