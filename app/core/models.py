@@ -88,3 +88,17 @@ class Drill(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class DrillSet(models.Model):
+    """DrillSet object representing a routine of multiple drills"""
+    name = models.CharField(max_length=255)
+    drills = models.ManyToManyField(Drill, related_name='drill_sets')
+    createdBy = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='drill_sets'
+    )
+
+    def __str__(self):
+        return self.name

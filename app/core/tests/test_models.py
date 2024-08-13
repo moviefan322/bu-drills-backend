@@ -7,6 +7,20 @@ from django.contrib.auth import get_user_model
 from core import models
 
 
+def create_drill(uploadedBy, **params):
+    """Create and return a sample drill"""
+    defaults = {
+        'name': 'Sample Drill',
+        'maxScore': 10,
+        'instructions': 'Test instructions',
+        'type': 'standard',
+        'skills': ['potting', 'position', 'aim'],
+    }
+    defaults.update(params)
+
+    return models.Drill.objects.create(uploadedBy=uploadedBy, **defaults)
+
+
 class ModelTests(TestCase):
     """Test models."""
 
@@ -122,3 +136,25 @@ class ModelTests(TestCase):
         self.assertEqual(drill.attempts, 3)
         self.assertEqual(drill.layouts, 2)
         self.assertEqual(drill.layoutMaxScore, 50)
+
+    def test_create_drill_set(self):
+        """Test creating a drill set is successful"""
+        user = get_user_model().objects.create_user(
+            email='example@example.com',
+            password='testpass123',
+        )
+
+        drill1 = create_drill(uploadedBy=user)
+        drill2 = create_drill(uploadedBy=user)
+
+        drill_set = models.DrillSet.objects.create(
+            name="Example Drill Set",
+            createdBy=user
+        )
+        drill_set.drills.add(drill1, drill2)  # Add drills to the set
+
+        self.assertEqual(drill_set.name, "Example Drill Set")
+        self.assertEqual(drill_set.createdBy, user)
+        self.assertEqual(drill_set.drills.count(), 2)  # Ensure drills were added
+        self.assertIn(drill1, drill_set.drills.all())
+        self.assertIn(drill2, drill_set.drills.all())
