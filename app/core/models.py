@@ -102,3 +102,14 @@ class DrillSet(models.Model):
 
     def __str__(self):
         return self.name
+    
+
+class DrillSetScore(models.Model):
+    """DrillSetScore object representing the scores for a drill set"""
+    drill_set = models.ForeignKey(DrillSet, on_delete=models.CASCADE, related_name='set_scores')
+    scores = models.ManyToManyField(DrillScore, related_name='drill_set_scores')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Scores for {self.drill_set.name}"

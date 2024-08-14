@@ -91,6 +91,18 @@ class PrivateDrillSetApiTests(TestCase):
         self.assertEqual(drillset.name, payload['name'])
         self.assertEqual(list(drillset.drills.all()), [drill])
 
+    def test_create_drillset2(self):
+        """Test creating a drillset"""
+        drill = create_drill(uploadedBy=self.user)
+        drill2 = create_drill(uploadedBy=self.user)
+        drill3 = create_drill(uploadedBy=self.user)
+        payload = {'name': 'Routine 1', 'drills': [drill.id, drill2.id, drill3.id]}
+        res = self.client.post(DRILLSET_URL, payload)
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+        drillset = DrillSet.objects.get(id=res.data['id'])
+        self.assertEqual(drillset.name, payload['name'])
+        self.assertEqual(list(drillset.drills.all()), [drill, drill2, drill3])
+
     def test_partial_update_drillset(self):
         """Test partially updating a drillset with patch"""
         drillset = DrillSet.objects.create(name='Routine 1', createdBy=self.user)
