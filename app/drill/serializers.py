@@ -17,7 +17,7 @@ class DrillSerializer(serializers.ModelSerializer):
             'id', 'name', 'maxScore', 'instructions', 'image',
             'type', 'skills', 'attempts', 'layouts',
             'layoutMaxScore']
-        read_only_fields = ['id', 'createdAt', 'uploadedBy']
+        read_only_fields = ['id', 'createdAt', 'createdBy']
 
     def validate_skills(self, value):
         """Ensure that skills is always handled as a JSON list"""

@@ -55,11 +55,29 @@ class DrillScoreAdmin(admin.ModelAdmin):
 class DrillAdmin(admin.ModelAdmin):
     """Define the admin pages for drills."""
     ordering = ['id']
-    list_display = ['uploadedBy', 'name', 'type']
-    search_fields = ['uploadedBy', 'name', 'type']
-    list_filter = ['uploadedBy', 'type']
+    list_display = ['createdBy', 'name', 'type']
+    search_fields = ['createdBy', 'name', 'type']
+    list_filter = ['createdBy', 'type']
+
+
+class DrillSetAdmin(admin.ModelAdmin):
+    """Define the admin pages for drill sets."""
+    ordering = ['id']
+    list_display = ['createdBy', 'name']
+    search_fields = ['createdBy', 'name']
+    list_filter = ['createdBy']
+
+
+class DrillSetScoreAdmin(admin.ModelAdmin):
+    """Define the admin pages for drill set scores."""
+    ordering = ['id']
+    list_display = ['user', 'drill_set']
+    search_fields = ['user', 'drill_set']
+    list_filter = ['user', 'drill_set']
 
 
 admin.site.register(models.User, UserAdmin)
 admin.site.register(models.DrillScore, DrillScoreAdmin)
 admin.site.register(models.Drill, DrillAdmin)
+admin.site.register(models.DrillSet, DrillSetAdmin)
+admin.site.register(models.DrillSetScore, DrillSetScoreAdmin)

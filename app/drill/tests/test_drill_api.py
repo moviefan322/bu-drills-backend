@@ -24,7 +24,7 @@ def detail_url(drillId):
     return reverse('drill:drill-detail', args=[drillId])
 
 
-def create_drill(uploadedBy, **params):
+def create_drill(createdBy, **params):
     """Create and return a sample drill"""
     defaults = {
         'name': 'Drill 1',
@@ -35,7 +35,7 @@ def create_drill(uploadedBy, **params):
     }
     defaults.update(params)
 
-    drill = Drill.objects.create(uploadedBy=uploadedBy, **defaults)
+    drill = Drill.objects.create(createdBy=createdBy, **defaults)
     return drill
 
 
@@ -66,8 +66,8 @@ class PublicDrillScoreApiTests(TestCase):
 
     def test_retrieve_drills(self):
         """Test retrieving a list of drillScores."""
-        create_drill(uploadedBy=create_user(email='example@example.com'))
-        create_drill(uploadedBy=create_user(email='example2@example.com'))
+        create_drill(createdBy=create_user(email='example@example.com'))
+        create_drill(createdBy=create_user(email='example2@example.com'))
 
         res = self.client.get(DRILLS_URL)
 
@@ -78,7 +78,7 @@ class PublicDrillScoreApiTests(TestCase):
 
     def test_get_drill_detail(self):
         """Test viewing a drill detail"""
-        drill = create_drill(uploadedBy=create_user(
+        drill = create_drill(createdBy=create_user(
             email='example@example.com'
             ))
 
@@ -135,7 +135,7 @@ class PrivateDrillApiTests(TestCase):
                 self.assertEqual(json.loads(v), getattr(drill, k))
             else:
                 self.assertEqual(v, getattr(drill, k))
-        self.assertEqual(drill.uploadedBy, self.user)
+        self.assertEqual(drill.createdBy, self.user)
 
     def test_update_drill_not_owned(self):
         """Test that trying to update a drill not owned by the user fails"""
@@ -143,7 +143,7 @@ class PrivateDrillApiTests(TestCase):
             email='other@example.com',
             password='password123',
         )
-        drill = create_drill(uploadedBy=other_user)
+        drill = create_drill(createdBy=other_user)
 
         payload = {'name': 'Updated Drill Name'}
         url = detail_url(drill.id)
@@ -159,7 +159,7 @@ class PrivateDrillApiTests(TestCase):
             email='other@example.com',
             password='password123',
         )
-        drill = create_drill(uploadedBy=other_user)
+        drill = create_drill(createdBy=other_user)
 
         url = detail_url(drill.id)
         res = self.client.delete(url)
@@ -167,9 +167,9 @@ class PrivateDrillApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
         self.assertTrue(Drill.objects.filter(id=drill.id).exists())
 
-    def test_uploadedBy_is_set_automatically(self):
+    def test_createdBy_is_set_automatically(self):
         """
-        Test that uploadedBy is automatically set to the authenticated user
+        Test that createdBy is automatically set to the authenticated user
         """
         payload = {
             'name': 'Drill 1',
@@ -183,7 +183,7 @@ class PrivateDrillApiTests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
         drill = Drill.objects.get(id=res.data['id'])
-        self.assertEqual(drill.uploadedBy, self.user)
+        self.assertEqual(drill.createdBy, self.user)
 
     def test_partial_update(self):
         """Test updating a drillScore with patch"""
@@ -195,7 +195,7 @@ class PrivateDrillApiTests(TestCase):
         self.client.force_authenticate(user)
 
         drill = create_drill(
-            uploadedBy=user,
+            createdBy=user,
             name='Drill 1',
             maxScore=10,
             instructions='Test instructions',
@@ -225,7 +225,7 @@ class PrivateDrillApiTests(TestCase):
         self.client.force_authenticate(user)
 
         drill = create_drill(
-            uploadedBy=user,
+            createdBy=user,
             name='Drill 1',
             maxScore=10,
             instructions='Test instructions',
@@ -263,7 +263,7 @@ class PrivateDrillApiTests(TestCase):
         self.client.force_authenticate(user)
 
         drill = create_drill(
-            uploadedBy=user,
+            createdBy=user,
             name='Drill 1',
             maxScore=10,
             instructions='Test instructions',
@@ -277,7 +277,7 @@ class PrivateDrillApiTests(TestCase):
         )
 
         payload = {
-            'uploadedBy': user2,
+            'createdBy': user2,
         }
 
         url = detail_url(drill.id)
@@ -285,7 +285,7 @@ class PrivateDrillApiTests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
         drill.refresh_from_db()
-        self.assertEqual(drill.uploadedBy, user)
+        self.assertEqual(drill.createdBy, user)
 
     def test_delete_drill(self):
         """Test deleting a drill"""
@@ -297,7 +297,7 @@ class PrivateDrillApiTests(TestCase):
         self.client.force_authenticate(user)
 
         drill = create_drill(
-            uploadedBy=user,
+            createdBy=user,
             name='Drill 1',
             maxScore=10,
             instructions='Test instructions',

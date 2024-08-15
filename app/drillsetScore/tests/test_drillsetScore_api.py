@@ -23,7 +23,7 @@ def create_user(**params):
     """Create and return a sample user"""
     return get_user_model().objects.create_user(**params)
 
-def create_drill(uploadedBy, **params):
+def create_drill(createdBy, **params):
     """Create and return a sample drill"""
     defaults = {
         'name': 'Drill 1',
@@ -33,17 +33,17 @@ def create_drill(uploadedBy, **params):
         'skills': ['potting', 'position', 'aim'],
     }
     defaults.update(params)
-    return Drill.objects.create(uploadedBy=uploadedBy, **defaults)
+    return Drill.objects.create(createdBy=createdBy, **defaults)
 
-def create_drillset(uploadedBy, **params):
+def create_drillset(createdBy, **params):
     """Create and return a sample drillset"""
-    drill1 = create_drill(uploadedBy=uploadedBy)
-    drill2 = create_drill(uploadedBy=uploadedBy)
-    drill3 = create_drill(uploadedBy=uploadedBy)
+    drill1 = create_drill(createdBy=createdBy)
+    drill2 = create_drill(createdBy=createdBy)
+    drill3 = create_drill(createdBy=createdBy)
     
     drill_set = DrillSet.objects.create(
         name="Example Drill Set",
-        user=uploadedBy
+        user=createdBy
     )
     drill_set.drills.add(drill1, drill2, drill3)
     
@@ -65,7 +65,7 @@ def create_drillsetscore(**params):
         email='example9@example.com',
         password='password123',
     )
-    drill_set = create_drillset(uploadedBy=user)
+    drill_set = create_drillset(createdBy=user)
 
     scores = []
     for drill in drill_set.drills.all():
@@ -107,8 +107,8 @@ class PrivateDrillSetScoreApiTests(TestCase):
 
     def test_retrieve_drillsetScores(self):
         """Test retrieving drillsetScores"""
-        create_drillsetscore(drillSet=create_drillset(uploadedBy=self.user), user=self.user)
-        create_drillsetscore(drillSet=create_drillset(uploadedBy=self.user), user=self.user)
+        create_drillsetscore(drillSet=create_drillset(createdBy=self.user), user=self.user)
+        create_drillsetscore(drillSet=create_drillset(createdBy=self.user), user=self.user)
 
         res = self.client.get(DRILLSETSCORE_URL)
 
@@ -120,7 +120,7 @@ class PrivateDrillSetScoreApiTests(TestCase):
 
     def test_retrieve_drillsetScore_detail(self):
         """Test retrieving a drillsetScore detail"""
-        drillsetScore = create_drillsetscore(drillSet=create_drillset(uploadedBy=self.user), user=self.user)
+        drillsetScore = create_drillsetscore(drillSet=create_drillset(createdBy=self.user), user=self.user)
 
         url = detail_url(drillsetScore.id)
         res = self.client.get(url)
@@ -130,7 +130,7 @@ class PrivateDrillSetScoreApiTests(TestCase):
 
     def test_create_drillsetScore(self):
         """Test creating a drillsetScore"""
-        drillset = create_drillset(uploadedBy=self.user)
+        drillset = create_drillset(createdBy=self.user)
         payload = {
             'drillSet': drillset.id,
             'user': self.user.id,
@@ -144,10 +144,10 @@ class PrivateDrillSetScoreApiTests(TestCase):
 
     def test_create_drillsetScore_with_scores(self):
         """Test creating a drillsetScore with scores"""
-        drillset = create_drillset(uploadedBy=self.user)
-        drill1 = create_drill(uploadedBy=self.user)
-        drill2 = create_drill(uploadedBy=self.user)
-        drill3 = create_drill(uploadedBy=self.user)
+        drillset = create_drillset(createdBy=self.user)
+        drill1 = create_drill(createdBy=self.user)
+        drill2 = create_drill(createdBy=self.user)
+        drill3 = create_drill(createdBy=self.user)
 
         score1 = create_drillscore(drill1, 5, user=self.user)
         score2 = create_drillscore(drill2, 7, user=self.user)
@@ -168,10 +168,10 @@ class PrivateDrillSetScoreApiTests(TestCase):
 
     def test_partial_update_drillsetScore(self):
         """Test updating a drillsetScore with patch"""
-        drillsetScore = create_drillsetscore(drillSet=create_drillset(uploadedBy=self.user), user=self.user)
-        drill1 = create_drill(uploadedBy=self.user)
-        drill2 = create_drill(uploadedBy=self.user)
-        drill3 = create_drill(uploadedBy=self.user)
+        drillsetScore = create_drillsetscore(drillSet=create_drillset(createdBy=self.user), user=self.user)
+        drill1 = create_drill(createdBy=self.user)
+        drill2 = create_drill(createdBy=self.user)
+        drill3 = create_drill(createdBy=self.user)
 
         score1 = create_drillscore(drill1, 5)
         score2 = create_drillscore(drill2, 7)
@@ -188,10 +188,10 @@ class PrivateDrillSetScoreApiTests(TestCase):
 
     def test_full_update_drillsetScore(self):
         """Test updating a drillsetScore with put"""
-        drillsetScore = create_drillsetscore(drillSet=create_drillset(uploadedBy=self.user), user=self.user)
-        drill1 = create_drill(uploadedBy=self.user)
-        drill2 = create_drill(uploadedBy=self.user)
-        drill3 = create_drill(uploadedBy=self.user)
+        drillsetScore = create_drillsetscore(drillSet=create_drillset(createdBy=self.user), user=self.user)
+        drill1 = create_drill(createdBy=self.user)
+        drill2 = create_drill(createdBy=self.user)
+        drill3 = create_drill(createdBy=self.user)
 
         score1 = create_drillscore(drill1, 5)
         score2 = create_drillscore(drill2, 7)
@@ -210,7 +210,7 @@ class PrivateDrillSetScoreApiTests(TestCase):
 
     def test_delete_drillsetScore(self):
         """Test deleting a drillsetScore"""
-        drillsetScore = create_drillsetscore(drillSet=create_drillset(uploadedBy=self.user))
+        drillsetScore = create_drillsetscore(drillSet=create_drillset(createdBy=self.user))
         url = detail_url(drillsetScore.id)
         res = self.client.delete(url)
 

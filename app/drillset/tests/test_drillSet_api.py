@@ -23,7 +23,7 @@ def create_user(**params):
     """Create and return a sample user"""
     return get_user_model().objects.create_user(**params)
 
-def create_drill(uploadedBy, **params):
+def create_drill(createdBy, **params):
     """Create and return a sample drill"""
     defaults = {
         'name': 'Drill 1',
@@ -33,16 +33,16 @@ def create_drill(uploadedBy, **params):
         'skills': ['potting', 'position', 'aim'],
     }
     defaults.update(params)
-    return Drill.objects.create(uploadedBy=uploadedBy, **defaults)
+    return Drill.objects.create(createdBy=createdBy, **defaults)
 
-def create_drillset(uploadedBy, **params):
+def create_drillset(createdBy, **params):
     """Create and return a sample drillset"""
-    drill1 = create_drill(uploadedBy=uploadedBy)
-    drill2 = create_drill(uploadedBy=uploadedBy)
+    drill1 = create_drill(createdBy=createdBy)
+    drill2 = create_drill(createdBy=createdBy)
     
     drill_set = DrillSet.objects.create(
         name="Example Drill Set",
-        createdBy=uploadedBy
+        createdBy=createdBy
     )
     drill_set.drills.add(drill1, drill2)
     
@@ -83,7 +83,7 @@ class PrivateDrillSetApiTests(TestCase):
 
     def test_create_drillset(self):
         """Test creating a drillset"""
-        drill = create_drill(uploadedBy=self.user)
+        drill = create_drill(createdBy=self.user)
         payload = {'name': 'Routine 1', 'drills': [drill.id]}
         res = self.client.post(DRILLSET_URL, payload)
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
@@ -93,9 +93,9 @@ class PrivateDrillSetApiTests(TestCase):
 
     def test_create_drillset2(self):
         """Test creating a drillset"""
-        drill = create_drill(uploadedBy=self.user)
-        drill2 = create_drill(uploadedBy=self.user)
-        drill3 = create_drill(uploadedBy=self.user)
+        drill = create_drill(createdBy=self.user)
+        drill2 = create_drill(createdBy=self.user)
+        drill3 = create_drill(createdBy=self.user)
         payload = {'name': 'Routine 1', 'drills': [drill.id, drill2.id, drill3.id]}
         res = self.client.post(DRILLSET_URL, payload)
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
@@ -106,7 +106,7 @@ class PrivateDrillSetApiTests(TestCase):
     def test_partial_update_drillset(self):
         """Test partially updating a drillset with patch"""
         drillset = DrillSet.objects.create(name='Routine 1', createdBy=self.user)
-        new_drill = create_drill(uploadedBy=self.user)
+        new_drill = create_drill(createdBy=self.user)
         payload = {'name': 'Updated Routine', 'drills': [new_drill.id]}
 
         url = detail_url(drillset.id)
@@ -120,7 +120,7 @@ class PrivateDrillSetApiTests(TestCase):
     def test_full_update_drillset(self):
         """Test fully updating a drillset with put"""
         drillset = DrillSet.objects.create(name='Routine 1', createdBy=self.user)
-        new_drill = create_drill(uploadedBy=self.user)
+        new_drill = create_drill(createdBy=self.user)
         payload = {'name': 'Updated Routine', 'drills': [new_drill.id]}
 
         url = detail_url(drillset.id)

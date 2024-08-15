@@ -39,8 +39,8 @@ class DrillViewSet(viewsets.ModelViewSet):
         return super().get_permissions()
 
     def perform_create(self, serializer):
-        """Create a new drill and assign the uploadedBy field"""
-        serializer.save(uploadedBy=self.request.user)
+        """Create a new drill and assign the createdBy field"""
+        serializer.save(createdBy=self.request.user)
 
     @action(
         detail=False,

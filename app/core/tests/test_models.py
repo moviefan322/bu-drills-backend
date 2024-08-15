@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 from core import models
 
 
-def create_drill(uploadedBy, **params):
+def create_drill(createdBy, **params):
     """Create and return a sample drill"""
     defaults = {
         'name': 'Sample Drill',
@@ -18,7 +18,7 @@ def create_drill(uploadedBy, **params):
     }
     defaults.update(params)
 
-    return models.Drill.objects.create(uploadedBy=uploadedBy, **defaults)
+    return models.Drill.objects.create(createdBy=createdBy, **defaults)
 
 
 class ModelTests(TestCase):
@@ -71,7 +71,7 @@ class ModelTests(TestCase):
             instructions='Test instructions',
             type='standard',
             skills=['potting', 'position', 'aim'],
-            uploadedBy=user,
+            createdBy=user,
         )
 
         drillScore = models.DrillScore.objects.create(
@@ -144,8 +144,8 @@ class ModelTests(TestCase):
             password='testpass123',
         )
 
-        drill1 = create_drill(uploadedBy=user)
-        drill2 = create_drill(uploadedBy=user)
+        drill1 = create_drill(createdBy=user)
+        drill2 = create_drill(createdBy=user)
 
         drill_set = models.DrillSet.objects.create(
             name="Example Drill Set",
@@ -165,8 +165,8 @@ class ModelTests(TestCase):
             email='example@example.com',
             password='testpass123',
         )
-        drill1 = create_drill(uploadedBy=user)
-        drill2 = create_drill(uploadedBy=user)
+        drill1 = create_drill(createdBy=user)
+        drill2 = create_drill(createdBy=user)
 
         drill_set = models.DrillSet.objects.create(
             name="Example Drill Set",
