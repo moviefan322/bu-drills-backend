@@ -12,22 +12,22 @@ from core import models
 class UserAdmin(BaseUserAdmin):
     """Define the admin pages for users."""
     ordering = ['id']
-    list_display = ['email', 'name']
+    list_display = ['id', 'email', 'name']  # Include 'id' here
     fieldsets = (
-        (None, {'fields': ('email', 'password')}),
+        (None, {'fields': ('id', 'email', 'password')}),  # Include 'id' in the fields
         (
             _('Permissions'),
             {
                 'fields': (
                     'is_active',
                     'is_staff',
-                    'is_superuser'
+                    'is_superuser',
                 )
             }
         ),
         (_('Important dates'), {'fields': ('last_login',)}),
     )
-    readonly_fields = ['last_login']
+    readonly_fields = ['id', 'last_login']  # Mark 'id' as read-only
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
@@ -42,6 +42,7 @@ class UserAdmin(BaseUserAdmin):
             )
         }),
     )
+
 
 
 class DrillScoreAdmin(admin.ModelAdmin):

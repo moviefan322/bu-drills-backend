@@ -8,6 +8,17 @@ from django.contrib.auth.models import (
     BaseUserManager,
     PermissionsMixin
 )
+from django.contrib.auth import get_user_model
+
+def get_default_user():
+    """Return the default user with ID 1, create if it doesn't exist."""
+    User = get_user_model()
+    try:
+        return User.objects.get(pk=1)
+    except User.DoesNotExist:
+        # Create a default user with ID 1 if it doesn't exist
+        return User.objects.create(pk=1, email='default@example.com', password='defaultpass')
+
 
 
 class UserManager(BaseUserManager):
@@ -114,7 +125,7 @@ class DrillSetScore(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='drill_set_scores_created',
-        default=888
+        default=get_default_user
     )
 
     def __str__(self):
