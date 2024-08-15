@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'drillScore',
     'drill',
     'drillset',
+    'drillsetScore',
 ]
 
 MIDDLEWARE = [

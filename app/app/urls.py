@@ -30,4 +30,5 @@ urlpatterns = [
     path('api/drillscore/', include('drillScore.urls')),
     path('api/drill/', include('drill.urls')),
     path('api/drillset/', include('drillset.urls')),
+    path('api/drillsetscore/', include('drillsetScore.urls')),
 ]

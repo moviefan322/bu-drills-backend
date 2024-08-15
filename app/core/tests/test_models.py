@@ -158,3 +158,42 @@ class ModelTests(TestCase):
         self.assertEqual(drill_set.drills.count(), 2)  # Ensure drills were added
         self.assertIn(drill1, drill_set.drills.all())
         self.assertIn(drill2, drill_set.drills.all())
+
+    def test_create_drill_set_score(self):
+        """Test creating a drill set score is successful"""
+        user = get_user_model().objects.create_user(
+            email='example@example.com',
+            password='testpass123',
+        )
+        drill1 = create_drill(uploadedBy=user)
+        drill2 = create_drill(uploadedBy=user)
+
+        drill_set = models.DrillSet.objects.create(
+            name="Example Drill Set",
+            createdBy=user
+        )
+        drill_set.drills.add(drill1, drill2)
+
+        drill_score1 = models.DrillScore.objects.create(
+            user=user,
+            drill=drill1,
+            score=5,
+            maxScore=10,
+        )
+        drill_score2 = models.DrillScore.objects.create(
+            user=user,
+            drill=drill2,
+            score=8,
+            maxScore=10,
+        )
+
+        drill_set_score = models.DrillSetScore.objects.create(
+            drill_set=drill_set,
+        )
+        drill_set_score.scores.add(drill_score1, drill_score2)
+
+        # Assertions
+        self.assertEqual(drill_set_score.drill_set, drill_set)
+        self.assertEqual(drill_set_score.scores.count(), 2)
+        self.assertIn(drill_score1, drill_set_score.scores.all())
+        self.assertIn(drill_score2, drill_set_score.scores.all())
