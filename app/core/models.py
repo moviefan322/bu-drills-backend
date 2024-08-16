@@ -10,6 +10,7 @@ from django.contrib.auth.models import (
 )
 from django.contrib.auth import get_user_model
 
+
 def get_default_user():
     """Return the default user with ID 1, create if it doesn't exist."""
     User = get_user_model()
@@ -17,8 +18,11 @@ def get_default_user():
         return User.objects.get(pk=1)
     except User.DoesNotExist:
         # Create a default user with ID 1 if it doesn't exist
-        return User.objects.create(pk=1, email='default@example.com', password='defaultpass')
-
+        return User.objects.create(
+            pk=1,
+            email='default@example.com',
+            password='defaultpass'
+            )
 
 
 class UserManager(BaseUserManager):
@@ -113,12 +117,19 @@ class DrillSet(models.Model):
 
     def __str__(self):
         return self.name
-    
+
 
 class DrillSetScore(models.Model):
     """DrillSetScore object representing the scores for a drill set"""
-    drill_set = models.ForeignKey(DrillSet, on_delete=models.CASCADE, related_name='set_scores')
-    scores = models.ManyToManyField(DrillScore, related_name='drill_set_scores')
+    drill_set = models.ForeignKey(
+        DrillSet,
+        on_delete=models.CASCADE,
+        related_name='set_scores'
+        )
+    scores = models.ManyToManyField(
+        DrillScore,
+        related_name='drill_set_scores'
+        )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(

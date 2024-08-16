@@ -1,10 +1,16 @@
 from rest_framework import serializers
 from core.models import DrillScore, DrillSet, DrillSetScore
 
+
 class DrillSetScoreSerializer(serializers.ModelSerializer):
     """Serializer for DrillSetScore objects"""
-    drill_set = serializers.PrimaryKeyRelatedField(queryset=DrillSet.objects.all())
-    scores = serializers.PrimaryKeyRelatedField(many=True, queryset=DrillScore.objects.all())
+    drill_set = serializers.PrimaryKeyRelatedField(
+        queryset=DrillSet.objects.all()
+        )
+    scores = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=DrillScore.objects.all()
+        )
 
     class Meta:
         model = DrillSetScore

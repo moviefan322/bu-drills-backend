@@ -18,14 +18,20 @@ import random
 
 DRILLSETSCORE_URL = reverse('drillsetScore:drillsetscore-list')
 
+
 def detail_url(drillSetScoreId):
     """Return drillsetScore detail URL"""
-    return reverse('drillsetScore:drillsetscore-detail', args=[drillSetScoreId])
+    return reverse(
+        'drillsetScore:drillsetscore-detail',
+        args=[drillSetScoreId]
+        )
+
 
 def create_user(**params):
     """Create and return a sample user with a unique email"""
     unique_email = f"user{random.randint(1, 10000)}@example.com"
     return get_user_model().objects.create_user(email=unique_email, **params)
+
 
 def create_drill(createdBy, **params):
     """Create and return a sample drill"""
@@ -39,19 +45,21 @@ def create_drill(createdBy, **params):
     defaults.update(params)
     return Drill.objects.create(createdBy=createdBy, **defaults)
 
+
 def create_drillset(createdBy, **params):
     """Create and return a sample drillset"""
     drill1 = create_drill(createdBy=createdBy)
     drill2 = create_drill(createdBy=createdBy)
     drill3 = create_drill(createdBy=createdBy)
-    
+
     drill_set = DrillSet.objects.create(
         name="Example Drill Set",
         createdBy=createdBy
     )
     drill_set.drills.add(drill1, drill2, drill3)
-    
+
     return drill_set  # Return the created drill set
+
 
 def create_drillscore(drill, score, user, **params):
     """Create and return a sample drill score"""
@@ -62,6 +70,7 @@ def create_drillscore(drill, score, user, **params):
     }
     defaults.update(params)
     return DrillScore.objects.create(drill=drill, **defaults)
+
 
 def create_drillsetscore(user, **params):
     """Create and return a sample drill set score"""
@@ -75,13 +84,11 @@ def create_drillsetscore(user, **params):
     drillset_score = DrillSetScore.objects.create(
         drill_set=drill_set,
         user=user,
-        **params 
+        **params
     )
     drillset_score.scores.set(scores)
 
     return drillset_score
-
-
 
 
 class PublicDrillSetScoreApiTests(TestCase):
@@ -114,12 +121,13 @@ class PrivateDrillSetScoreApiTests(TestCase):
 
         res = self.client.get(DRILLSETSCORE_URL)
 
-        drillsetScores = DrillSetScore.objects.filter(user=self.user).order_by('-id')
+        drillsetScores = DrillSetScore.objects.filter(
+            user=self.user
+            ).order_by('-id')
         serializer = DrillSetScoreSerializer(drillsetScores, many=True)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)
-
 
     def test_retrieve_drillsetScore_detail(self):
         """Test retrieving a drillsetScore detail"""
@@ -219,5 +227,6 @@ class PrivateDrillSetScoreApiTests(TestCase):
         res = self.client.delete(url)
 
         self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertEqual(DrillSetScore.objects.filter(id=drillsetScore.id).count(), 0)
-
+        self.assertEqual(DrillSetScore.objects.filter(
+            id=drillsetScore.id
+            ).count(), 0)

@@ -14,7 +14,7 @@ class UserAdmin(BaseUserAdmin):
     ordering = ['id']
     list_display = ['id', 'email', 'name']  # Include 'id' here
     fieldsets = (
-        (None, {'fields': ('id', 'email', 'password')}),  # Include 'id' in the fields
+        (None, {'fields': ('id', 'email', 'password')}),
         (
             _('Permissions'),
             {
@@ -42,7 +42,6 @@ class UserAdmin(BaseUserAdmin):
             )
         }),
     )
-
 
 
 class DrillScoreAdmin(admin.ModelAdmin):
