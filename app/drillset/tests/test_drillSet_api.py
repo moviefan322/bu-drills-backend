@@ -11,17 +11,20 @@ from rest_framework.test import APIClient
 
 from core.models import DrillSet, Drill
 
-from drillset.serializers import DrillSetSerializer 
+from drillset.serializers import DrillSetSerializer
 
 DRILLSET_URL = reverse('drillset:drillset-list')
+
 
 def detail_url(drillSetId):
     """Return drillset detail URL"""
     return reverse('drillset:drillset-detail', args=[drillSetId])
 
+
 def create_user(**params):
     """Create and return a sample user"""
     return get_user_model().objects.create_user(**params)
+
 
 def create_drill(createdBy, **params):
     """Create and return a sample drill"""
@@ -35,17 +38,18 @@ def create_drill(createdBy, **params):
     defaults.update(params)
     return Drill.objects.create(createdBy=createdBy, **defaults)
 
+
 def create_drillset(createdBy, **params):
     """Create and return a sample drillset"""
     drill1 = create_drill(createdBy=createdBy)
     drill2 = create_drill(createdBy=createdBy)
-    
+
     drill_set = DrillSet.objects.create(
         name="Example Drill Set",
         createdBy=createdBy
     )
     drill_set.drills.add(drill1, drill2)
-    
+
     return drill_set  # Return the created drill set
 
 
@@ -63,8 +67,20 @@ class PublicDrillSetApiTests(TestCase):
 
     def test_retrieve_drillsets(self):
         """Test retrieving a list of drillsets without authentication"""
-        DrillSet.objects.create(name='Routine 1', createdBy=create_user(email='user1@example.com', password='pass123'))
-        DrillSet.objects.create(name='Routine 2', createdBy=create_user(email='user2@example.com', password='pass123'))
+        DrillSet.objects.create(
+            name='Routine 1',
+            createdBy=create_user(
+                email='user1@example.com',
+                password='pass123'
+                )
+            )
+        DrillSet.objects.create(
+            name='Routine 2',
+            createdBy=create_user(
+                email='user2@example.com',
+                password='pass123'
+                )
+            )
 
         res = self.client.get(DRILLSET_URL)
         drillsets = DrillSet.objects.all().order_by('-id')
@@ -77,7 +93,10 @@ class PrivateDrillSetApiTests(TestCase):
     """Test the authorized user drillsets API"""
 
     def setUp(self):
-        self.user = create_user(email='test@example.com', password='testpass123')
+        self.user = create_user(
+            email='test@example.com',
+            password='testpass123'
+            )
         self.client = APIClient()
         self.client.force_authenticate(self.user)
 
@@ -96,7 +115,10 @@ class PrivateDrillSetApiTests(TestCase):
         drill = create_drill(createdBy=self.user)
         drill2 = create_drill(createdBy=self.user)
         drill3 = create_drill(createdBy=self.user)
-        payload = {'name': 'Routine 1', 'drills': [drill.id, drill2.id, drill3.id]}
+        payload = {
+            'name': 'Routine 1',
+            'drills': [drill.id, drill2.id, drill3.id]
+            }
         res = self.client.post(DRILLSET_URL, payload)
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
         drillset = DrillSet.objects.get(id=res.data['id'])
@@ -105,7 +127,10 @@ class PrivateDrillSetApiTests(TestCase):
 
     def test_partial_update_drillset(self):
         """Test partially updating a drillset with patch"""
-        drillset = DrillSet.objects.create(name='Routine 1', createdBy=self.user)
+        drillset = DrillSet.objects.create(
+            name='Routine 1',
+            createdBy=self.user
+            )
         new_drill = create_drill(createdBy=self.user)
         payload = {'name': 'Updated Routine', 'drills': [new_drill.id]}
 
@@ -119,7 +144,10 @@ class PrivateDrillSetApiTests(TestCase):
 
     def test_full_update_drillset(self):
         """Test fully updating a drillset with put"""
-        drillset = DrillSet.objects.create(name='Routine 1', createdBy=self.user)
+        drillset = DrillSet.objects.create(
+            name='Routine 1',
+            createdBy=self.user
+            )
         new_drill = create_drill(createdBy=self.user)
         payload = {'name': 'Updated Routine', 'drills': [new_drill.id]}
 
@@ -133,7 +161,10 @@ class PrivateDrillSetApiTests(TestCase):
 
     def test_delete_drillset(self):
         """Test deleting a drillset"""
-        drillset = DrillSet.objects.create(name='Routine 1', createdBy=self.user)
+        drillset = DrillSet.objects.create(
+            name='Routine 1',
+            createdBy=self.user
+            )
 
         url = detail_url(drillset.id)
         res = self.client.delete(url)
