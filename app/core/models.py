@@ -94,7 +94,11 @@ class Drill(models.Model):
     layouts = models.IntegerField(blank=True, null=True)
     layoutMaxScore = models.IntegerField(blank=True, null=True)
     tableSetup = models.OneToOneField(
-        'TableSetup', related_name='drill_table_setup', on_delete=models.SET_NULL, null=True, blank=True)
+        'TableSetup',
+        related_name='drill_table_setup',
+        on_delete=models.SET_NULL,
+        null=True, blank=True
+        )
     createdAt = models.DateTimeField(auto_now_add=True)
     createdBy = models.ForeignKey(
         settings.AUTH_USER_MODEL,

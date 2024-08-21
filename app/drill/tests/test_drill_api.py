@@ -13,8 +13,7 @@ from core.models import Drill, TableSetup
 
 import json
 
-from drill.serializers import DrillSerializer, DrillDetailSerializer, TableSetupSerializer
-
+from drill.serializers import DrillSerializer, DrillDetailSerializer
 
 DRILLS_URL = reverse('drill:drill-list')
 TABLESETUP_URL = reverse('drill:tablesetup-list')
@@ -86,7 +85,7 @@ class PublicDrillScoreApiTests(TestCase):
         """Test viewing a drill detail"""
         drill = create_drill(createdBy=create_user(
             email='example@example.com'
-            ))
+        ))
 
         url = detail_url(drill.id)
         res = self.client.get(url)
@@ -115,7 +114,7 @@ class PrivateDrillApiTests(TestCase):
             'type': 'standard',
             'skills': json.dumps(
                 ['potting', 'position', 'aim']
-                ),
+            ),
         }
 
         res = self.client.post(DRILLS_URL, payload)
@@ -336,10 +335,19 @@ class PrivateTableSetupApiTests(TestCase):
             'drill': drill.id,
             'ballPositionProps': [{'x': 0.5, 'y': 0.5, 'number': 1}],
             'pottingPocketProp': [{'x': 0.3, 'y': 0.3, 'show': True}],
-            'targetSpecs': [{'isTarget': True, 'x': 0.4, 'y': 0.7, 'rotate': False, 'w': 1.0, 'h': 0.5}],
+            'targetSpecs': [{
+                'isTarget': True,
+                'x': 0.4,
+                'y': 0.7,
+                'rotate': False, 'w': 1.0, 'h': 0.5
+                }],
             'leaveLineProp': [{'draw': True, 'x': 0.6, 'y': 0.4}],
             'kickShotLineProp': [{'draw': True, 'rails': 2, 'objectBall': 3}],
-            'bankShotLineProp': {'draw': True, 'objectBall': 1, 'pocket': {'x': 0.1, 'y': 0.1}},
+            'bankShotLineProp': {
+                'draw': True,
+                'objectBall': 1,
+                'pocket': {'x': 0.1, 'y': 0.1}
+                },
             'startIndex': 0,
             'showShotLine': True,
         }
@@ -351,7 +359,8 @@ class PrivateTableSetupApiTests(TestCase):
         self.assertEqual(tablesetup.drill, drill)
         self.assertEqual(tablesetup.startIndex, payload['startIndex'])
         self.assertTrue(tablesetup.showShotLine)
-        self.assertEqual(tablesetup.ballPositionProps, payload['ballPositionProps'])
+        self.assertEqual(tablesetup.ballPositionProps,
+                         payload['ballPositionProps'])
 
     def test_retrieve_tablesetup(self):
         """Test retrieving a list of TableSetups"""
@@ -360,10 +369,12 @@ class PrivateTableSetupApiTests(TestCase):
             drill=drill,
             ballPositionProps=[{'x': 0.5, 'y': 0.5, 'number': 1}],
             pottingPocketProp=[{'x': 0.3, 'y': 0.3, 'show': True}],
-            targetSpecs=[{'isTarget': True, 'x': 0.4, 'y': 0.7, 'rotate': False, 'w': 1.0, 'h': 0.5}],
+            targetSpecs=[{'isTarget': True, 'x': 0.4, 'y': 0.7,
+                          'rotate': False, 'w': 1.0, 'h': 0.5}],
             leaveLineProp=[{'draw': True, 'x': 0.6, 'y': 0.4}],
             kickShotLineProp=[{'draw': True, 'rails': 2, 'objectBall': 3}],
-            bankShotLineProp={'draw': True, 'objectBall': 1, 'pocket': {'x': 0.1, 'y': 0.1}},
+            bankShotLineProp={'draw': True, 'objectBall': 1,
+                              'pocket': {'x': 0.1, 'y': 0.1}},
             startIndex=0,
             showShotLine=True,
         )
@@ -381,10 +392,12 @@ class PrivateTableSetupApiTests(TestCase):
             drill=drill,
             ballPositionProps=[{'x': 0.5, 'y': 0.5, 'number': 1}],
             pottingPocketProp=[{'x': 0.3, 'y': 0.3, 'show': True}],
-            targetSpecs=[{'isTarget': True, 'x': 0.4, 'y': 0.7, 'rotate': False, 'w': 1.0, 'h': 0.5}],
+            targetSpecs=[{'isTarget': True, 'x': 0.4, 'y': 0.7,
+                          'rotate': False, 'w': 1.0, 'h': 0.5}],
             leaveLineProp=[{'draw': True, 'x': 0.6, 'y': 0.4}],
             kickShotLineProp=[{'draw': True, 'rails': 2, 'objectBall': 3}],
-            bankShotLineProp={'draw': True, 'objectBall': 1, 'pocket': {'x': 0.1, 'y': 0.1}},
+            bankShotLineProp={'draw': True, 'objectBall': 1,
+                              'pocket': {'x': 0.1, 'y': 0.1}},
             startIndex=0,
             showShotLine=True,
         )
@@ -404,10 +417,12 @@ class PrivateTableSetupApiTests(TestCase):
             drill=drill,
             ballPositionProps=[{'x': 0.5, 'y': 0.5, 'number': 1}],
             pottingPocketProp=[{'x': 0.3, 'y': 0.3, 'show': True}],
-            targetSpecs=[{'isTarget': True, 'x': 0.4, 'y': 0.7, 'rotate': False, 'w': 1.0, 'h': 0.5}],
+            targetSpecs=[{'isTarget': True, 'x': 0.4, 'y': 0.7,
+                          'rotate': False, 'w': 1.0, 'h': 0.5}],
             leaveLineProp=[{'draw': True, 'x': 0.6, 'y': 0.4}],
             kickShotLineProp=[{'draw': True, 'rails': 2, 'objectBall': 3}],
-            bankShotLineProp={'draw': True, 'objectBall': 1, 'pocket': {'x': 0.1, 'y': 0.1}},
+            bankShotLineProp={'draw': True, 'objectBall': 1,
+                              'pocket': {'x': 0.1, 'y': 0.1}},
             startIndex=0,
             showShotLine=True,
         )
@@ -416,10 +431,18 @@ class PrivateTableSetupApiTests(TestCase):
             'drill': drill.id,
             'ballPositionProps': [{'x': 0.6, 'y': 0.4, 'number': 2}],
             'pottingPocketProp': [{'x': 0.4, 'y': 0.4, 'show': False}],
-            'targetSpecs': [{'isTarget': False, 'x': 0.5, 'y': 0.8, 'rotate': True, 'w': 1.5, 'h': 0.7}],
+            'targetSpecs': [{
+                'isTarget': False,
+                'x': 0.5, 'y': 0.8,
+                'rotate': True, 'w': 1.5, 'h': 0.7
+                }],
             'leaveLineProp': [{'draw': False, 'x': 0.7, 'y': 0.5}],
             'kickShotLineProp': [{'draw': False, 'rails': 3, 'objectBall': 4}],
-            'bankShotLineProp': {'draw': False, 'objectBall': 2, 'pocket': {'x': 0.2, 'y': 0.2}},
+            'bankShotLineProp': {
+                'draw': False,
+                'objectBall': 2,
+                'pocket': {'x': 0.2, 'y': 0.2}
+                },
             'startIndex': 2,
             'showShotLine': False,
         }
@@ -431,7 +454,8 @@ class PrivateTableSetupApiTests(TestCase):
         tablesetup.refresh_from_db()
         self.assertEqual(tablesetup.startIndex, payload['startIndex'])
         self.assertFalse(tablesetup.showShotLine)
-        self.assertEqual(tablesetup.ballPositionProps, payload['ballPositionProps'])
+        self.assertEqual(tablesetup.ballPositionProps,
+                         payload['ballPositionProps'])
 
     def test_delete_tablesetup(self):
         """Test deleting a TableSetup"""
@@ -440,10 +464,19 @@ class PrivateTableSetupApiTests(TestCase):
             drill=drill,
             ballPositionProps=[{'x': 0.5, 'y': 0.5, 'number': 1}],
             pottingPocketProp=[{'x': 0.3, 'y': 0.3, 'show': True}],
-            targetSpecs=[{'isTarget': True, 'x': 0.4, 'y': 0.7, 'rotate': False, 'w': 1.0, 'h': 0.5}],
+            targetSpecs=[{
+                'isTarget': True,
+                'x': 0.4,
+                'y': 0.7,
+                'rotate': False, 'w': 1.0, 'h': 0.5
+            }],
             leaveLineProp=[{'draw': True, 'x': 0.6, 'y': 0.4}],
             kickShotLineProp=[{'draw': True, 'rails': 2, 'objectBall': 3}],
-            bankShotLineProp={'draw': True, 'objectBall': 1, 'pocket': {'x': 0.1, 'y': 0.1}},
+            bankShotLineProp={
+                'draw': True,
+                'objectBall': 1,
+                'pocket': {'x': 0.1, 'y': 0.1}
+            },
             startIndex=0,
             showShotLine=True,
         )

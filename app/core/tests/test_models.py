@@ -86,12 +86,12 @@ class ModelTests(TestCase):
             drillScore.user,
             user,
             "The user should match the one created"
-            )
+        )
         self.assertEqual(
             drillScore.drill,
             drill,
             "The drill should match the one created"
-            )
+        )
         self.assertEqual(drillScore.score, 5, "The score should be 5")
         self.assertEqual(drillScore.maxScore, 10, "The maxScore should be 10")
 
@@ -198,6 +198,7 @@ class ModelTests(TestCase):
         self.assertIn(drill_score1, drill_set_score.scores.all())
         self.assertIn(drill_score2, drill_set_score.scores.all())
 
+
 def test_create_table_setup(self):
     """Test creating a TableSetup for a drill is successful"""
     user = get_user_model().objects.create_user(
@@ -218,10 +219,12 @@ def test_create_table_setup(self):
         drill=drill,
         ballPositionProps=[{'x': 0.5, 'y': 0.5, 'number': 1}],
         pottingPocketProp=[{'x': 0.3, 'y': 0.3, 'show': True}],
-        targetSpecs=[{'isTarget': True, 'x': 0.4, 'y': 0.7, 'rotate': False, 'w': 1.0, 'h': 0.5}],
+        targetSpecs=[{'isTarget': True, 'x': 0.4, 'y': 0.7,
+                      'rotate': False, 'w': 1.0, 'h': 0.5}],
         leaveLineProp=[{'draw': True, 'x': 0.6, 'y': 0.4}],
         kickShotLineProp=[{'draw': True, 'rails': 2, 'objectBall': 3}],
-        bankShotLineProp={'draw': True, 'objectBall': 1, 'pocket': {'x': 0.1, 'y': 0.1}},
+        bankShotLineProp={'draw': True, 'objectBall': 1,
+                          'pocket': {'x': 0.1, 'y': 0.1}},
         startIndex=0,
         showShotLine=True,
     )
@@ -233,6 +236,7 @@ def test_create_table_setup(self):
     self.assertEqual(len(table_setup.ballPositionProps), 1)
     self.assertEqual(len(table_setup.pottingPocketProp), 1)
     self.assertEqual(len(table_setup.targetSpecs), 1)
+
 
 def test_create_drill_with_table_setup(self):
     """Test creating a drill with an associated TableSetup is successful"""
@@ -254,10 +258,17 @@ def test_create_drill_with_table_setup(self):
         drill=drill,
         ballPositionProps=[{'x': 0.5, 'y': 0.5, 'number': 1}],
         pottingPocketProp=[{'x': 0.3, 'y': 0.3, 'show': True}],
-        targetSpecs=[{'isTarget': True, 'x': 0.4, 'y': 0.7, 'rotate': False, 'w': 1.0, 'h': 0.5}],
+        targetSpecs=[{
+            'isTarget': True,
+            'x': 0.4, 'y': 0.7,
+            'rotate': False, 'w': 1.0,
+            'h': 0.5}],
         leaveLineProp=[{'draw': True, 'x': 0.6, 'y': 0.4}],
         kickShotLineProp=[{'draw': True, 'rails': 2, 'objectBall': 3}],
-        bankShotLineProp={'draw': True, 'objectBall': 1, 'pocket': {'x': 0.1, 'y': 0.1}},
+        bankShotLineProp={
+            'draw': True,
+            'objectBall': 1,
+            'pocket': {'x': 0.1, 'y': 0.1}},
         startIndex=0,
         showShotLine=True,
     )

@@ -77,4 +77,4 @@ class TableSetupViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         """Create a new table setup and assign the drill if provided"""
         drill = self.request.data.get('drill')
-        serializer.save()
+        serializer.save(drill_id=drill)
