@@ -3,7 +3,7 @@ Serializers for drill API.
 """
 from rest_framework import serializers
 
-from core.models import Drill
+from core.models import Drill, TableSetup
 
 import json
 
@@ -37,3 +37,9 @@ class DrillDetailSerializer(DrillSerializer):
     class Meta(DrillSerializer.Meta):
         fields = DrillSerializer.Meta.fields
         read_only_fields = DrillSerializer.Meta.read_only_fields
+
+
+class TableSetupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TableSetup
+        fields = '__all__'

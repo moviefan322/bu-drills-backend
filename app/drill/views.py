@@ -8,7 +8,7 @@ from rest_framework.permissions import (
     AllowAny
 )
 
-from core.models import Drill
+from core.models import Drill, TableSetup
 from drill import serializers
 from drill.permissions import IsOwnerOrReadOnly
 
@@ -53,3 +53,28 @@ class DrillViewSet(viewsets.ModelViewSet):
         drills = self.queryset.filter(type=type)
         serializer = self.get_serializer(drills, many=True)
         return Response(serializer.data)
+
+
+class TableSetupViewSet(viewsets.ModelViewSet):
+    """View for managing table setup APIs"""
+    serializer_class = serializers.TableSetupSerializer
+    queryset = TableSetup.objects.all()
+    permission_classes = [IsAuthenticatedOrReadOnly]  # Default permission
+    authentication_classes = [TokenAuthentication]
+
+    def get_queryset(self):
+        """Return all objects"""
+        return self.queryset.order_by('-id')
+
+    def get_permissions(self):
+        """Customize permissions based on action."""
+        if self.action in ['create', 'update', 'partial_update', 'destroy']:
+            self.permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+        elif self.action in ['retrieve', 'list']:
+            self.permission_classes = [AllowAny]
+        return super().get_permissions()
+
+    def perform_create(self, serializer):
+        """Create a new table setup and assign the drill if provided"""
+        drill = self.request.data.get('drill')
+        serializer.save()

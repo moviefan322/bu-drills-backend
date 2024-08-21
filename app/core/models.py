@@ -22,7 +22,7 @@ def get_default_user():
             pk=1,
             email='default@example.com',
             password='defaultpass'
-            )
+        )
 
 
 class UserManager(BaseUserManager):
@@ -93,6 +93,8 @@ class Drill(models.Model):
     attempts = models.IntegerField(blank=True, null=True)
     layouts = models.IntegerField(blank=True, null=True)
     layoutMaxScore = models.IntegerField(blank=True, null=True)
+    tableSetup = models.OneToOneField(
+        'TableSetup', related_name='drill_table_setup', on_delete=models.SET_NULL, null=True, blank=True)
     createdAt = models.DateTimeField(auto_now_add=True)
     createdBy = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -103,6 +105,24 @@ class Drill(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class TableSetup(models.Model):
+    """Table setup configuration for a drill"""
+
+    drill = models.OneToOneField(
+        Drill, related_name='table_setup_detail', on_delete=models.CASCADE)
+    ballPositionProps = models.JSONField(blank=True, null=True)
+    pottingPocketProp = models.JSONField(blank=True, null=True)
+    targetSpecs = models.JSONField(blank=True, null=True)
+    leaveLineProp = models.JSONField(blank=True, null=True)
+    kickShotLineProp = models.JSONField(blank=True, null=True)
+    bankShotLineProp = models.JSONField(blank=True, null=True)
+    startIndex = models.IntegerField()
+    showShotLine = models.BooleanField()
+
+    def __str__(self):
+        return f"TableSetup for Drill: {self.drill.name}"
 
 
 class DrillSet(models.Model):
@@ -125,11 +145,11 @@ class DrillSetScore(models.Model):
         DrillSet,
         on_delete=models.CASCADE,
         related_name='set_scores'
-        )
+    )
     scores = models.ManyToManyField(
         DrillScore,
         related_name='drill_set_scores'
-        )
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(
