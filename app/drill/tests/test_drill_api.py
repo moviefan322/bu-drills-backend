@@ -9,19 +9,25 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from core.models import Drill
+from core.models import Drill, TableSetup
 
 import json
 
-from drill.serializers import DrillSerializer, DrillDetailSerializer
+from drill.serializers import DrillSerializer, DrillDetailSerializer, TableSetupSerializer
 
 
 DRILLS_URL = reverse('drill:drill-list')
+TABLESETUP_URL = reverse('drill:tablesetup-list')
 
 
 def detail_url(drillId):
     """Return drill detail URL"""
     return reverse('drill:drill-detail', args=[drillId])
+
+
+def tablesetup_detail_url(tablesetupId):
+    """Return table setup detail URL"""
+    return reverse('drill:tablesetup-detail', args=[tablesetupId])
 
 
 def create_drill(createdBy, **params):
@@ -310,3 +316,140 @@ class PrivateDrillApiTests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
         self.assertFalse(Drill.objects.filter(id=drill.id).exists())
+
+
+class PrivateTableSetupApiTests(TestCase):
+    """Test the authorized user TableSetup API"""
+
+    def setUp(self):
+        self.client = APIClient()
+        self.user = create_user(
+            email='user@example.com',
+            password='testpass123',
+        )
+        self.client.force_authenticate(self.user)
+
+    def test_create_tablesetup(self):
+        """Test creating a TableSetup for a drill"""
+        drill = create_drill(createdBy=self.user)
+        payload = {
+            'drill': drill.id,
+            'ballPositionProps': [{'x': 0.5, 'y': 0.5, 'number': 1}],
+            'pottingPocketProp': [{'x': 0.3, 'y': 0.3, 'show': True}],
+            'targetSpecs': [{'isTarget': True, 'x': 0.4, 'y': 0.7, 'rotate': False, 'w': 1.0, 'h': 0.5}],
+            'leaveLineProp': [{'draw': True, 'x': 0.6, 'y': 0.4}],
+            'kickShotLineProp': [{'draw': True, 'rails': 2, 'objectBall': 3}],
+            'bankShotLineProp': {'draw': True, 'objectBall': 1, 'pocket': {'x': 0.1, 'y': 0.1}},
+            'startIndex': 0,
+            'showShotLine': True,
+        }
+
+        res = self.client.post(TABLESETUP_URL, payload, format='json')
+
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+        tablesetup = TableSetup.objects.get(id=res.data['id'])
+        self.assertEqual(tablesetup.drill, drill)
+        self.assertEqual(tablesetup.startIndex, payload['startIndex'])
+        self.assertTrue(tablesetup.showShotLine)
+        self.assertEqual(tablesetup.ballPositionProps, payload['ballPositionProps'])
+
+    def test_retrieve_tablesetup(self):
+        """Test retrieving a list of TableSetups"""
+        drill = create_drill(createdBy=self.user)
+        tablesetup = TableSetup.objects.create(
+            drill=drill,
+            ballPositionProps=[{'x': 0.5, 'y': 0.5, 'number': 1}],
+            pottingPocketProp=[{'x': 0.3, 'y': 0.3, 'show': True}],
+            targetSpecs=[{'isTarget': True, 'x': 0.4, 'y': 0.7, 'rotate': False, 'w': 1.0, 'h': 0.5}],
+            leaveLineProp=[{'draw': True, 'x': 0.6, 'y': 0.4}],
+            kickShotLineProp=[{'draw': True, 'rails': 2, 'objectBall': 3}],
+            bankShotLineProp={'draw': True, 'objectBall': 1, 'pocket': {'x': 0.1, 'y': 0.1}},
+            startIndex=0,
+            showShotLine=True,
+        )
+
+        url = tablesetup_detail_url(tablesetup.id)
+        res = self.client.get(url)
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(res.data['id'], tablesetup.id)
+
+    def test_partial_update_tablesetup(self):
+        """Test updating a TableSetup with patch"""
+        drill = create_drill(createdBy=self.user)
+        tablesetup = TableSetup.objects.create(
+            drill=drill,
+            ballPositionProps=[{'x': 0.5, 'y': 0.5, 'number': 1}],
+            pottingPocketProp=[{'x': 0.3, 'y': 0.3, 'show': True}],
+            targetSpecs=[{'isTarget': True, 'x': 0.4, 'y': 0.7, 'rotate': False, 'w': 1.0, 'h': 0.5}],
+            leaveLineProp=[{'draw': True, 'x': 0.6, 'y': 0.4}],
+            kickShotLineProp=[{'draw': True, 'rails': 2, 'objectBall': 3}],
+            bankShotLineProp={'draw': True, 'objectBall': 1, 'pocket': {'x': 0.1, 'y': 0.1}},
+            startIndex=0,
+            showShotLine=True,
+        )
+
+        payload = {'startIndex': 1}
+        url = tablesetup_detail_url(tablesetup.id)
+        res = self.client.patch(url, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        tablesetup.refresh_from_db()
+        self.assertEqual(tablesetup.startIndex, payload['startIndex'])
+
+    def test_full_update_tablesetup(self):
+        """Test updating a TableSetup with put"""
+        drill = create_drill(createdBy=self.user)
+        tablesetup = TableSetup.objects.create(
+            drill=drill,
+            ballPositionProps=[{'x': 0.5, 'y': 0.5, 'number': 1}],
+            pottingPocketProp=[{'x': 0.3, 'y': 0.3, 'show': True}],
+            targetSpecs=[{'isTarget': True, 'x': 0.4, 'y': 0.7, 'rotate': False, 'w': 1.0, 'h': 0.5}],
+            leaveLineProp=[{'draw': True, 'x': 0.6, 'y': 0.4}],
+            kickShotLineProp=[{'draw': True, 'rails': 2, 'objectBall': 3}],
+            bankShotLineProp={'draw': True, 'objectBall': 1, 'pocket': {'x': 0.1, 'y': 0.1}},
+            startIndex=0,
+            showShotLine=True,
+        )
+
+        payload = {
+            'drill': drill.id,
+            'ballPositionProps': [{'x': 0.6, 'y': 0.4, 'number': 2}],
+            'pottingPocketProp': [{'x': 0.4, 'y': 0.4, 'show': False}],
+            'targetSpecs': [{'isTarget': False, 'x': 0.5, 'y': 0.8, 'rotate': True, 'w': 1.5, 'h': 0.7}],
+            'leaveLineProp': [{'draw': False, 'x': 0.7, 'y': 0.5}],
+            'kickShotLineProp': [{'draw': False, 'rails': 3, 'objectBall': 4}],
+            'bankShotLineProp': {'draw': False, 'objectBall': 2, 'pocket': {'x': 0.2, 'y': 0.2}},
+            'startIndex': 2,
+            'showShotLine': False,
+        }
+
+        url = tablesetup_detail_url(tablesetup.id)
+        res = self.client.put(url, payload, format='json')
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        tablesetup.refresh_from_db()
+        self.assertEqual(tablesetup.startIndex, payload['startIndex'])
+        self.assertFalse(tablesetup.showShotLine)
+        self.assertEqual(tablesetup.ballPositionProps, payload['ballPositionProps'])
+
+    def test_delete_tablesetup(self):
+        """Test deleting a TableSetup"""
+        drill = create_drill(createdBy=self.user)
+        tablesetup = TableSetup.objects.create(
+            drill=drill,
+            ballPositionProps=[{'x': 0.5, 'y': 0.5, 'number': 1}],
+            pottingPocketProp=[{'x': 0.3, 'y': 0.3, 'show': True}],
+            targetSpecs=[{'isTarget': True, 'x': 0.4, 'y': 0.7, 'rotate': False, 'w': 1.0, 'h': 0.5}],
+            leaveLineProp=[{'draw': True, 'x': 0.6, 'y': 0.4}],
+            kickShotLineProp=[{'draw': True, 'rails': 2, 'objectBall': 3}],
+            bankShotLineProp={'draw': True, 'objectBall': 1, 'pocket': {'x': 0.1, 'y': 0.1}},
+            startIndex=0,
+            showShotLine=True,
+        )
+
+        url = tablesetup_detail_url(tablesetup.id)
+        res = self.client.delete(url)
+
+        self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertFalse(TableSetup.objects.filter(id=tablesetup.id).exists())

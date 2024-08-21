@@ -69,7 +69,7 @@ class TableSetupViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         """Customize permissions based on action."""
         if self.action in ['create', 'update', 'partial_update', 'destroy']:
-            self.permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+            self.permission_classes = [IsAuthenticated]
         elif self.action in ['retrieve', 'list']:
             self.permission_classes = [AllowAny]
         return super().get_permissions()
