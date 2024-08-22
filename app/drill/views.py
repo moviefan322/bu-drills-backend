@@ -66,8 +66,8 @@ class TableSetupViewSet(viewsets.ModelViewSet):
                 drill = Drill.objects.get(id=drill_id)
                 serializer.save(drill=drill)
             except Drill.DoesNotExist:
-                raise serializers.ValidationError(f"Drill with id {drill_id} does not exist.")
+                raise serializers.ValidationError(
+                    f"Drill with id {drill_id} does not exist."
+                )
         else:
             raise serializers.ValidationError("Drill ID is required.")
-
-

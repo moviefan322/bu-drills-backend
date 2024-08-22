@@ -497,12 +497,16 @@ class PrivateTableSetupApiTests(TestCase):
             drill=drill,
             ballPositionProps=[{'x': 0.5, 'y': 0.5, 'number': 1}],
             pottingPocketProp=[{'x': 0.3, 'y': 0.3, 'show': True}],
-            targetSpecs=[{'isTarget': True, 'x': 0.4, 'y': 0.7,
-                        'rotate': False, 'w': 1.0, 'h': 0.5}],
+            targetSpecs=[{
+                'isTarget': True,
+                'x': 0.4, 'y': 0.7,
+                'rotate': False, 'w': 1.0, 'h': 0.5}],
             leaveLineProp=[{'draw': True, 'x': 0.6, 'y': 0.4}],
             kickShotLineProp=[{'draw': True, 'rails': 2, 'objectBall': 3}],
-            bankShotLineProp={'draw': True, 'objectBall': 1,
-                            'pocket': {'x': 0.1, 'y': 0.1}},
+            bankShotLineProp={
+                'draw': True,
+                'objectBall': 1,
+                'pocket': {'x': 0.1, 'y': 0.1}},
             startIndex=0,
             showShotLine=True,
         )
@@ -535,12 +539,19 @@ class PrivateTableSetupApiTests(TestCase):
             drill=drill,
             ballPositionProps=[{'x': 0.5, 'y': 0.5, 'number': 1}],
             pottingPocketProp=[{'x': 0.3, 'y': 0.3, 'show': True}],
-            targetSpecs=[{'isTarget': True, 'x': 0.4, 'y': 0.7,
-                        'rotate': False, 'w': 1.0, 'h': 0.5}],
+            targetSpecs=[{
+                'isTarget': True,
+                'x': 0.4,
+                'y': 0.7,
+                'rotate': False, 'w': 1.0, 'h': 0.5}
+                ],
             leaveLineProp=[{'draw': True, 'x': 0.6, 'y': 0.4}],
             kickShotLineProp=[{'draw': True, 'rails': 2, 'objectBall': 3}],
-            bankShotLineProp={'draw': True, 'objectBall': 1,
-                            'pocket': {'x': 0.1, 'y': 0.1}},
+            bankShotLineProp={
+                'draw': True,
+                'objectBall': 1,
+                'pocket': {'x': 0.1, 'y': 0.1}
+                },
             startIndex=0,
             showShotLine=True,
         )
