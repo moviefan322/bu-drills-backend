@@ -114,8 +114,8 @@ class Drill(models.Model):
 class TableSetup(models.Model):
     """Table setup configuration for a drill"""
 
-    drill = models.OneToOneField(
-        Drill, related_name='table_setup_detail', on_delete=models.CASCADE)
+    drill = models.ForeignKey(
+        Drill, related_name='table_setups', on_delete=models.CASCADE)
     ballPositionProps = models.JSONField(blank=True, null=True)
     pottingPocketProp = models.JSONField(blank=True, null=True)
     targetSpecs = models.JSONField(blank=True, null=True)
