@@ -9,6 +9,8 @@ import json
 
 
 class TableSetupSerializer(serializers.ModelSerializer):
+    drill = serializers.PrimaryKeyRelatedField(queryset=Drill.objects.all())
+
     class Meta:
         model = TableSetup
         fields = '__all__'

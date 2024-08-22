@@ -507,6 +507,44 @@ class PrivateTableSetupApiTests(TestCase):
             showShotLine=True,
         )
 
+        # Explicitly set the tableSetup field on the drill
+        drill.tableSetup = tablesetup
+        drill.save()
+
+        # Fetch the drill from the database
+        drill.refresh_from_db()
+
+        # Check if the drill's tableSetup field is correctly set
+        self.assertIsNotNone(drill.tableSetup)
+        self.assertEqual(drill.tableSetup.id, tablesetup.id)
+
+        # Fetch the drill via the API and check the tableSetup field
+        url = detail_url(drill.id)
+        res = self.client.get(url)
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(res.data['tableSetup']['id'], tablesetup.id)
+
+    def test_create_drill_with_tablesetup2(self):
+        """Test creating a drill and linking it to a TableSetup"""
+        # Create a drill
+        drill = create_drill(createdBy=self.user)
+
+        # Create a tablesetup and link it to the drill
+        tablesetup = TableSetup.objects.create(
+            drill=drill,
+            ballPositionProps=[{'x': 0.5, 'y': 0.5, 'number': 1}],
+            pottingPocketProp=[{'x': 0.3, 'y': 0.3, 'show': True}],
+            targetSpecs=[{'isTarget': True, 'x': 0.4, 'y': 0.7,
+                        'rotate': False, 'w': 1.0, 'h': 0.5}],
+            leaveLineProp=[{'draw': True, 'x': 0.6, 'y': 0.4}],
+            kickShotLineProp=[{'draw': True, 'rails': 2, 'objectBall': 3}],
+            bankShotLineProp={'draw': True, 'objectBall': 1,
+                            'pocket': {'x': 0.1, 'y': 0.1}},
+            startIndex=0,
+            showShotLine=True,
+        )
+
         # Fetch the drill from the database
         drill.refresh_from_db()
 

@@ -11,24 +11,20 @@ from rest_framework.permissions import (
 from core.models import Drill, TableSetup
 from drill import serializers
 from drill.permissions import IsOwnerOrReadOnly
+from drill.serializers import DrillSerializer
 
 
 class DrillViewSet(viewsets.ModelViewSet):
     """View for managing drill APIs"""
     serializer_class = serializers.DrillDetailSerializer
-    queryset = Drill.objects.all()
+    queryset = Drill.objects.select_related('tableSetup').all()
+    serializer_class = DrillSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]  # Default permission
     authentication_classes = [TokenAuthentication]
 
     def get_queryset(self):
         """Return all objects"""
         return self.queryset.order_by('-id')
-
-    def get_serializer_class(self):
-        """Return the serializer class for request."""
-        if self.action == 'list':
-            return serializers.DrillSerializer
-        return self.serializer_class
 
     def get_permissions(self):
         """Customize permissions based on action."""
@@ -62,19 +58,16 @@ class TableSetupViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]  # Default permission
     authentication_classes = [TokenAuthentication]
 
-    def get_queryset(self):
-        """Return all objects"""
-        return self.queryset.order_by('-id')
-
-    def get_permissions(self):
-        """Customize permissions based on action."""
-        if self.action in ['create', 'update', 'partial_update', 'destroy']:
-            self.permission_classes = [IsAuthenticated]
-        elif self.action in ['retrieve', 'list']:
-            self.permission_classes = [AllowAny]
-        return super().get_permissions()
-
     def perform_create(self, serializer):
         """Create a new table setup and assign the drill if provided"""
-        drill = self.request.data.get('drill')
-        serializer.save(drill_id=drill)
+        drill_id = self.request.data.get('drill')
+        if drill_id:
+            try:
+                drill = Drill.objects.get(id=drill_id)
+                serializer.save(drill=drill)
+            except Drill.DoesNotExist:
+                raise serializers.ValidationError(f"Drill with id {drill_id} does not exist.")
+        else:
+            raise serializers.ValidationError("Drill ID is required.")
+
+

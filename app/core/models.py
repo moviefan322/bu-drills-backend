@@ -125,6 +125,12 @@ class TableSetup(models.Model):
     startIndex = models.IntegerField()
     showShotLine = models.BooleanField()
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        # Automatically update the drill's tableSetup field
+        self.drill.tableSetup = self
+        self.drill.save()
+
     def __str__(self):
         return f"TableSetup for Drill: {self.drill.name}"
 
