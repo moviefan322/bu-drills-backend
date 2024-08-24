@@ -1,0 +1,351 @@
+[
+  {
+    "name": "Cut Shot",
+    "maxScore": 10,
+    "instructions": "• Start with the cue ball (CB) in position 4. Each time you pocket the object ball (OB), advance\n  the CB one position (e.g., from 4 to 5); and with each miss, move down by one number (e.g., from\n  4 to 3). If you succeed at position 7 or miss at position 1, stay at that position. <br />\n  • Continue for 10 shots total unless you already have a guaranteed score of 10 (e.g., you can\n  stop if you make the first eight shots). <br />",
+    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1716658046/Screenshot_2024-05-25_at_1.24.29_PM_wdum1u.png",
+    "type": "progressive",
+    "skills": ["aim"]
+  },
+  {
+    "name": "Stop Shot",
+    "maxScore": 10,
+    "instructions": "• The OB must be pocketed, and the stopped CB must overlap at least part of the ghost-ball\n  (GB) outline. <br />\n  • The CB is allowed to contact the cushion. <br />\n  • You are allowed to vary the CB and OB positions away from the rail as long as the CB\n  remains within one diamond of the rail. <br />\n  • If you end up in position 1 you are allowed to place the CB anywhere between positions\n  1 and 2. This will allow you to comfortably avoid a double hit.",
+    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1716658045/Screenshot_2024-05-25_at_1.24.40_PM_crpuf3.png",
+    "type": "progressive",
+    "skills": ["position", "cue ball control"]
+  },
+  {
+    "name": "Follow Shot",
+    "maxScore": 10,
+    "instructions": "• The rectangular target can be printed and cut out from a template on the website. It is an\n  8.5”x11” sheet of paper with the center removed, leaving a 1” border. <br />\n  • The CB and OB are always 1 diamond apart. <br />\n  • The OB must be pocketed and the CB must end up within or overlapping the target for\n  success. <br />\n  • Both the CB and OB are allowed to contact cushions. <br />\n  • You are allowed to vary the CB and OB positions away from the rail as long as the CB\n  remains within one diamond of the rail.",
+    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1716658045/Screenshot_2024-05-25_at_1.24.52_PM_vojx3m.png",
+    "type": "progressive",
+    "skills": ["position", "cue ball control"]
+  },
+  {
+    "name": "Draw Shot",
+    "maxScore": 10,
+    "instructions": "• You must pocket the OB and the CB must end up within the 2x1 diamond rectangle adjacent to\n  the side pocket. The CB center (or resting point on the cloth) must be inside of the rectangle\n  border. <br />\n  • The CB is allowed to hit the side cushion. <br />\n  • The target rectangle area is fixed and does not move with the CB. <br />\n  • You are allowed to vary the CB and OB positions away from the rail as long as the CB\n  remains within one diamond of the rail. <br />\n  • If you end up in position 1 you are allowed to place the CB anywhere between positions\n  1 and 2. This will allow you to comfortably avoid a double hit.",
+    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1716658047/Screenshot_2024-05-25_at_1.25.07_PM_dshtnm.png",
+    "type": "progressive",
+    "skills": ["position", "cue ball control"]
+  },
+  {
+    "name": "Stun Shot",
+    "maxScore": 10,
+    "instructions": "• The OB must be pocketed and the CB must end up within or overlapping the target for\n  success. <br />\n  • Start with the target in position 4. Note that the target center and orientation for position 4 is\n  different from the others, with the long edge against the rail cushion. The target centers for the\n  other positions are aligned with the long-rail diamonds. <br />\n  • The CB must head straight to the target (without cushion contact) for positions 1, 2, and 3, and\n  the CB must rebound off the end rail for target positions 5, 6, and 7. Cushion contact is\n  allowed, but not required, for target position 4. <br />\n  • With each success, advance the target one position (e.g., from 4 to 5); and with each miss,\n  move the target back (e.g., from 4 to 3). If you succeed at position 7 or miss at position 1,\n  keep the target at that position. <br />\n  • Continue for 10 shots total. <br />\n  • Adjust the target position after the 10th shot based on the outcome, but not below 1 or above 7. <br />\n  For example if you succeed on the 10th shot at 6, the final position is 7; and if you miss the 10th\n  shot at 6, the final position is 5.",
+    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1716658048/Screenshot_2024-05-25_at_1.25.37_PM_t6kvnj.png",
+    "type": "progressive",
+    "skills": ["position", "cue ball control"]
+  },
+  {
+    "name": "Ball Pocketing",
+    "maxScore": 10,
+    "instructions": "• Shoot all 5 shots from each CB position, attempting to pocket the OBs as shown. <br />\n  • You get 1 attempt at each of the 10 shots. You are not allowed to scratch. <br />\n  • This and the remaining drills are not “progressive.” Instead, you attempt each shot, regardless\n  of the previous shot’s outcome.",
+    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1716658044/Screenshot_2024-05-25_at_1.26.04_PM_dtnzhq.png",
+    "type": "standard",
+    "skills": ["pocketing, aim"]
+  },
+  {
+    "name": "Wagon Wheel",
+    "maxScore": 20,
+    "instructions": "• Pocket the OB and have the CB hit each of the rail target balls. <br />\n  • You score a point by pocketing the OB and hitting the current target ball. <br />\n  • Rail-first contact, adjacent to the target ball, is allowed, but you are not allowed to hit any other\n  cushion on the way to the target ball. <br />\n  • Take 2 attempts at each target ball. <br />\n  • Remove target balls completed, and reposition any remaining balls that are disturbed.",
+    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1716658047/Screenshot_2024-05-25_at_1.26.47_PM_iup4bj.png",
+    "type": "standard",
+    "skills": ["position", "cue ball control"]
+  },
+  {
+    "name": "Landing Zone",
+    "maxScore": 20,
+    "instructions": "• The OB (1 ball) must be pocketed and the CB must end up within or overlapping each of the\n  targets. <br />\n  • Take 4 attempts at each target, scoring 1 point for each success. <br />\n  • Take any path to the target you desire, off as many rails as you chose or straight to the target.",
+    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1716658043/Screenshot_2024-05-25_at_1.26.55_PM_s1pcti.png",
+    "type": "standard",
+    "skills": ["position", "cue ball control"]
+  },
+  {
+    "name": "Line of Balls (I)",
+    "maxScore": 4,
+    "instructions": "• Pocket the balls in rotation (i.e., in numerical order) in any pockets without scratching or\n  contacting any of the remaining balls. <br />\n  • If you disturb a ball while pocketing one, the one pocketed counts, but the run ends <br />\n  • Shoot the drill twice and use the higher score of the two attempts <br />",
+    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717526801/Screenshot_2024-06-04_at_2.44.12_PM_zraapz.png",
+    "type": "attempt",
+    "attempts": 2,
+    "skills": ["position", "cue ball control", "pattern play"]
+  },
+  {
+    "name": "Rail Cut Shot (I)",
+    "maxScore": 7,
+    "instructions": "• Do the drill twice, shooting the balls in any order, and use the higher score of the two attempts. <br />\n  • You are not allowed to scratch, shoot combinations, or disturb any of the remaining balls. <br />",
+    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717537740/Screenshot_2024-06-04_at_5.48.55_PM_pbytyt.png",
+    "type": "attempt",
+    "attempts": 2,
+    "skills": ["aim", "pattern play"]
+  },
+  {
+    "name": "9B Patterns (I)",
+    "maxScore": 10,
+    "instructions": "• Attempt and score all three layouts. Then add the two lowest scores.  <br />\n  • You receive 1 point for each ball pocketed legally (w/o scratching) under 9-ball “rotation” rules,\n  always hitting the lowest-numbered ball first.  <br />\n  • If the 9-ball is pocketed early (e.g., with a combo or carom shot), you must still pocket the\n  remaining balls in rotation.",
+    "image": [
+      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717612727/Screenshot_2024-06-05_at_2.38.40_PM_zjocqi.png",
+      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717613150/Screenshot_2024-06-05_at_2.45.42_PM_amjh6m.png",
+      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717613264/Screenshot_2024-06-05_at_2.47.35_PM_txpzc6.png"
+    ],
+    "type": "layout",
+    "layouts": 3,
+    "layoutMaxScore": 5,
+    "skills": ["potting", "pattern play"]
+  },
+  {
+    "name": "8 Pattern Drills (I)",
+    "maxScore": 10,
+    "instructions": "• Attempt and score all three layouts. Then add the two lowest scores<br />.\n  • Pocket the stripes in any order, then the 8, starting with ball in hand. <br />\n  • You receive 1 point for each ball pocketed legally (w/o scratching) before a miss<br />.\n  • You are allowed to contact the obstacle balls.  <br />",
+    "image": [
+      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717692565/Screenshot_2024-06-06_at_12.48.14_PM_apspfq.png",
+      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717692559/Screenshot_2024-06-06_at_12.48.43_PM_rpl6lh.png",
+      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717692552/Screenshot_2024-06-06_at_12.48.56_PM_aazagy.png"
+    ],
+    "type": "layout",
+    "layouts": 3,
+    "layoutMaxScore": 5,
+    "skills": ["potting", "pattern play"]
+  },
+  {
+    "name": "Safety (I)",
+    "maxScore": 6,
+    "instructions": "• Take two attempts from each CB position, getting 1 point for each successful snooker, where\n  the OB is hidden from the CB with no direct path of contact between the balls. <br />\n  • The 1 ball may not be pocketed. <br />\n  • You are allowed to contact the balls in the obstacle cluster, but all of them must remain within\n  or overlapping the target.  <br />",
+    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717740461/Screenshot_2024-06-07_at_2.07.26_AM_z3kjxq.png",
+    "type": "standard",
+    "skills": ["cue ball control", "safety"]
+  },
+  {
+    "name": "Kick Shot (I)",
+    "maxScore": 3,
+    "instructions": "• Kick at each OB off the same long rail (as shown), with the CB in the same starting position for\n  each kick, getting 1 point for each successful and legal shot (i.e., no scratch, ball to rail).",
+    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717798362/Screenshot_2024-06-07_at_6.12.36_PM_kkxj24.png",
+    "type": "standard",
+    "skills": ["kicking"]
+  },
+  {
+    "name": "Bank Shot (I)",
+    "maxScore": 3,
+    "instructions": "• With CB in hand for each shot, bank each ball cross side. <br />\n  • You receive 1 point for each bank pocketed legally (w/o scratching).",
+    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717803152/Screenshot_2024-06-07_at_7.32.26_PM_daom3s.png",
+    "type": "standard",
+    "skills": ["banking", "potting"]
+  },
+  {
+    "name": "Elevated Cue (I)",
+    "maxScore": 3,
+    "instructions": "• Pocket each OB from the indicated CB position without scratching.",
+    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717807988/Screenshot_2024-06-07_at_8.53.00_PM_ibqkpx.png",
+    "type": "standard",
+    "skills": ["cueing", "potting"]
+  },
+  {
+    "name": "Jump/Massé (I)",
+    "maxScore": 3,
+    "instructions": "• You get 1 point for each successful shot (OB pocketed, no obstacle-ball contact) of 3 attempts. <br />\n  • You are allowed to scratch. <br />\n  • Remove one of the obstacle balls if attempting to curve rather than jump <br />",
+    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717817781/Screenshot_2024-06-07_at_11.36.11_PM_ojfhlc.png",
+    "type": "standard",
+    "skills": ["cueing", "potting"]
+  },
+  {
+    "name": "Break",
+    "maxScore": 5,
+    "instructions": "• Break three times and score each break, awarding 1 point for each of the following: <br />\n  a.) no scratch. <br />\n  b.) no scratch, and the CB not driven to a cushion. <br />\n  c.) no scratch, and the center of the CB remains within the center 4-diamond target zone\n  during the entire break. <br />\n  d.) no scratch and 1 or more balls pocketed. <br />\n  e.) no scratch and 3 or more OBs either pocketed and/or driven above the head string. <br />",
+    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717824006/Screenshot_2024-06-08_at_1.19.02_AM_pg8lpq.png",
+    "type": "attempt",
+    "attempts": 3,
+    "skills": ["break"]
+  },
+  {
+    "name": "Line of Balls (II)",
+    "maxScore": 7,
+    "instructions": "• Pocket the balls in rotation (i.e., in numerical order) in any pockets without scratching or\n  contacting any of the remaining balls. <br />\n  • If you disturb a ball while pocketing one, the one pocketed counts, but the run ends <br />\n  • Shoot the drill twice and use the higher score of the two attempts <br />",
+    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717527553/Screenshot_2024-06-04_at_2.59.04_PM_obzasb.png",
+    "type": "attempt",
+    "attempts": 2,
+    "skills": ["position", "cue ball control", "pattern play"]
+  },
+  {
+    "name": "Rail Cut Shot (II)",
+    "maxScore": 11,
+    "instructions": "• Do the drill twice, shooting the balls in any order, and use the higher score of the two attempts. <br />\n  • You are not allowed to scratch, shoot combinations, or disturb any of the remaining balls. <br />",
+    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717537849/Screenshot_2024-06-04_at_5.50.42_PM_oq3gra.png",
+    "type": "attempt",
+    "attempts": 2,
+    "skills": ["aim", "pattern play"]
+  },
+  {
+    "name": "9B Patterns (II)",
+    "maxScore": 12,
+    "instructions": "• Attempt and score all three layouts. Then add the two lowest scores.  <br />\n  • You receive 1 point for each ball pocketed legally (w/o scratching) under 9-ball “rotation” rules,\n  always hitting the lowest-numbered ball first.  <br />\n  • If the 9-ball is pocketed early (e.g., with a combo or carom shot), you must still pocket the\n  remaining balls in rotation.",
+    "image": [
+      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717613075/Screenshot_2024-06-05_at_2.44.26_PM_gjjn4f.png",
+      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717613315/Screenshot_2024-06-05_at_2.48.26_PM_yytvhp.png",
+      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717613346/Screenshot_2024-06-05_at_2.48.57_PM_dsbzkg.png"
+    ],
+    "type": "layout",
+    "layouts": 3,
+    "layoutMaxScore": 6,
+    "skills": ["potting", "pattern play"]
+  },
+  {
+    "name": "8 Pattern Drills (II)",
+    "maxScore": 12,
+    "instructions": "• Attempt and score all three layouts. Then add the two lowest scores<br />.\n  • Pocket the stripes in any order, then the 8, starting with ball in hand. <br />\n  • You receive 1 point for each ball pocketed legally (w/o scratching) before a miss<br />.\n  • You are allowed to contact the obstacle balls.  <br />",
+    "image": [
+      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717692844/Screenshot_2024-06-06_at_12.53.41_PM_sonhlf.png",
+      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717692876/Screenshot_2024-06-06_at_12.54.24_PM_z4ufay.png",
+      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717692905/Screenshot_2024-06-06_at_12.54.54_PM_sayqpe.png"
+    ],
+    "type": "layout",
+    "layouts": 3,
+    "layoutMaxScore": 6,
+    "skills": ["potting", "pattern play"]
+  },
+  {
+    "name": "Safety (II)",
+    "maxScore": 10,
+    "instructions": "• Take two attempts from each CB position, getting 1 point for each successful snooker, where\n  the OB is hidden from the CB with no direct path of contact between the balls. <br />\n  • The 1 ball may not be pocketed. <br />\n  • You are allowed to contact the balls in the obstacle cluster, but all of them must remain within\n  or overlapping the target.  <br />",
+    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717795677/Screenshot_2024-06-07_at_5.27.12_PM_zgrxdy.png",
+    "type": "standard",
+    "skills": ["cue ball control", "safety"]
+  },
+  {
+    "name": "Kick Shot (II)",
+    "maxScore": 5,
+    "instructions": "• Shots 1-4: Kick at each OB off the same long rail (as shown), with the CB in the same starting\n  position for each kick, getting 1 point for each successful and legal shot (i.e., no scratch, ball to\n  rail). <br />\n  • Shot 5: With CB in hand, kick off any two rails at the 5 ball.",
+    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717798483/Screenshot_2024-06-07_at_6.14.25_PM_nnf6bx.png",
+    "type": "standard",
+    "skills": ["kicking"]
+  },
+  {
+    "name": "Bank Shot (II)",
+    "maxScore": 5,
+    "instructions": "• With CB in hand for each shot, bank each ball cross side. <br />\n  • You receive 1 point for each bank pocketed legally (w/o scratching).",
+    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717803280/Screenshot_2024-06-07_at_7.34.25_PM_qcjbqx.png",
+    "type": "standard",
+    "skills": ["banking", "potting"]
+  },
+  {
+    "name": "Elevated Cue (II)",
+    "maxScore": 5,
+    "instructions": "• Pocket each OB from the indicated CB position without scratching.",
+    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717808084/Screenshot_2024-06-07_at_8.54.34_PM_sghsen.png",
+    "type": "standard",
+    "skills": ["cueing", "potting"]
+  },
+  {
+    "name": "Jump/Massé (II)",
+    "maxScore": 5,
+    "instructions": "• You get 1 point for each successful shot (OB pocketed, no obstacle-ball contact) of 3 attempts. <br />\n  • You are allowed to scratch. <br />\n  • Remove one of the obstacle balls if attempting to curve rather than jump <br />",
+    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717818010/Screenshot_2024-06-07_at_11.40.00_PM_uidmmy.png",
+    "type": "standard",
+    "skills": ["cueing", "potting"]
+  },
+  {
+    "name": "Break",
+    "maxScore": 5,
+    "instructions": "• Break three times and score each break, awarding 1 point for each of the following: <br />\n  a.) no scratch. <br />\n  b.) no scratch, and the CB not driven to a cushion. <br />\n  c.) no scratch, and the center of the CB remains within the center 4-diamond target zone\n  during the entire break. <br />\n  d.) no scratch and 1 or more balls pocketed. <br />\n  e.) no scratch and 3 or more OBs either pocketed and/or driven above the head string. <br />",
+    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717824006/Screenshot_2024-06-08_at_1.19.02_AM_pg8lpq.png",
+    "type": "attempt",
+    "attempts": 3,
+    "skills": ["break"]
+  },
+  {
+    "name": "Line of Balls (III)",
+    "maxScore": 10,
+    "instructions": "• Pocket the balls in rotation (i.e., in numerical order) in any pockets without scratching or\n  contacting any of the remaining balls. <br />\n  • If you disturb a ball while pocketing one, the one pocketed counts, but the run ends <br />\n  • Shoot the drill twice and use the higher score of the two attempts <br />",
+    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717527553/Screenshot_2024-06-04_at_2.59.04_PM_obzasb.png",
+    "type": "attempt",
+    "attempts": 2,
+    "skills": ["position", "cue ball control", "pattern play"]
+  },
+  {
+    "name": "Rail Cut Shot (III)",
+    "maxScore": 15,
+    "instructions": "• Do the drill twice, shooting the balls in any order, and use the higher score of the two attempts. <br />\n  • You are not allowed to scratch, shoot combinations, or disturb any of the remaining balls. <br />",
+    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717537849/Screenshot_2024-06-04_at_5.50.42_PM_oq3gra.png",
+    "type": "attempt",
+    "attempts": 2,
+    "skills": ["aim", "pattern play"]
+  },
+  {
+    "name": "9B Patterns (III)",
+    "maxScore": 14,
+    "instructions": "• Attempt and score all three layouts. Then add the two lowest scores.  <br />\n  • You receive 1 point for each ball pocketed legally (w/o scratching) under 9-ball “rotation” rules,\n  always hitting the lowest-numbered ball first.  <br />\n  • If the 9-ball is pocketed early (e.g., with a combo or carom shot), you must still pocket the\n  remaining balls in rotation.",
+    "image": [
+      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717619273/Screenshot_2024-06-05_at_4.27.43_PM_yx7o1e.png",
+      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717613384/Screenshot_2024-06-05_at_2.49.34_PM_ftntvg.png",
+      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717613447/Screenshot_2024-06-05_at_2.50.37_PM_g6t7tl.png"
+    ],
+    "type": "layout",
+    "layouts": 3,
+    "layoutMaxScore": 7,
+    "skills": ["potting", "pattern play"]
+  },
+  {
+    "name": "8 Pattern Drills (III)",
+    "maxScore": 14,
+    "instructions": "• Attempt and score all three layouts. Then add the two lowest scores<br />.\n  • Pocket the stripes in any order, then the 8, starting with ball in hand. <br />\n  • You receive 1 point for each ball pocketed legally (w/o scratching) before a miss<br />.\n  • You are allowed to contact the obstacle balls.  <br />",
+    "image": [
+      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717694909/Screenshot_2024-06-06_at_1.28.14_PM_t7vgtt.png",
+      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717695127/Screenshot_2024-06-06_at_1.31.49_PM_ibacab.png",
+      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717694942/Screenshot_2024-06-06_at_1.28.49_PM_d9gi3m.png"
+    ],
+    "type": "layout",
+    "layouts": 3,
+    "layoutMaxScore": 7,
+    "skills": ["potting", "pattern play"]
+  },
+  {
+    "name": "Safety (III)",
+    "maxScore": 14,
+    "instructions": "• Take two attempts from each CB position, getting 1 point for each successful snooker, where\n  the OB is hidden from the CB with no direct path of contact between the balls. <br />\n  • The 1 ball may not be pocketed. <br />\n  • You are allowed to contact the balls in the obstacle cluster, but all of them must remain within\n  or overlapping the target.  <br />",
+    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717796173/Screenshot_2024-06-07_at_5.36.08_PM_jtt0zq.png",
+    "type": "standard",
+    "skills": ["cue ball control", "safety"]
+  },
+  {
+    "name": "Kick Shot (III)",
+    "maxScore": 7,
+    "instructions": "• Shots 1-4: Kick at each OB off the same long rail (as shown), with the CB in the same starting\n  position for each kick, getting 1 point for each successful and legal shot (i.e., no scratch, ball to\n  rail). <br />\n  • Shots 5,6: With CB in hand on each shot, kick off any two rails at the 5 ball and the 6 ball. <br />\n  • Shot 7: With CB in hand, kick off any three rails at the 7 ball.",
+    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717798483/Screenshot_2024-06-07_at_6.14.25_PM_nnf6bx.png",
+    "type": "standard",
+    "skills": ["kicking"]
+  },
+  {
+    "name": "Bank Shot (III)",
+    "maxScore": 7,
+    "instructions": "• With CB in hand for each shot, bank each ball cross side. <br />\n  • You receive 1 point for each bank pocketed legally (w/o scratching).",
+    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717803360/Screenshot_2024-06-07_at_7.35.52_PM_uqpnq5.png",
+    "type": "standard",
+    "skills": ["banking", "potting"]
+  },
+  {
+    "name": "Elevated Cue (III)",
+    "maxScore": 7,
+    "instructions": "• Pocket each OB from the indicated CB position without scratching.",
+    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717808136/Screenshot_2024-06-07_at_8.55.26_PM_jwijyu.png",
+    "type": "standard",
+    "skills": ["cueing", "potting"]
+  },
+  {
+    "name": "Jump/Massé (III)",
+    "maxScore": 7,
+    "instructions": "• You get 1 point for each successful shot (OB pocketed, no obstacle-ball contact) of 3 attempts. <br />\n  • You are allowed to scratch. <br />\n  • Remove one of the obstacle balls if attempting to curve rather than jump <br />",
+    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717818147/Screenshot_2024-06-07_at_11.42.15_PM_lfhdac.png",
+    "type": "standard",
+    "skills": ["cueing", "potting"]
+  },
+  {
+    "name": "Break",
+    "maxScore": 5,
+    "instructions": "• Break three times and score each break, awarding 1 point for each of the following: <br />\n  a.) no scratch. <br />\n  b.) no scratch, and the CB not driven to a cushion. <br />\n  c.) no scratch, and the center of the CB remains within the center 4-diamond target zone\n  during the entire break. <br />\n  d.) no scratch and 1 or more balls pocketed. <br />\n  e.) no scratch and 3 or more OBs either pocketed and/or driven above the head string. <br />",
+    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717824006/Screenshot_2024-06-08_at_1.19.02_AM_pg8lpq.png",
+    "type": "attempt",
+    "attempts": 3,
+    "skills": ["break"]
+  }
+]
