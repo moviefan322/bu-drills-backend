@@ -85,25 +85,17 @@
     "name": "9B Patterns (I)",
     "maxScore": 10,
     "instructions": "• Attempt and score all three layouts. Then add the two lowest scores.  <br />\n  • You receive 1 point for each ball pocketed legally (w/o scratching) under 9-ball “rotation” rules,\n  always hitting the lowest-numbered ball first.  <br />\n  • If the 9-ball is pocketed early (e.g., with a combo or carom shot), you must still pocket the\n  remaining balls in rotation.",
-    "image": [
-      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717612727/Screenshot_2024-06-05_at_2.38.40_PM_zjocqi.png",
-      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717613150/Screenshot_2024-06-05_at_2.45.42_PM_amjh6m.png",
-      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717613264/Screenshot_2024-06-05_at_2.47.35_PM_txpzc6.png"
-    ],
+    "image": "",
     "type": "layout",
     "layouts": 3,
     "layoutMaxScore": 5,
     "skills": ["potting", "pattern play"]
   },
   {
-    "name": "8 Pattern Drills (I)",
+    "name": "Pattern 8 (I)",
     "maxScore": 10,
     "instructions": "• Attempt and score all three layouts. Then add the two lowest scores<br />.\n  • Pocket the stripes in any order, then the 8, starting with ball in hand. <br />\n  • You receive 1 point for each ball pocketed legally (w/o scratching) before a miss<br />.\n  • You are allowed to contact the obstacle balls.  <br />",
-    "image": [
-      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717692565/Screenshot_2024-06-06_at_12.48.14_PM_apspfq.png",
-      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717692559/Screenshot_2024-06-06_at_12.48.43_PM_rpl6lh.png",
-      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717692552/Screenshot_2024-06-06_at_12.48.56_PM_aazagy.png"
-    ],
+    "image": "",
     "type": "layout",
     "layouts": 3,
     "layoutMaxScore": 5,
@@ -180,25 +172,17 @@
     "name": "9B Patterns (II)",
     "maxScore": 12,
     "instructions": "• Attempt and score all three layouts. Then add the two lowest scores.  <br />\n  • You receive 1 point for each ball pocketed legally (w/o scratching) under 9-ball “rotation” rules,\n  always hitting the lowest-numbered ball first.  <br />\n  • If the 9-ball is pocketed early (e.g., with a combo or carom shot), you must still pocket the\n  remaining balls in rotation.",
-    "image": [
-      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717613075/Screenshot_2024-06-05_at_2.44.26_PM_gjjn4f.png",
-      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717613315/Screenshot_2024-06-05_at_2.48.26_PM_yytvhp.png",
-      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717613346/Screenshot_2024-06-05_at_2.48.57_PM_dsbzkg.png"
-    ],
+    "image": "",
     "type": "layout",
     "layouts": 3,
     "layoutMaxScore": 6,
     "skills": ["potting", "pattern play"]
   },
   {
-    "name": "8 Pattern Drills (II)",
+    "name": "Pattern 8 (II)",
     "maxScore": 12,
     "instructions": "• Attempt and score all three layouts. Then add the two lowest scores<br />.\n  • Pocket the stripes in any order, then the 8, starting with ball in hand. <br />\n  • You receive 1 point for each ball pocketed legally (w/o scratching) before a miss<br />.\n  • You are allowed to contact the obstacle balls.  <br />",
-    "image": [
-      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717692844/Screenshot_2024-06-06_at_12.53.41_PM_sonhlf.png",
-      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717692876/Screenshot_2024-06-06_at_12.54.24_PM_z4ufay.png",
-      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717692905/Screenshot_2024-06-06_at_12.54.54_PM_sayqpe.png"
-    ],
+    "image": "",
     "type": "layout",
     "layouts": 3,
     "layoutMaxScore": 6,
@@ -266,25 +250,17 @@
     "name": "9B Patterns (III)",
     "maxScore": 14,
     "instructions": "• Attempt and score all three layouts. Then add the two lowest scores.  <br />\n  • You receive 1 point for each ball pocketed legally (w/o scratching) under 9-ball “rotation” rules,\n  always hitting the lowest-numbered ball first.  <br />\n  • If the 9-ball is pocketed early (e.g., with a combo or carom shot), you must still pocket the\n  remaining balls in rotation.",
-    "image": [
-      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717619273/Screenshot_2024-06-05_at_4.27.43_PM_yx7o1e.png",
-      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717613384/Screenshot_2024-06-05_at_2.49.34_PM_ftntvg.png",
-      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717613447/Screenshot_2024-06-05_at_2.50.37_PM_g6t7tl.png"
-    ],
+    "image": "",
     "type": "layout",
     "layouts": 3,
     "layoutMaxScore": 7,
     "skills": ["potting", "pattern play"]
   },
   {
-    "name": "8 Pattern Drills (III)",
+    "name": "Pattern 8 (III)",
     "maxScore": 14,
     "instructions": "• Attempt and score all three layouts. Then add the two lowest scores<br />.\n  • Pocket the stripes in any order, then the 8, starting with ball in hand. <br />\n  • You receive 1 point for each ball pocketed legally (w/o scratching) before a miss<br />.\n  • You are allowed to contact the obstacle balls.  <br />",
-    "image": [
-      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717694909/Screenshot_2024-06-06_at_1.28.14_PM_t7vgtt.png",
-      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717695127/Screenshot_2024-06-06_at_1.31.49_PM_ibacab.png",
-      "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717694942/Screenshot_2024-06-06_at_1.28.49_PM_d9gi3m.png"
-    ],
+    "image": "",
     "type": "layout",
     "layouts": 3,
     "layoutMaxScore": 7,

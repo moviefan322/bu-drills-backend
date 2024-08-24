@@ -2994,7 +2994,7 @@
     },
     {
       "drillId": 20,
-      "drillName": "8 Pattern Drills (I)",
+      "drillName": "Pattern 8 (I)",
       "drillType": "layout",
       "ballPositionProps": [
         [
@@ -3160,7 +3160,7 @@
     },
     {
       "drillId": 21,
-      "drillName": "8 Pattern Drills (II)",
+      "drillName": "Pattern 8 (II)",
       "drillType": "layout",
       "ballPositionProps": [
         [
@@ -3331,7 +3331,7 @@
     },
     {
       "drillId": 22,
-      "drillName": "8 Pattern Drills (III)",
+      "drillName": "Pattern 8 (III)",
       "drillType": "layout",
       "ballPositionProps": [
         [

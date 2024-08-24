@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 from django.core.management.base import BaseCommand
 from core.models import Drill
 
@@ -35,3 +36,4 @@ class Command(BaseCommand):
             except Exception as e:
                 print(f"Error saving drill: {drill['name']}")
                 print(f"Exception: {e}")
+                sys.exit(1)
