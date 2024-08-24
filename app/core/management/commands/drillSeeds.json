@@ -245,15 +245,6 @@
     "skills": ["cueing", "potting"]
   },
   {
-    "name": "Break",
-    "maxScore": 5,
-    "instructions": "• Break three times and score each break, awarding 1 point for each of the following: <br />\n  a.) no scratch. <br />\n  b.) no scratch, and the CB not driven to a cushion. <br />\n  c.) no scratch, and the center of the CB remains within the center 4-diamond target zone\n  during the entire break. <br />\n  d.) no scratch and 1 or more balls pocketed. <br />\n  e.) no scratch and 3 or more OBs either pocketed and/or driven above the head string. <br />",
-    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717824006/Screenshot_2024-06-08_at_1.19.02_AM_pg8lpq.png",
-    "type": "attempt",
-    "attempts": 3,
-    "skills": ["break"]
-  },
-  {
     "name": "Line of Balls (III)",
     "maxScore": 10,
     "instructions": "• Pocket the balls in rotation (i.e., in numerical order) in any pockets without scratching or\n  contacting any of the remaining balls. <br />\n  • If you disturb a ball while pocketing one, the one pocketed counts, but the run ends <br />\n  • Shoot the drill twice and use the higher score of the two attempts <br />",
@@ -338,14 +329,5 @@
     "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717818147/Screenshot_2024-06-07_at_11.42.15_PM_lfhdac.png",
     "type": "standard",
     "skills": ["cueing", "potting"]
-  },
-  {
-    "name": "Break",
-    "maxScore": 5,
-    "instructions": "• Break three times and score each break, awarding 1 point for each of the following: <br />\n  a.) no scratch. <br />\n  b.) no scratch, and the CB not driven to a cushion. <br />\n  c.) no scratch, and the center of the CB remains within the center 4-diamond target zone\n  during the entire break. <br />\n  d.) no scratch and 1 or more balls pocketed. <br />\n  e.) no scratch and 3 or more OBs either pocketed and/or driven above the head string. <br />",
-    "image": "https://res.cloudinary.com/dnc2xvyms/image/upload/v1717824006/Screenshot_2024-06-08_at_1.19.02_AM_pg8lpq.png",
-    "type": "attempt",
-    "attempts": 3,
-    "skills": ["break"]
   }
 ]
