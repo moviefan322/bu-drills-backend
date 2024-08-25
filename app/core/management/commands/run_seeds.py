@@ -1,6 +1,5 @@
 from django.core.management.base import BaseCommand
 from django.core.management import call_command
-from core.models import Drill, DrillScore
 
 
 class Command(BaseCommand):
@@ -13,6 +12,3 @@ class Command(BaseCommand):
         call_command('seed_drills')
         call_command('seed_tableSetups')
         print("Seeded Drills and TableSetups")
-
-
-        
