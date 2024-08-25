@@ -29,6 +29,9 @@ class Command(BaseCommand):
                     image=drill['image'],
                     type=drill['type'],
                     skills=drill['skills'],
+                    layoutMaxScore=drill.get('layoutMaxScore', None),
+                    attempts=drill.get('attempts', None),
+                    layouts=drill.get('layouts', None),
                 )
             except Exception as e:
                 print(f"Error saving drill: {drill['name']}")

@@ -131,13 +131,16 @@
       {
         "draw": false,
         "rails": 0,
-        "objectBall": null
+        "objectBall": 0
       }
     ],
     "bankShotLineProp": {
       "draw": false,
-      "objectBall": null,
-      "pocket": null
+      "objectBall": 0,
+      "pocket": {
+        "x": 8,
+        "y": 0
+      }
     }
   },
   {
@@ -272,13 +275,16 @@
       {
         "draw": false,
         "rails": 0,
-        "objectBall": null
+        "objectBall": 0
       }
     ],
     "bankShotLineProp": {
       "draw": false,
-      "objectBall": null,
-      "pocket": null
+      "objectBall": 0,
+      "pocket": {
+        "x": 8,
+        "y": 0
+      }
     }
   },
   {
@@ -413,13 +419,16 @@
       {
         "draw": false,
         "rails": 0,
-        "objectBall": null
+        "objectBall": 0
       }
     ],
     "bankShotLineProp": {
       "draw": false,
-      "objectBall": null,
-      "pocket": null
+      "objectBall": 0,
+      "pocket": {
+        "x": 8,
+        "y": 0
+      }
     }
   },
   {
@@ -554,13 +563,16 @@
       {
         "draw": false,
         "rails": 0,
-        "objectBall": null
+        "objectBall": 0
       }
     ],
     "bankShotLineProp": {
       "draw": false,
-      "objectBall": null,
-      "pocket": null
+      "objectBall": 0,
+      "pocket": {
+        "x": 8,
+        "y": 0
+      }
     }
   },
   {
@@ -659,13 +671,16 @@
       {
         "draw": false,
         "rails": 0,
-        "objectBall": null
+        "objectBall": 0
       }
     ],
     "bankShotLineProp": {
       "draw": false,
-      "objectBall": null,
-      "pocket": null
+      "objectBall": 0,
+      "pocket": {
+        "x": 8,
+        "y": 0
+      }
     }
   },
   {
@@ -869,13 +884,16 @@
       {
         "draw": false,
         "rails": 0,
-        "objectBall": null
+        "objectBall": 0
       }
     ],
     "bankShotLineProp": {
       "draw": false,
-      "objectBall": null,
-      "pocket": null
+      "objectBall": 0,
+      "pocket": {
+        "x": 8,
+        "y": 0
+      }
     }
   },
   {
@@ -1799,13 +1817,16 @@
       {
         "draw": false,
         "rails": 0,
-        "objectBall": null
+        "objectBall": 0
       }
     ],
     "bankShotLineProp": {
       "draw": false,
-      "objectBall": null,
-      "pocket": null
+      "objectBall": 0,
+      "pocket": {
+        "x": 8,
+        "y": 0
+      }
     }
   },
   {
@@ -2008,13 +2029,16 @@
       {
         "draw": false,
         "rails": 0,
-        "objectBall": null
+        "objectBall": 0
       }
     ],
     "bankShotLineProp": {
       "draw": false,
-      "objectBall": null,
-      "pocket": null
+      "objectBall": 0,
+      "pocket": {
+        "x": 8,
+        "y": 0
+      }
     }
   },
   {
@@ -2075,13 +2099,16 @@
       {
         "draw": false,
         "rails": 0,
-        "objectBall": null
+        "objectBall": 0
       }
     ],
     "bankShotLineProp": {
       "draw": false,
-      "objectBall": null,
-      "pocket": null
+      "objectBall": 0,
+      "pocket": {
+        "x": 8,
+        "y": 0
+      }
     }
   },
   {
@@ -2157,13 +2184,16 @@
       {
         "draw": false,
         "rails": 0,
-        "objectBall": null
+        "objectBall": 0
       }
     ],
     "bankShotLineProp": {
       "draw": false,
-      "objectBall": null,
-      "pocket": null
+      "objectBall": 0,
+      "pocket": {
+        "x": 8,
+        "y": 0
+      }
     }
   },
   {
@@ -2254,13 +2284,16 @@
       {
         "draw": false,
         "rails": 0,
-        "objectBall": null
+        "objectBall": 0
       }
     ],
     "bankShotLineProp": {
       "draw": false,
-      "objectBall": null,
-      "pocket": null
+      "objectBall": 0,
+      "pocket": {
+        "x": 8,
+        "y": 0
+      }
     }
   },
   {
@@ -2336,13 +2369,16 @@
       {
         "draw": false,
         "rails": 0,
-        "objectBall": null
+        "objectBall": 0
       }
     ],
     "bankShotLineProp": {
       "draw": false,
-      "objectBall": null,
-      "pocket": null
+      "objectBall": 0,
+      "pocket": {
+        "x": 8,
+        "y": 0
+      }
     }
   },
   {
@@ -2438,13 +2474,16 @@
       {
         "draw": false,
         "rails": 0,
-        "objectBall": null
+        "objectBall": 0
       }
     ],
     "bankShotLineProp": {
       "draw": false,
-      "objectBall": null,
-      "pocket": null
+      "objectBall": 0,
+      "pocket": {
+        "x": 8,
+        "y": 0
+      }
     }
   },
   {
@@ -2560,13 +2599,16 @@
       {
         "draw": false,
         "rails": 0,
-        "objectBall": null
+        "objectBall": 0
       }
     ],
     "bankShotLineProp": {
       "draw": false,
-      "objectBall": null,
-      "pocket": null
+      "objectBall": 0,
+      "pocket": {
+        "x": 8,
+        "y": 0
+      }
     }
   },
   {
@@ -2686,13 +2728,16 @@
       {
         "draw": false,
         "rails": 0,
-        "objectBall": null
+        "objectBall": 0
       }
     ],
     "bankShotLineProp": {
       "draw": false,
-      "objectBall": null,
-      "pocket": null
+      "objectBall": 0,
+      "pocket": {
+        "x": 8,
+        "y": 0
+      }
     }
   },
   {
@@ -2827,13 +2872,16 @@
       {
         "draw": false,
         "rails": 0,
-        "objectBall": null
+        "objectBall": 0
       }
     ],
     "bankShotLineProp": {
       "draw": false,
-      "objectBall": null,
-      "pocket": null
+      "objectBall": 0,
+      "pocket": {
+        "x": 8,
+        "y": 0
+      }
     }
   },
   {
@@ -2983,13 +3031,16 @@
       {
         "draw": false,
         "rails": 0,
-        "objectBall": null
+        "objectBall": 0
       }
     ],
     "bankShotLineProp": {
       "draw": false,
-      "objectBall": null,
-      "pocket": null
+      "objectBall": 0,
+      "pocket": {
+        "x": 8,
+        "y": 0
+      }
     }
   },
   {
@@ -3149,13 +3200,16 @@
       {
         "draw": false,
         "rails": 0,
-        "objectBall": null
+        "objectBall": 0
       }
     ],
     "bankShotLineProp": {
       "draw": false,
-      "objectBall": null,
-      "pocket": null
+      "objectBall": 0,
+      "pocket": {
+        "x": 8,
+        "y": 0
+      }
     }
   },
   {
@@ -3320,13 +3374,16 @@
       {
         "draw": false,
         "rails": 0,
-        "objectBall": null
+        "objectBall": 0
       }
     ],
     "bankShotLineProp": {
       "draw": false,
-      "objectBall": null,
-      "pocket": null
+      "objectBall": 0,
+      "pocket": {
+        "x": 8,
+        "y": 0
+      }
     }
   },
   {
@@ -3516,13 +3573,16 @@
       {
         "draw": false,
         "rails": 0,
-        "objectBall": null
+        "objectBall": 0
       }
     ],
     "bankShotLineProp": {
       "draw": false,
-      "objectBall": null,
-      "pocket": null
+      "objectBall": 0,
+      "pocket": {
+        "x": 8,
+        "y": 0
+      }
     }
   },
   {
@@ -3903,13 +3963,16 @@
       {
         "draw": false,
         "rails": 0,
-        "objectBall": null
+        "objectBall": 0
       }
     ],
     "bankShotLineProp": {
       "draw": false,
-      "objectBall": null,
-      "pocket": null
+      "objectBall": 0,
+      "pocket": {
+        "x": 8,
+        "y": 0
+      }
     }
   },
   {
@@ -4518,13 +4581,16 @@
       {
         "draw": false,
         "rails": 0,
-        "objectBall": null
+        "objectBall": 0
       }
     ],
     "bankShotLineProp": {
       "draw": false,
-      "objectBall": null,
-      "pocket": null
+      "objectBall": 0,
+      "pocket": {
+        "x": 8,
+        "y": 0
+      }
     }
   },
   {
@@ -5361,13 +5427,16 @@
       {
         "draw": false,
         "rails": 0,
-        "objectBall": null
+        "objectBall": 0
       }
     ],
     "bankShotLineProp": {
       "draw": false,
-      "objectBall": null,
-      "pocket": null
+      "objectBall": 0,
+      "pocket": {
+        "x": 8,
+        "y": 0
+      }
     }
   },
   {
@@ -5525,8 +5594,11 @@
     ],
     "bankShotLineProp": {
       "draw": false,
-      "objectBall": null,
-      "pocket": null
+      "objectBall": 0,
+      "pocket": {
+        "x": 8,
+        "y": 0
+      }
     }
   },
   {
@@ -5684,8 +5756,11 @@
     ],
     "bankShotLineProp": {
       "draw": false,
-      "objectBall": null,
-      "pocket": null
+      "objectBall": 0,
+      "pocket": {
+        "x": 8,
+        "y": 0
+      }
     }
   },
   {
@@ -5843,8 +5918,11 @@
     ],
     "bankShotLineProp": {
       "draw": false,
-      "objectBall": null,
-      "pocket": null
+      "objectBall": 0,
+      "pocket": {
+        "x": 8,
+        "y": 0
+      }
     }
   },
   {

@@ -25,20 +25,75 @@ class Command(BaseCommand):
                 drill = Drill.objects.get(name=drill_name)
                 print(f"Found drill with name: {drill_name}")
                 print(f"Drill ID: {drill.id}")
-                drill_name = drill.name
+
+                # Check for optional fields and provide placeholders if missing
+                ball_position_props = setup.get(
+                    'ballPositionProps',
+                    {
+                        'number': 0,
+                        'x': 4,
+                        'y': 1
+                    }
+                )
+                potting_pocket_prop = setup.get(
+                    'pottingPocketProp',
+                    {
+                        "show": False,
+                        'x': 8,
+                        'y': 4
+                    }
+                )
+                target_specs = setup.get(
+                    'targetSpecs',
+                    {
+                        'isTarget': False,
+                        'x': 7.5,
+                        'y': 0.5,
+                        'rotate': False,
+                        'w': 0.65,
+                        'h': 0.8
+                    }
+                )
+                leave_line_prop = setup.get(
+                    'leaveLineProp',
+                    {
+                        'draw': False,
+                        'x': 0,
+                        'y': 0
+                    }
+                )
+                kick_shot_line_prop = setup.get(
+                    'kickShotLineProp',
+                    {
+                        'draw': False,
+                        'rails': 0,
+                        'objectBall': 0,
+                    }
+                )
+                bank_shot_line_prop = setup.get(
+                    'bankShotLineProp',
+                    {
+                        'draw': False,
+                        'objectBall': 0,
+                        'pocket': {
+                            'x': 8,
+                            'y': 0
+                        }
+                    }
+                )
 
                 # Create the TableSetup object with the corresponding drill_id
                 TableSetup.objects.create(
                     drill=drill,
                     drillName=drill.name,
-                    ballPositionProps=setup['ballPositionProps'],
-                    pottingPocketProp=setup['pottingPocketProp'],
-                    startIndex=setup['startIndex'],
-                    showShotLine=setup['showShotLine'],
-                    targetSpecs=setup['targetSpecs'],
-                    leaveLineProp=setup['leaveLineProp'],
-                    kickShotLineProp=setup['kickShotLineProp'],
-                    bankShotLineProp=setup['bankShotLineProp'],
+                    ballPositionProps=ball_position_props,
+                    pottingPocketProp=potting_pocket_prop,
+                    startIndex=setup.get('startIndex', 0),
+                    showShotLine=setup.get('showShotLine', False),
+                    targetSpecs=target_specs,
+                    leaveLineProp=leave_line_prop,
+                    kickShotLineProp=kick_shot_line_prop,
+                    bankShotLineProp=bank_shot_line_prop,
                 )
             except Drill.DoesNotExist:
                 print(f"Drill with name '{drill_name}' does not exist.")
