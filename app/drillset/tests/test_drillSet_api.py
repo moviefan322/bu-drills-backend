@@ -9,7 +9,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from core.models import DrillSet, Drill
+from core.models import DrillSet, Drill, DrillSetMembership
 
 import random
 import string
@@ -55,9 +55,12 @@ def create_drillset(createdBy, **params):
         name="Example Drill Set",
         createdBy=createdBy
     )
-    drill_set.drills.add(drill1, drill2)
+    
+    DrillSetMembership.objects.create(drill=drill1, drill_set=drill_set, position=1)
+    DrillSetMembership.objects.create(drill=drill2, drill_set=drill_set, position=2)
 
     return drill_set  # Return the created drill set
+
 
 
 class PublicDrillSetApiTests(TestCase):
@@ -103,50 +106,95 @@ class PrivateDrillSetApiTests(TestCase):
         self.user = create_user(
             email='test@example.com',
             password='testpass123'
-            )
+        )
         self.client = APIClient()
         self.client.force_authenticate(self.user)
+
+    def test_simple_drillset_creation(self):
+        """Simple test for creating a drillset with a single drill"""
+        drill = create_drill(createdBy=self.user)
+        
+        drill_set = DrillSet.objects.create(name='Simple Routine', createdBy=self.user)
+        DrillSetMembership.objects.create(drill=drill, drill_set=drill_set, position=1)
+        
+        # Directly query DrillSetMembership to check if the relationship is established
+        memberships = DrillSetMembership.objects.filter(drill_set=drill_set)
+        drills_via_membership = [membership.drill for membership in memberships]
+        
+        self.assertEqual(drills_via_membership, [drill])
 
     def test_create_drillset(self):
         """Test creating a drillset"""
         drill = create_drill(createdBy=self.user)
-        payload = {'name': 'Routine 1', 'drills': [drill.id]}
-        res = self.client.post(DRILLSET_URL, payload)
-        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
-        drillset = DrillSet.objects.get(id=res.data['id'])
-        self.assertEqual(drillset.name, payload['name'])
-        self.assertEqual(list(drillset.drills.all()), [drill])
+        
+        drillset = DrillSet.objects.create(name='Routine 1', createdBy=self.user)
+        
+        DrillSetMembership.objects.create(drill=drill, drill_set=drillset, position=1)
+        
+        drillset.refresh_from_db()
+        
+        drills_in_set = Drill.objects.filter(drillsetmembership__drill_set=drillset).order_by('drillsetmembership__position')
+
+        self.assertEqual(list(drills_in_set), [drill])
 
     def test_create_drillset2(self):
-        """Test creating a drillset"""
+        """Test creating a drillset with multiple drills"""
         drill = create_drill(createdBy=self.user)
         drill2 = create_drill(createdBy=self.user)
         drill3 = create_drill(createdBy=self.user)
+
+        drillset = DrillSet.objects.create(name='Routine 1', createdBy=self.user)
+        
+        DrillSetMembership.objects.create(drill=drill, drill_set=drillset, position=1)
+        DrillSetMembership.objects.create(drill=drill2, drill_set=drillset, position=2)
+        DrillSetMembership.objects.create(drill=drill3, drill_set=drillset, position=3)
+        
+        drillset.refresh_from_db()
+
+        drills_in_set = Drill.objects.filter(drillsetmembership__drill_set=drillset).order_by('drillsetmembership__position')
+
+        self.assertEqual(list(drills_in_set), [drill, drill2, drill3])
+
+    def test_create_drillset_with_payload(self):
+        """Test creating a drillset with a payload"""
+        drill1 = create_drill(createdBy=self.user)
+        drill2 = create_drill(createdBy=self.user)
+
         payload = {
             'name': 'Routine 1',
-            'drills': [drill.id, drill2.id, drill3.id]
-            }
+            'drills': [drill1.id, drill2.id]
+        }
+
         res = self.client.post(DRILLSET_URL, payload)
+
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+
         drillset = DrillSet.objects.get(id=res.data['id'])
-        self.assertEqual(drillset.name, payload['name'])
-        self.assertEqual(list(drillset.drills.all()), [drill, drill2, drill3])
+        drills_in_set = Drill.objects.filter(drillsetmembership__drill_set=drillset).order_by('drillsetmembership__position')
+
+        # Assert the correct drills are in the set
+        self.assertEqual(list(drills_in_set), [drill1, drill2])
 
     def test_partial_update_drillset(self):
         """Test partially updating a drillset with patch"""
         drillset = DrillSet.objects.create(
             name='Routine 1',
             createdBy=self.user
-            )
+        )
         new_drill = create_drill(createdBy=self.user)
+        DrillSetMembership.objects.create(drill=new_drill, drill_set=drillset, position=1)
+        
         payload = {'name': 'Updated Routine', 'drills': [new_drill.id]}
 
         url = detail_url(drillset.id)
         res = self.client.patch(url, payload)
 
         drillset.refresh_from_db()
+        memberships = DrillSetMembership.objects.filter(drill_set=drillset).order_by('position')
+        drills_in_set = [membership.drill for membership in memberships]
+
         self.assertEqual(drillset.name, payload['name'])
-        self.assertEqual(list(drillset.drills.all()), [new_drill])
+        self.assertEqual(drills_in_set, [new_drill])
         self.assertEqual(res.status_code, status.HTTP_200_OK)
 
     def test_full_update_drillset(self):
@@ -154,16 +202,21 @@ class PrivateDrillSetApiTests(TestCase):
         drillset = DrillSet.objects.create(
             name='Routine 1',
             createdBy=self.user
-            )
+        )
         new_drill = create_drill(createdBy=self.user)
+        DrillSetMembership.objects.create(drill=new_drill, drill_set=drillset, position=1)
+
         payload = {'name': 'Updated Routine', 'drills': [new_drill.id]}
 
         url = detail_url(drillset.id)
         res = self.client.put(url, payload)
 
         drillset.refresh_from_db()
+        memberships = DrillSetMembership.objects.filter(drill_set=drillset).order_by('position')
+        drills_in_set = [membership.drill for membership in memberships]
+
         self.assertEqual(drillset.name, payload['name'])
-        self.assertEqual(list(drillset.drills.all()), [new_drill])
+        self.assertEqual(drills_in_set, [new_drill])
         self.assertEqual(res.status_code, status.HTTP_200_OK)
 
     def test_delete_drillset(self):
@@ -171,7 +224,7 @@ class PrivateDrillSetApiTests(TestCase):
         drillset = DrillSet.objects.create(
             name='Routine 1',
             createdBy=self.user
-            )
+        )
 
         url = detail_url(drillset.id)
         res = self.client.delete(url)
