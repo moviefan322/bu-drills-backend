@@ -8,7 +8,7 @@ from rest_framework.permissions import (
     AllowAny
 )
 
-from core.models import DrillSet
+from core.models import DrillSet, DrillSetMembership
 from drillset import serializers
 
 
@@ -22,6 +22,9 @@ class DrillSetViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         """Return all objects"""
         return self.queryset.order_by('-id')
+
+    def get_serializer_class(self):
+        return serializers.DrillSetSerializer
 
     def get_permissions(self):
         """Customize permissions based on action."""
@@ -45,4 +48,18 @@ class DrillSetViewSet(viewsets.ModelViewSet):
         """Retrieve drillsets by user"""
         drillsets = self.queryset.filter(createdBy=user_id)
         serializer = self.get_serializer(drillsets, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, *args, **kwargs):
+        """Retrieve a drillset and include ordered drills"""
+        drill_set = self.get_object()
+
+        # Get the ordered drills using DrillSetMembership
+        ordered_drills = DrillSetMembership.objects.filter(
+            drill_set=drill_set
+        ).order_by('position')
+
+        # Pass the ordered drills to the serializer context
+        serializer = self.get_serializer(
+            drill_set, context={'ordered_drills': ordered_drills})
         return Response(serializer.data)

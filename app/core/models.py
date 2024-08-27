@@ -151,6 +151,15 @@ class DrillSet(models.Model):
         return self.name
 
 
+class DrillSetMembership(models.Model):
+    drill = models.ForeignKey(Drill, on_delete=models.CASCADE)
+    drill_set = models.ForeignKey(DrillSet, on_delete=models.CASCADE)
+    position = models.PositiveIntegerField()
+
+    class Meta:
+        ordering = ['position']
+
+
 class DrillSetScore(models.Model):
     """DrillSetScore object representing the scores for a drill set"""
     drill_set = models.ForeignKey(
