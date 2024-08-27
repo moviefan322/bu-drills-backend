@@ -1,0 +1,64 @@
+[
+  {
+    "name": "Fundamentals",
+    "drills": [
+      "Cut Shot",
+      "Follow Shot",
+      "Stop Shot",
+      "Draw Shot",
+      "Stun Shot",
+      "Ball Pocketing",
+      "Wagon Wheel",
+      "Landing Zone"
+    ],
+    "user": 1
+  },
+  {
+    "name": "Skills I",
+    "drills": [
+      "Line of Balls (I)",
+      "Rail Cut Shot (I)",
+      "9B Patterns (I)'",
+      "8 Pattern Drills (I)",
+      "Safety (I)",
+      "Kick Shot (I)",
+      "Bank Shot (I)",
+      "Elevated Cue (I)",
+      "Jump/Massé (I)",
+      "Break"
+    ],
+    "user": 1
+  },
+  {
+    "name": "Skills II",
+    "drills": [
+      "Line of Balls (II)",
+      "Rail Cut Shot (II)",
+      "9B Patterns (II)'",
+      "8 Pattern Drills (II)",
+      "Safety (II)",
+      "Kick Shot (II)",
+      "Bank Shot (II)",
+      "Elevated Cue (II)",
+      "Jump/Massé (II)",
+      "Break"
+    ],
+    "user": 1
+  },
+  {
+    "name": "Skills III",
+    "drills": [
+      "Line of Balls (III)",
+      "Rail Cut Shot (III)",
+      "9B Patterns (III)'",
+      "8 Pattern Drills (III)",
+      "Safety (III)",
+      "Kick Shot (III)",
+      "Bank Shot (III)",
+      "Elevated Cue (III)",
+      "Jump/Massé (III)",
+      "Break"
+    ],
+    "user": 1
+  }
+]
