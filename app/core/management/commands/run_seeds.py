@@ -11,4 +11,5 @@ class Command(BaseCommand):
         call_command('clear_db')
         call_command('seed_drills')
         call_command('seed_tableSetups')
+        call_command('seed_drill_sets')
         print("Seeded Drills and TableSetups")

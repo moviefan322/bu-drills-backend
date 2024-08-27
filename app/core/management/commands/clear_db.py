@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from core.models import Drill, TableSetup
+from core.models import Drill, TableSetup, DrillSet
 
 
 class Command(BaseCommand):
@@ -9,4 +9,5 @@ class Command(BaseCommand):
         # Clear Drills and TableSetups
         Drill.objects.all().delete()
         TableSetup.objects.all().delete()
+        DrillSet.objects.all().delete()
         print("Cleared Drills and TableSetups")
