@@ -20,8 +20,8 @@ def get_default_user():
         # Create a default user with ID 1 if it doesn't exist
         return User.objects.create(
             pk=1,
-            email='default@example.com',
-            password='defaultpass'
+            email='admin@admin.com',
+            password='admin'
         )
 
 
@@ -84,7 +84,7 @@ class Drill(models.Model):
         LAYOUT = 'layout', 'Layout'
         ATTEMPT = 'attempt', 'Attempt'
 
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     maxScore = models.IntegerField()
     instructions = models.TextField()
     image = models.CharField(max_length=255, blank=True, default='')
@@ -98,7 +98,7 @@ class Drill(models.Model):
         related_name='drill_table_setup',
         on_delete=models.SET_NULL,
         null=True, blank=True
-        )
+    )
     createdAt = models.DateTimeField(auto_now_add=True)
     createdBy = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -116,6 +116,7 @@ class TableSetup(models.Model):
 
     drill = models.ForeignKey(
         Drill, related_name='table_setups', on_delete=models.CASCADE)
+    drillName = models.CharField(max_length=255)
     ballPositionProps = models.JSONField(blank=True, null=True)
     pottingPocketProp = models.JSONField(blank=True, null=True)
     targetSpecs = models.JSONField(blank=True, null=True)
@@ -142,7 +143,8 @@ class DrillSet(models.Model):
     createdBy = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='drill_sets'
+        related_name='drill_sets',
+        default=get_default_user
     )
 
     def __str__(self):
