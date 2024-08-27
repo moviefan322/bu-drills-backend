@@ -11,6 +11,9 @@ from rest_framework.test import APIClient
 
 from core.models import DrillSet, Drill
 
+import random
+import string
+
 from drillset.serializers import DrillSetSerializer
 
 DRILLSET_URL = reverse('drillset:drillset-list')
@@ -26,10 +29,14 @@ def create_user(**params):
     return get_user_model().objects.create_user(**params)
 
 
+def random_string(length=5):
+    return ''.join(random.choices(string.ascii_lowercase, k=length))
+    
+
 def create_drill(createdBy, **params):
     """Create and return a sample drill"""
     defaults = {
-        'name': 'Drill 1',
+        'name': random_string(),
         'maxScore': 10,
         'instructions': 'Test instructions',
         'type': 'standard',

@@ -14,6 +14,7 @@ from core.models import DrillSet, Drill, DrillSetScore, DrillScore
 from drillsetScore.serializers import DrillSetScoreSerializer
 
 import random
+import string
 
 
 DRILLSETSCORE_URL = reverse('drillsetScore:drillsetscore-list')
@@ -33,10 +34,14 @@ def create_user(**params):
     return get_user_model().objects.create_user(email=unique_email, **params)
 
 
+def random_string(length=5):
+    return ''.join(random.choices(string.ascii_lowercase, k=length))
+
+
 def create_drill(createdBy, **params):
     """Create and return a sample drill"""
     defaults = {
-        'name': 'Drill 1',
+        'name': random_string(),
         'maxScore': 10,
         'instructions': 'Test instructions',
         'type': 'standard',

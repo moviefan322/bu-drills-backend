@@ -8,6 +8,9 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 
+import random
+import string
+
 from core.models import DrillScore, Drill
 
 from drillScore.serializers import (
@@ -23,11 +26,15 @@ def detail_url(drillScoreId):
     return reverse('drillScore:drillscore-detail', args=[drillScoreId])
 
 
+def random_string(length=5):
+    return ''.join(random.choices(string.ascii_lowercase, k=length))
+
+
 def create_drill_score(user, drill=None, **params):
     """Create and return a sample drillScore"""
     if drill is None:
         drill = Drill.objects.create(
-            name='Sample Drill',
+            name=random_string(),
             maxScore=10,
             instructions='Sample instructions',
             type='standard'
