@@ -31,7 +31,7 @@ def create_user(**params):
 
 def random_string(length=5):
     return ''.join(random.choices(string.ascii_lowercase, k=length))
-    
+
 
 def create_drill(createdBy, **params):
     """Create and return a sample drill"""
