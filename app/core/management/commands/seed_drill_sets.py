@@ -7,6 +7,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+
 class Command(BaseCommand):
     help = "Seed the database with drill set data"
 

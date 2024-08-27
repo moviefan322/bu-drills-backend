@@ -26,7 +26,8 @@ class DrillSetSerializer(serializers.ModelSerializer):
 
     def get_drill_details(self, obj):
         # Return the detailed drill information
-        memberships = DrillSetMembership.objects.filter(drill_set=obj).order_by('position')
+        memberships = DrillSetMembership.objects.filter(
+            drill_set=obj).order_by('position')
         drills = [membership.drill for membership in memberships]
         return DrillSerializer(drills, many=True).data
 
