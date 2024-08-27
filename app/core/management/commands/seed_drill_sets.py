@@ -37,7 +37,8 @@ class Command(BaseCommand):
 
             if not drill_objects:
                 print(
-                    f"No valid drills found for drill set: {drill_set['name']}")
+                    f"No valid drills found for drill set: \
+                        {drill_set['name']}")
                 continue
 
             # Create the DrillSet and add drills to it
