@@ -4,13 +4,18 @@ Tests for models.
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 
+import random
+import string
+
 from core import models
 
 
 def create_drill(createdBy, **params):
     """Create and return a sample drill"""
+    def random_string(length=5):
+        return ''.join(random.choices(string.ascii_lowercase, k=length))
     defaults = {
-        'name': 'Sample Drill',
+        'name': random_string(),
         'maxScore': 10,
         'instructions': 'Test instructions',
         'type': 'standard',
