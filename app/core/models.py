@@ -71,6 +71,7 @@ class DrillScore(models.Model):
     )
     score = models.IntegerField()
     maxScore = models.IntegerField()
+    isSet = models.BooleanField(default=False)
     createdAt = models.DateTimeField(auto_now_add=True)
 
 
