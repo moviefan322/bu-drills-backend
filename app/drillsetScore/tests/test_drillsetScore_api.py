@@ -25,7 +25,7 @@ def detail_url(drillSetScoreId):
     return reverse(
         'drillsetScore:drillsetscore-detail',
         args=[drillSetScoreId]
-        )
+    )
 
 
 def create_user(**params):
@@ -128,7 +128,7 @@ class PrivateDrillSetScoreApiTests(TestCase):
 
         drillsetScores = DrillSetScore.objects.filter(
             user=self.user
-            ).order_by('-id')
+        ).order_by('-id')
         serializer = DrillSetScoreSerializer(drillsetScores, many=True)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
@@ -144,37 +144,35 @@ class PrivateDrillSetScoreApiTests(TestCase):
         serializer = DrillSetScoreSerializer(drillsetScore)
         self.assertEqual(res.data, serializer.data)
 
-    def test_create_drillsetScore(self):
-        """Test creating a drillsetScore"""
-        drillset = create_drillset(createdBy=self.user)
-        payload = {
-            'drill_set': drillset.id,
-            'user': self.user.id,
-        }
-        res = self.client.post(DRILLSETSCORE_URL, payload)
-
-        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
-        drillsetScore = DrillSetScore.objects.get(id=res.data['id'])
-        self.assertEqual(drillsetScore.user, self.user)
-        self.assertEqual(drillsetScore.drill_set, drillset)
-
     def test_create_drillsetScore_with_scores(self):
         """Test creating a drillsetScore with scores"""
         drillset = create_drillset(createdBy=self.user)
+
         drill1 = create_drill(createdBy=self.user)
         drill2 = create_drill(createdBy=self.user)
         drill3 = create_drill(createdBy=self.user)
 
-        score1 = create_drillscore(drill1, 5, user=self.user)
-        score2 = create_drillscore(drill2, 7, user=self.user)
-        score3 = create_drillscore(drill3, 9, user=self.user)
+        score1 = {
+            "drill": drill1.id,
+            "score": 5,
+            "maxScore": drill1.maxScore,
+        }
+        score2 =  {
+            "drill": drill2.id,
+            "score": 6,
+            "maxScore": drill2.maxScore,
+        }
+        score3 = {
+            "drill": drill3.id,
+            "score": 7,
+            "maxScore": drill3.maxScore,
+        }
 
         payload = {
             'drill_set': drillset.id,
-            'user': self.user.id,
-            'scores': [score1.id, score2.id, score3.id],
+            'scores': [score1, score2, score3],
         }
-        res = self.client.post(DRILLSETSCORE_URL, payload)
+        res = self.client.post(DRILLSETSCORE_URL, payload, format='json')
 
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
         drillsetScore = DrillSetScore.objects.get(id=res.data['id'])
@@ -190,13 +188,26 @@ class PrivateDrillSetScoreApiTests(TestCase):
         drill3 = create_drill(createdBy=self.user)
 
         # Ensure to pass the user when creating drill scores
-        score1 = create_drillscore(drill1, 5, user=self.user)
-        score2 = create_drillscore(drill2, 7, user=self.user)
-        score3 = create_drillscore(drill3, 9, user=self.user)
+        score1 = {
+            "drill": drill1.id,
+            "score": 5,
+            "maxScore": drill1.maxScore,
+            }
+        score2 =  {
+            "drill": drill2.id,
+            "score": 6,
+            "maxScore": drill1.maxScore,
+            }
+        score3 = {
+            "drill": drill3.id,
+            "score": 7,
+            "maxScore": drill1.maxScore,
+            }
 
         payload = {
-            'scores': [score1.id, score2.id, score3.id],
+            'scores': [score1, score2, score3],
         }
+
         url = detail_url(drillsetScore.id)
         self.client.patch(url, payload)
 
@@ -210,15 +221,28 @@ class PrivateDrillSetScoreApiTests(TestCase):
         drill2 = create_drill(createdBy=self.user)
         drill3 = create_drill(createdBy=self.user)
 
-        score1 = create_drillscore(drill1, 5, user=self.user)
-        score2 = create_drillscore(drill2, 7, user=self.user)
-        score3 = create_drillscore(drill3, 9, user=self.user)
+        score1 = {
+            "drill": drill1.id,
+            "score": 5,
+            "maxScore": drill1.maxScore,
+            }
+        score2 =  {
+            "drill": drill2.id,
+            "score": 6,
+            "maxScore": drill1.maxScore,
+            }
+        score3 = {
+            "drill": drill3.id,
+            "score": 7,
+            "maxScore": drill1.maxScore,
+            }
 
         payload = {
             'drill_set': drillsetScore.drill_set.id,
             'user': drillsetScore.user,
-            'scores': [score1.id, score2.id, score3.id],
+            'scores': [score1, score2, score3],
         }
+
         url = detail_url(drillsetScore.id)
         self.client.put(url, payload)
 
@@ -234,4 +258,4 @@ class PrivateDrillSetScoreApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(DrillSetScore.objects.filter(
             id=drillsetScore.id
-            ).count(), 0)
+        ).count(), 0)

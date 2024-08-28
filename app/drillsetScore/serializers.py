@@ -2,15 +2,20 @@ from rest_framework import serializers
 from core.models import DrillScore, DrillSet, DrillSetScore
 
 
+class DrillScoreSerializer(serializers.ModelSerializer):
+    """Serializer for DrillScore objects"""
+
+    class Meta:
+        model = DrillScore
+        fields = ['drill', 'score', 'maxScore']
+
+
 class DrillSetScoreSerializer(serializers.ModelSerializer):
     """Serializer for DrillSetScore objects"""
     drill_set = serializers.PrimaryKeyRelatedField(
         queryset=DrillSet.objects.all()
-        )
-    scores = serializers.PrimaryKeyRelatedField(
-        many=True,
-        queryset=DrillScore.objects.all()
-        )
+    )
+    scores = DrillScoreSerializer(many=True)  # Use the nested serializer
 
     class Meta:
         model = DrillSetScore
@@ -18,13 +23,15 @@ class DrillSetScoreSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'created_at', 'user']
 
     def create(self, validated_data):
-        scores = validated_data.pop('scores', [])
+        scores_data = validated_data.pop('scores', [])
         drill_set_score = DrillSetScore.objects.create(**validated_data)
-        drill_set_score.scores.set(scores)
+        for score_data in scores_data:
+            newScore = DrillScore.objects.create(user=self.context['request'].user, **score_data)
+            drill_set_score.scores.add(newScore)
         return drill_set_score
 
     def update(self, instance, validated_data):
-        scores = validated_data.pop('scores', None)
-        if scores is not None:
-            instance.scores.set(scores)
+        scores_data = validated_data.pop('scores', [])
+        # Handle updating logic if needed
         return super().update(instance, validated_data)
+
