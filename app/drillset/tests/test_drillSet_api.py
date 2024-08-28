@@ -261,8 +261,16 @@ class PrivateDrillSetApiTests(TestCase):
         drill2 = create_drill(name='Drill 2', createdBy=self.user)
         drill_set = create_drillset(createdBy=self.user)
 
-        DrillSetMembership.objects.create(drill=drill1, drill_set=drill_set, position=1)
-        DrillSetMembership.objects.create(drill=drill2, drill_set=drill_set, position=2)
+        DrillSetMembership.objects.create(
+            drill=drill1,
+            drill_set=drill_set,
+            position=1
+        )
+        DrillSetMembership.objects.create(
+            drill=drill2,
+            drill_set=drill_set,
+            position=2
+        )
 
         url = detail_url(drill_set.id)
         res = self.client.get(url)
