@@ -14,7 +14,10 @@ from core.models import DrillSet, Drill, DrillSetMembership
 import random
 import string
 
-from drillset.serializers import DrillSetSerializer
+from drillset.serializers import (
+    DrillSetSerializer,
+    DrillSetDetailSerializer
+)
 
 DRILLSET_URL = reverse('drillset:drillset-list')
 
@@ -251,3 +254,21 @@ class PrivateDrillSetApiTests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
         self.assertFalse(DrillSet.objects.filter(id=drillset.id).exists())
+
+    def test_fetch_single_drill_set(self):
+        """Test retrieving a single drill set"""
+        drill1 = create_drill(name='Drill 1', createdBy=self.user)
+        drill2 = create_drill(name='Drill 2', createdBy=self.user)
+        drill_set = create_drillset(createdBy=self.user)
+
+        DrillSetMembership.objects.create(drill=drill1, drill_set=drill_set, position=1)
+        DrillSetMembership.objects.create(drill=drill2, drill_set=drill_set, position=2)
+
+        url = detail_url(drill_set.id)
+        res = self.client.get(url)
+
+        drill_set.refresh_from_db()
+        serializer = DrillSetDetailSerializer(drill_set)
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(res.data, serializer.data)

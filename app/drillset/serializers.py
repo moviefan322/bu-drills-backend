@@ -25,7 +25,6 @@ class DrillSetSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'createdBy']
 
     def get_drill_details(self, obj):
-        # Return the detailed drill information
         memberships = DrillSetMembership.objects.filter(
             drill_set=obj).order_by('position')
         drills = [membership.drill for membership in memberships]
@@ -57,3 +56,19 @@ class DrillSetSerializer(serializers.ModelSerializer):
                     position=index + 1
                 )
         return super().update(instance, validated_data)
+
+
+class DrillSetDetailSerializer(serializers.ModelSerializer):
+    """Serializer for detailed view of DrillSet objects"""
+    drills = serializers.SerializerMethodField()
+
+    class Meta:
+        model = DrillSet
+        fields = ['id', 'name', 'drills', 'createdBy']
+        read_only_fields = ['id', 'createdBy']
+
+    def get_drills(self, obj):
+        memberships = DrillSetMembership.objects.filter(
+            drill_set=obj).order_by('position')
+        drills = [membership.drill for membership in memberships]
+        return DrillSerializer(drills, many=True).data

@@ -24,6 +24,8 @@ class DrillSetViewSet(viewsets.ModelViewSet):
         return self.queryset.order_by('-id')
 
     def get_serializer_class(self):
+        if self.action == 'retrieve':
+            return serializers.DrillSetDetailSerializer
         return serializers.DrillSetSerializer
 
     def get_permissions(self):
