@@ -172,6 +172,8 @@ class DrillSetScore(models.Model):
         DrillScore,
         related_name='drill_set_scores'
     )
+    total_score = models.IntegerField(default=0)
+    total_max_score = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(

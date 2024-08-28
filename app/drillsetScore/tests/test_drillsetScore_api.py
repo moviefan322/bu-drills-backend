@@ -168,6 +168,9 @@ class PrivateDrillSetScoreApiTests(TestCase):
             "maxScore": drill3.maxScore,
         }
 
+        cumulative_score = score1['score'] + score2['score'] + score3['score']
+        cumulative_max_score = score1['maxScore'] + score2['maxScore'] + score3['maxScore']
+
         payload = {
             'drill_set': drillset.id,
             'scores': [score1, score2, score3],
@@ -179,6 +182,8 @@ class PrivateDrillSetScoreApiTests(TestCase):
         self.assertEqual(drillsetScore.user, self.user)
         self.assertEqual(drillsetScore.drill_set, drillset)
         self.assertEqual(drillsetScore.scores.count(), 3)
+        self.assertEqual(drillsetScore.total_score, cumulative_score)
+        self.assertEqual(drillsetScore.total_max_score, cumulative_max_score)
 
     def test_partial_update_drillsetScore(self):
         """Test updating a drillsetScore with patch"""
