@@ -11,12 +11,14 @@ class DrillScoreSerializer(serializers.ModelSerializer):
 
 
 class DrillSetScoreSerializer(serializers.ModelSerializer):
-    drill_set = serializers.PrimaryKeyRelatedField(queryset=DrillSet.objects.all())
+    drill_set = serializers.PrimaryKeyRelatedField(
+        queryset=DrillSet.objects.all())
     scores = DrillScoreSerializer(many=True)  # Nested serializer for scores
 
     class Meta:
         model = DrillSetScore
-        fields = ['id', 'drill_set', 'scores', 'created_at', 'total_score', 'total_max_score']
+        fields = ['id', 'drill_set', 'scores',
+                  'created_at', 'total_score', 'total_max_score']
         read_only_fields = ['id', 'created_at', 'user']
 
     def create(self, validated_data):
@@ -25,7 +27,10 @@ class DrillSetScoreSerializer(serializers.ModelSerializer):
         total_score = 0
         total_max_score = 0
         for score_data in scores_data:
-            newScore = DrillScore.objects.create(user=self.context['request'].user, **score_data)
+            newScore = DrillScore.objects.create(
+                user=self.context['request'].user,
+                **score_data
+            )
             drill_set_score.scores.add(newScore)
             total_score += newScore.score
             total_max_score += newScore.maxScore
@@ -42,7 +47,10 @@ class DrillSetScoreSerializer(serializers.ModelSerializer):
             total_score = 0
             total_max_score = 0
             for score_data in scores_data:
-                newScore = DrillScore.objects.create(user=self.context['request'].user, **score_data)
+                newScore = DrillScore.objects.create(
+                    user=self.context['request'].user,
+                    **score_data
+                )
                 instance.scores.add(newScore)
                 total_score += newScore.score
                 total_max_score += newScore.maxScore
@@ -51,6 +59,9 @@ class DrillSetScoreSerializer(serializers.ModelSerializer):
             instance.total_max_score = total_max_score
 
         # Handle other fields
-        instance.drill_set = validated_data.get('drill_set', instance.drill_set)
+        instance.drill_set = validated_data.get(
+            'drill_set',
+            instance.drill_set
+        )
         instance.save()
         return instance

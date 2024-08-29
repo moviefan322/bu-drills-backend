@@ -186,7 +186,6 @@ class PrivateDrillSetScoreApiTests(TestCase):
         self.assertEqual(drillsetScore.total_score, cumulative_score)
         self.assertEqual(drillsetScore.total_max_score, cumulative_max_score)
 
-
     def test_partial_update_drillsetScore(self):
         drillsetScore = create_drillsetscore(user=self.user)
         drill1 = create_drill(createdBy=self.user)
