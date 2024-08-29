@@ -157,7 +157,7 @@ class PrivateDrillSetScoreApiTests(TestCase):
             "score": 5,
             "maxScore": drill1.maxScore,
         }
-        score2 =  {
+        score2 = {
             "drill": drill2.id,
             "score": 6,
             "maxScore": drill2.maxScore,
@@ -169,7 +169,8 @@ class PrivateDrillSetScoreApiTests(TestCase):
         }
 
         cumulative_score = score1['score'] + score2['score'] + score3['score']
-        cumulative_max_score = score1['maxScore'] + score2['maxScore'] + score3['maxScore']
+        cumulative_max_score = score1['maxScore'] + \
+            score2['maxScore'] + score3['maxScore']
 
         payload = {
             'drill_set': drillset.id,
@@ -185,39 +186,27 @@ class PrivateDrillSetScoreApiTests(TestCase):
         self.assertEqual(drillsetScore.total_score, cumulative_score)
         self.assertEqual(drillsetScore.total_max_score, cumulative_max_score)
 
+
     def test_partial_update_drillsetScore(self):
-        """Test updating a drillsetScore with patch"""
         drillsetScore = create_drillsetscore(user=self.user)
         drill1 = create_drill(createdBy=self.user)
         drill2 = create_drill(createdBy=self.user)
         drill3 = create_drill(createdBy=self.user)
 
-        # Ensure to pass the user when creating drill scores
-        score1 = {
-            "drill": drill1.id,
-            "score": 5,
-            "maxScore": drill1.maxScore,
-            }
-        score2 =  {
-            "drill": drill2.id,
-            "score": 6,
-            "maxScore": drill1.maxScore,
-            }
-        score3 = {
-            "drill": drill3.id,
-            "score": 7,
-            "maxScore": drill1.maxScore,
-            }
+        score1 = {"drill": drill1.id, "score": 5, "maxScore": drill1.maxScore}
+        score2 = {"drill": drill2.id, "score": 6, "maxScore": drill2.maxScore}
+        score3 = {"drill": drill3.id, "score": 7, "maxScore": drill3.maxScore}
 
-        payload = {
-            'scores': [score1, score2, score3],
-        }
+        payload = {'scores': [score1, score2, score3]}
 
         url = detail_url(drillsetScore.id)
-        self.client.patch(url, payload)
+        res = self.client.patch(url, payload, format='json')
 
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
         drillsetScore.refresh_from_db()
         self.assertEqual(drillsetScore.scores.count(), 3)
+        self.assertEqual(drillsetScore.total_score, 18)
+        self.assertEqual(drillsetScore.total_max_score, 30)
 
     def test_full_update_drillsetScore(self):
         """Test updating a drillsetScore with put"""
@@ -230,29 +219,32 @@ class PrivateDrillSetScoreApiTests(TestCase):
             "drill": drill1.id,
             "score": 5,
             "maxScore": drill1.maxScore,
-            }
-        score2 =  {
+        }
+        score2 = {
             "drill": drill2.id,
             "score": 6,
             "maxScore": drill1.maxScore,
-            }
+        }
         score3 = {
             "drill": drill3.id,
             "score": 7,
             "maxScore": drill1.maxScore,
-            }
+        }
 
         payload = {
             'drill_set': drillsetScore.drill_set.id,
-            'user': drillsetScore.user,
             'scores': [score1, score2, score3],
         }
 
         url = detail_url(drillsetScore.id)
-        self.client.put(url, payload)
+        res = self.client.put(url, payload, format='json')
 
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
         drillsetScore.refresh_from_db()
         self.assertEqual(drillsetScore.scores.count(), 3)
+        self.assertEqual(drillsetScore.total_score, 18)
+        self.assertEqual(drillsetScore.total_max_score, 30)
+        self.assertEqual(drillsetScore.user, self.user)
 
     def test_delete_drillsetScore(self):
         """Test deleting a drillsetScore"""
