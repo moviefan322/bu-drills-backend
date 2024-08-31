@@ -7,7 +7,7 @@ class DrillScoreSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DrillScore
-        fields = ['drill', 'score', 'maxScore']
+        fields = ['drill', 'score', 'maxScore', 'isSet']
 
 
 class DrillSetScoreSerializer(serializers.ModelSerializer):
@@ -18,8 +18,8 @@ class DrillSetScoreSerializer(serializers.ModelSerializer):
     class Meta:
         model = DrillSetScore
         fields = ['id', 'drill_set', 'scores',
-                  'created_at', 'total_score', 'total_max_score']
-        read_only_fields = ['id', 'created_at', 'user']
+                  'createdAt', 'total_score', 'total_max_score']
+        read_only_fields = ['id', 'createdAt', 'user']
 
     def create(self, validated_data):
         scores_data = validated_data.pop('scores', [])
@@ -31,6 +31,7 @@ class DrillSetScoreSerializer(serializers.ModelSerializer):
                 user=self.context['request'].user,
                 **score_data
             )
+            newScore.isSet = True
             drill_set_score.scores.add(newScore)
             total_score += newScore.score
             total_max_score += newScore.maxScore
