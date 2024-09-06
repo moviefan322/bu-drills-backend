@@ -4,6 +4,7 @@ import sys
 from django.core.management.base import BaseCommand
 from core.models import Drill, DrillSet, DrillSetMembership
 from django.contrib.auth import get_user_model
+from django.contrib.auth.hashers import make_password
 
 User = get_user_model()
 
@@ -18,10 +19,24 @@ class Command(BaseCommand):
         with open(json_file_path, 'r') as file:
             drill_sets_data = json.load(file)
 
-        # Get all drills and users beforehand
-        all_drills = Drill.objects.all()
-        default_user = User.objects.get(pk=1)  # Fetch default user by ID
+        # Ensure the default user exists, if not create one
+        default_user, created = User.objects.get_or_create(
+            email="admin@superadmin.com",
+            defaults={
+                'name': 'Admin',
+                # Hash the password
+                'password': make_password('defaultpassword123'),
+            }
+        )
+        if created:
+            print(f"Created new default user: {default_user.name}")
+        else:
+            print(f"Using existing default user: {default_user.name}")
 
+        # Get all drills beforehand
+        all_drills = Drill.objects.all()
+
+        # Process each drill set
         for drill_set in drill_sets_data:
             print(f"Processing drill set: {drill_set['name']}")
 
@@ -29,7 +44,7 @@ class Command(BaseCommand):
             try:
                 drill_set_obj = DrillSet.objects.create(
                     name=drill_set['name'],
-                    createdBy=default_user
+                    createdBy=default_user  # Use the default user
                 )
 
                 # Create DrillSetMembership for each drill in the set
